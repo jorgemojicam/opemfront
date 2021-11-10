@@ -27,7 +27,7 @@
             <template v-slot:prepend>
               <b-input-group-text><i class='fi flaticon-search-2'/></b-input-group-text>
             </template>
-            <b-form-input id="search-input" placeholder="Search Dashboard" />
+            <b-form-input id="search-input" placeholder="Buscar" />
           </b-input-group>
         </b-form-group>
       </b-form>
@@ -48,7 +48,7 @@
           <span class="avatar rounded-circle thumb-sm float-left mr-2">
             <img class="rounded-circle" src="../../assets/people/a7.png" alt="..." />
           </span>
-          <span class="px-2">Philip Smith</span>
+          <span class="px-2">Usuario Nombre</span>
           <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span>
           <i class='fi flaticon-arrow-down px-2' />
         </template>
@@ -58,15 +58,15 @@
         <template slot="button-content">
           <i class='fi flaticon-settings-10 px-2' />
         </template>
-        <b-dropdown-item><i class='fi flaticon-person px-3 mr-3' /> My Account</b-dropdown-item>
+        <b-dropdown-item><i class='fi flaticon-person px-3 mr-3' /> Mi Cuenta</b-dropdown-item>
         <b-dropdown-divider />
-        <b-dropdown-item><i class='fi flaticon-calendar-9 px-3 mr-3' />Calendar</b-dropdown-item>
+        <b-dropdown-item><i class='fi flaticon-calendar-9 px-3 mr-3' />Calendario</b-dropdown-item>
         <b-dropdown-item><i class='fi flaticon-email px-3 mr-3' />
-          Inbox &nbsp;&nbsp;<b-badge variant="inverse" pill class="animate__animated animate__bounceIn" style="padding: 6px 9px;">9</b-badge>
+          Bandeja &nbsp;&nbsp;<b-badge variant="inverse" pill class="animate__animated animate__bounceIn" style="padding: 6px 9px;">9</b-badge>
         </b-dropdown-item>
         <b-dropdown-divider />
         <b-dropdown-item-button @click="logout">
-          <i class="fi flaticon-power-1 px-3 mr-3" /> Log Out
+          <i class="fi flaticon-power-1 px-3 mr-3" /> Cerrar Sesion
         </b-dropdown-item-button>
       </b-nav-item-dropdown>
     </b-nav>

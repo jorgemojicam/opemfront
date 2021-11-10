@@ -1,4 +1,15 @@
+const hostApi = process.env.NODE_ENV === "development" ? "http://localhost" : "";
+const portApi = process.env.NODE_ENV === "development" ? 3000 : "";
+const baseURLApi = `${hostApi}${portApi ? `:${portApi}` : ``}/api`;
+const redirectUrl = process.env.NODE_ENV === "http://localhost:3000/verify-email"
+
 export default {
+  hostApi,
+  portApi,
+  baseURLApi,
+  redirectUrl,
+  remote: "",
+  isBackend: process.env.VUE_APP_BACKEND,
   app: {
     sidebarTransitionTime: 300, //ms
     colors: {
