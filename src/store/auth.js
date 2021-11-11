@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import config from "../config"
 import axios from "axios"
 import jwt from "jsonwebtoken"
@@ -34,12 +35,14 @@ export default {
                 dispatch('logoutUser')
             }
         },
-        async doInit({dispatch, commit}) {
+        async doInit({commit},res) {
             try {
                 let currentUser = null;
                 let token = localStorage.getItem('token');
                 if (token) {
-                    currentUser = await dispatch('findMe'); // use dispatch to call another action 
+                   // console.log(res.data.dataUser);
+                    currentUser = res.data.dataUser; // use dispatch to call another action 
+                    
                 }
                 commit('LOGIN_SUCCESS', currentUser)
             } catch (e) {
@@ -47,13 +50,14 @@ export default {
             }
         },
         async loginUser({dispatch}, payload) {
+            let url= config.baseURLApi +"/cuentaacceso/auth";
             dispatch('requestLogin') // Setting the loading flag
-            if (payload.email && payload.password) {
+            if (payload.password && payload.username) {
                 try {
-                    const res = await axios.post(config.baseURLApi +"cuentaacceso/auth", payload)
-                    const token = res.data
+                    const res = await axios.post(url, payload)
+                    const token = res.data.accesToken
                     dispatch('receiveToken', token)
-                    dispatch('doInit')
+                    dispatch('doInit',res)
                 } catch (e) {
                     this._vm.$toasted.show('Error: ' + e, {
                         type : 'error'
@@ -66,7 +70,6 @@ export default {
         },
         receiveToken({commit}, token) {
             let user = jwt.decode(token)
-
             localStorage.setItem('token', token)
             localStorage.setItem('user', JSON.stringify(user))
             axios.defaults.headers.common['Authorization'] = "Bearer " + token;

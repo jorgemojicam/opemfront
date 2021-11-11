@@ -12,6 +12,7 @@ import store from './store';
 import router from './Routes';
 import App from './App';
 import layoutMixin from './mixins/layout';
+import { AuthMixin } from './mixins/auth'
 import Widget from './components/Widget/Widget';
 
 Vue.use(BootstrapVue);
@@ -25,6 +26,7 @@ Vue.use(VueGoogleMaps, {
 });
 Vue.component('apexchart', VueApexCharts);
 Vue.mixin(layoutMixin);
+Vue.mixin(AuthMixin);
 Vue.use(Toasted, {duration: 10000});
 
 Vue.config.productionTip = false;

@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
 import Layout from '@/components/Layout/Layout';
+import Dashboard from '@/pages/Dashboard/Dashboard';
+
 import Login from '@/pages/Login/Login';
 import ErrorPage from '@/pages/Error/Error';
 // Core
@@ -14,7 +15,8 @@ import TablesBasicPage from '@/pages/Tables/Basic';
 import GoogleMapPage from '@/pages/Maps/Google';
 
 // Main
-import AnalyticsPage from '@/pages/Dashboard/Dashboard';
+
+// import AnalyticsPage from '@/pages/Dashboard/Dashboard';
 
 // Charts
 import ChartsPage from '@/pages/Charts/Charts';
@@ -23,11 +25,15 @@ import ChartsPage from '@/pages/Charts/Charts';
 import IconsPage from '@/pages/Icons/Icons';
 import NotificationsPage from '@/pages/Notifications/Notifications';
 
+// Mixin
+import { isAuthenticated } from './mixins/auth'
+
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    { path: '/', redirect: { name: 'Dashboard' } },
     {
       path: '/login',
       name: 'Login',
@@ -42,11 +48,16 @@ export default new Router({
       path: '/app',
       name: 'Layout',
       component: Layout,
+      redirect: { name: 'Dashboard' },
+      beforeEnter: ((to, from, next) => {
+        
+        isAuthenticated() ? next() : next({ path: '/login'  })
+      }),
       children: [
         {
           path: 'dashboard',
-          name: 'AnalyticsPage',
-          component: AnalyticsPage,
+          name: 'Dashboard',
+          component: Dashboard,
         },
         {
           path: 'typography',

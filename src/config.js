@@ -9,6 +9,10 @@ export default {
   baseURLApi,
   redirectUrl,
   remote: "",
+  auth: {
+    username: '1095811763',
+    password: '123456'
+  },
   isBackend: process.env.VUE_APP_BACKEND,
   app: {
     sidebarTransitionTime: 300, //ms

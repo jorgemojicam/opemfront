@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-page">
-    <h1 class="page-title">Empresas</h1>
+    <h1 class="page-title">Tablero</h1>
     <b-row>
       <b-col xs="12">
         <Widget

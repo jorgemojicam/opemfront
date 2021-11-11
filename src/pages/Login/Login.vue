@@ -11,7 +11,7 @@
         title="<h3 class='mt-0'>Ingresa al portal</h3>"
         customHeader
       >
-        <p class="widget-auth-info">Use your email to sign in.</p>
+        <p class="widget-auth-info">Use your username to sign in.</p>
         <form class="mt" @submit.prevent="login">
           <b-alert class="alert-sm" variant="danger" :show="!!errorMessage">
             {{ errorMessage }}
@@ -19,10 +19,11 @@
           <div class="form-group">
             <input
               class="form-control no-border"
-              ref="email"
+              ref="username"
               required
               type="text"
-              name="email"
+              name="username"
+              v-model="username"
               placeholder="Usuario"
             />
           </div>
@@ -32,13 +33,15 @@
               ref="password"
               required
               type="password"
+              v-model="password"
               name="password"
               placeholder="Contrase~a"
             />
-             <router-link class="d-block text-right" to="login"
-          >Olvide mi contrase~na</router-link>
+            <router-link class="d-block text-right" to="login"
+              >Olvide mi contrase~na</router-link
+            >
           </div>
-         
+
           <b-button
             type="submit"
             size="sm"
@@ -62,49 +65,53 @@
 
 <script>
 import Widget from "@/components/Widget/Widget";
-import {mapState, mapActions} from 'vuex'
-// eslint-disable-next-line no-unused-vars
-import config from '../../config'
+import { mapState, mapActions } from "vuex";
+import config from "../../config";
 
 export default {
   name: "LoginPage",
   components: { Widget },
   data() {
     return {
-      email: null,
-      password: null
+      username: null,
+      password: null,
     };
   },
   computed: {
-    ...mapState('auth', { // Helper vuex with spread operator to combine (modules vuex)
-      isFetching: state => state.isFetching,
-      errorMessage: state => state.errorMessage,
+    ...mapState("auth", {
+      // Helper vuex with spread operator to combine (modules vuex)
+      isFetching: (state) => state.isFetching,
+      errorMessage: (state) => state.errorMessage,
     }),
   },
   methods: {
     //Spread operator , maps action in store auth.js
-    ...mapActions('auth', ['loginUser', 'receiveToken', 'receiveLogin']),
+    ...mapActions("auth", ["loginUser", "receiveToken", "receiveLogin"]),
     login() {
+      this.username = this.$refs.username.value;
+      this.password = this.$refs.password.value;
 
-      const email = this.$refs.email.value;
-      const password = this.$refs.password.value;
-
-      if (email.length !== 0 && password.length !== 0) {
+      if (this.username && this.password) {
         // Dispatching action from auth.js store
         this.loginUser({
-          email: this.email,
-          password: this.password
-        })
+          username: this.username,
+          password: this.password,
+        });
       }
     },
   },
   created() {
-    const token = this.$route.query.token
+    const token = this.$route.query.token;
     if (token) {
-      this.receiveToken(token)
+      this.receiveToken(token);
     } else if (this.isAuthenticated()) {
-      this.receiveLogin()
+      this.receiveLogin();
     }
+  },
+  mounted() {
+    const creds = config.auth;
+    this.username = creds.username;
+    this.password = creds.password;
   },
 };
 </script>
