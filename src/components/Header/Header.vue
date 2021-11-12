@@ -155,7 +155,8 @@ export default {
     },
   },
   created(){
-    this.nameuser = this.currentUser.nombres_col;
+    const dataUser =JSON.parse(localStorage.getItem('datauser'))
+    this.nameuser = dataUser.nombres_col
   }
 };
 </script>

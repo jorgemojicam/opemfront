@@ -76,7 +76,7 @@ export default {
   },
   computed: {
     fullIconName() {
-      return `fi ${this.iconName}`;
+      return ` ${this.iconName}`;
     },
     isActive() {
       return (this.activeItem

@@ -1,31 +1,26 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
+// -- Main 
 import Layout from '@/components/Layout/Layout';
 import Dashboard from '@/pages/Dashboard/Dashboard';
-
 import Login from '@/pages/Login/Login';
 import ErrorPage from '@/pages/Error/Error';
-// Core
+
+//-- LOGIC ( All the bussiness logic components )
+import Cursos from '@/components/LOGIC/cursos/Cursos';
+import CursosNew from '@/components/LOGIC/cursos/CursosNew';
+
+// -- Template Resources
 import TypographyPage from '@/pages/Typography/Typography';
-
-// Tables
 import TablesBasicPage from '@/pages/Tables/Basic';
-
-// Maps
 import GoogleMapPage from '@/pages/Maps/Google';
-
-// Main
-
-// import AnalyticsPage from '@/pages/Dashboard/Dashboard';
-
-// Charts
 import ChartsPage from '@/pages/Charts/Charts';
-
-// Ui
 import IconsPage from '@/pages/Icons/Icons';
 import NotificationsPage from '@/pages/Notifications/Notifications';
 
-// Mixin
+// Mixins
+
 import { isAuthenticated } from './mixins/auth'
 
 
@@ -50,7 +45,6 @@ export default new Router({
       component: Layout,
       redirect: { name: 'Dashboard' },
       beforeEnter: ((to, from, next) => {
-        
         isAuthenticated() ? next() : next({ path: '/login'  })
       }),
       children: [
@@ -59,6 +53,16 @@ export default new Router({
           name: 'Dashboard',
           component: Dashboard,
         },
+        {
+          path: 'cursos',
+          name: 'Cursos',
+          component: Cursos,
+        },
+        {
+          path: 'cursos/new',
+          component: CursosNew,
+        },
+        // ---------------------------------- //
         {
           path: 'typography',
           name: 'TypographyPage',

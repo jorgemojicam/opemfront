@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
+import {BootstrapVue,BootstrapVueIcons} from 'bootstrap-vue';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import VueTouch from 'vue-touch';
 import Trend from 'vuetrend';
@@ -14,8 +14,11 @@ import App from './App';
 import layoutMixin from './mixins/layout';
 import { AuthMixin } from './mixins/auth'
 import Widget from './components/Widget/Widget';
+import Vuelidate from 'vuelidate'
 
+Vue.use(Vuelidate)
 Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 Vue.use(VueTouch);
 Vue.use(Trend);
 Vue.component('Widget', Widget);

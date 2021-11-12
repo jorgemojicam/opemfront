@@ -16,12 +16,20 @@
           :activeItem="activeItem"
           header="Dashboard"
           link="/app/dashboard"
-          iconName="flaticon-home"
+          iconName="fi flaticon-home"
           index="dashboard"
           isHeader
         />
-        </ul>
-        <ul class="nav">
+        <NavLink
+          :activeItem="activeItem"
+          header="Cursos"
+          link="/app/cursos"
+          iconName="fa fa-graduation-cap"
+          index="cursos"
+          isHeader
+        />
+      </ul>
+      <ul class="nav">
         <h5 class="navTitle">Template Resources</h5>
         <NavLink
           :activeItem="activeItem"

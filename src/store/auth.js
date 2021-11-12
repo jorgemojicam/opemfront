@@ -55,8 +55,8 @@ export default {
             if (payload.password && payload.username) {
                 try {
                     const res = await axios.post(url, payload)
-                    const token = res.data.accesToken
-                    dispatch('receiveToken', token)
+                    const token = res.data
+                    dispatch('receiveToken', token) // Call functions
                     dispatch('doInit',res)
                 } catch (e) {
                     this._vm.$toasted.show('Error: ' + e, {
@@ -68,11 +68,15 @@ export default {
                 dispatch('loginError', 'Something was wrong. Try again')
             }
         },
-        receiveToken({commit}, token) {
+        receiveToken({commit}, data) {
+
+            let token =data.accesToken
             let user = jwt.decode(token)
             localStorage.setItem('token', token)
             localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('datauser', JSON.stringify(data.dataUser))
             axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+            
             commit('LOGIN_SUCCESS')
             router.push('/')
         },

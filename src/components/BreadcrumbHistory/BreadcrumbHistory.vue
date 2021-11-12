@@ -14,17 +14,25 @@
         return this.exclude.indexOf(this.$route.path.split('/').pop()) > -1;
       },
       tree() {
-        return ['YOU ARE HERE']
+      return ['Estas Aqui -']
           .concat(this.$route.path
-            .split('/')
-            .slice(1)
-            .map(route => route
-              .split('-')
-              .map(word => word[0].toUpperCase() + word.slice(1))
-              .join(' ')
-            )
-          );
-      }
+              .split('/')
+              .slice(1)
+              .map((route, idx) => {
+                  return {
+                    text: route
+                        .split('-')
+                        .map(word => word[0].toUpperCase() + word.slice(1))
+                        .join(' '),
+                    href: '#' + this.$route.path
+                      .split('/')
+                      .filter((item, index) => index <= idx + 1)
+                      .join('/')
+                    }
+                  }
+              )
+          )
+    }
     }
   }
 </script>

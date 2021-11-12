@@ -9199,6 +9199,11 @@
     "babel-runtime" "^6.26.0"
     "marker-clusterer-plus" "^2.1.4"
 
+"vuelidate@^0.7.6":
+  "integrity" "sha512-suzIuet1jGcyZ4oUSW8J27R2tNrJ9cIfklAh63EbAkFjE380iv97BAiIeolRYoB9bF9usBXCu4BxftWN1Dkn3g=="
+  "resolved" "https://registry.npmjs.org/vuelidate/-/vuelidate-0.7.6.tgz"
+  "version" "0.7.6"
+
 "vuetrend@^0.3.4":
   "integrity" "sha512-UaOJhMnkoiRBlGB9k2FX5GqotJyoyYUpyTAjfBiB7K5ESt3KzRoaplfG7j7SAnH4ITk4DjVDC9WB2IX80TVYmQ=="
   "resolved" "https://registry.npmjs.org/vuetrend/-/vuetrend-0.3.4.tgz"
