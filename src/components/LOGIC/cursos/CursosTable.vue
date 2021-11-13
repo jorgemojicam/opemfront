@@ -13,14 +13,13 @@
         <b-icon icon="printer"></b-icon> Imprimir
       </b-button>
     </b-button-group>
-    <div v-if="loading"><Loader /></div>
+    
     <b-table
-      v-else
       striped
       hover
       bordered
       light
-      :items="dataTable"
+      :items="data"
       :fields="fields"
     >
       <template #cell(actions)="row">
@@ -45,9 +44,14 @@
         </b-button>
       </template>
     </b-table>
-     <!-- Info modal -->
-    <b-modal :id="infoModal.id" :title="infoModal.title" >
-      <pre>{{ infoModal.content }}</pre>
+    <!-- Info modal -->
+    <b-modal :id="infoModal.id" title="Cuidado !" hide-footer>
+      <div class="d-block text-center">
+       Esta seguro de eliminar la empresa <strong>{{ infoModal.empresa }}</strong> 
+      </div>
+      <b-button class="mt-3" variant="outline-danger" block @click="del"
+        >Eliminar</b-button
+      >
     </b-modal>
   </div>
 </template>
@@ -60,7 +64,6 @@ export default {
   components: { Loader },
   data() {
     return {
-      data: [],
       fields: [
         { key: "nombre_cur", lable: "Nombre" },
         { key: "descripcion_cur", lable: "Descripcion" },
@@ -68,32 +71,38 @@ export default {
       ],
       infoModal: {
         id: "info-modal",
-        title: "",
-        content: "",
+        empresa: "",
       },
     };
   },
   computed: {
     ...mapState({
-      dataTable: (state) => state.cursos.data,
-      loading: (state) => state.cursos.loading,
+      isLoading: (state) => state.cursos.isLoading,
+      data: (state) => state.cursos.data,
+      
     }),
+    items () {
+      return this.$store.getters.items
+    }
   },
   methods: {
     info(item, index, button) {
-      
+      this.infoModal.empresa = item.nombre_cur;
+      this.setDeleteId(item.id_cur);
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+      
     },
     ...mapActions({
       getData: "cursos/getData",
+      deleteItem: 'cursos/deleteItem',
     }),
     ...mapMutations({
       setDeleteId: "cursos/setDeleteId",
     }),
-  },
-  del() {
-    this.$bvModal.hide("del");
-    this.deleteItem();
+    del() {
+      this.$bvModal.hide("del");
+      this.deleteItem();
+    },
   },
 
   beforeMount() {

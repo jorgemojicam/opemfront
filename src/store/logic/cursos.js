@@ -1,11 +1,11 @@
 import axios from "axios";
-import config from "../../config";
+
 
 export default {
   namespaced: true,
   satate: {
-    data: {},
-    loading: true,
+    data: [],
+    isLoading: false,
     modalOpen: false,
     dataForm: {}, // -- State for the New Cursos
     deleteId:null,
@@ -17,10 +17,10 @@ export default {
       state.data = payload;
     },
     showLoader(state) {
-        state.loading = true
+        state.isLoading = true
     },
     hideLoader(state) {
-        state.loading = false
+        state.isLoading = false
     },
     getDataForm(state, payload) {
       state.dataForm = payload;
@@ -32,11 +32,12 @@ export default {
   actions: {
     async getData({ commit }) {
       try {
-        commit('showLoader')
-        const res = await axios.get(config.baseURLApi + `/cursos`);
-        commit("getData", res.data);
+        const res = await axios.get( `/cursos`);
+        commit('showLoader');
         console.log(res.data)
-        commit('hideLoader')
+        commit("getData", res.data);
+
+        commit('hideLoader');
       } catch (e) {
         this._vm.$toasted.show("Error : " + e, { type: "error" });
       }
@@ -44,7 +45,7 @@ export default {
     async newCurso({ commit }, payload) {
       try {
         console.log(payload);
-        const result = await axios.post(config.baseURLApi + `/cursos`, payload);
+        const result = await axios.post( `/cursos`, payload);
         this._vm.$toasted.show("Cursos creado", {
           type: "success",
         });
@@ -55,5 +56,19 @@ export default {
         });
       }
     },
+    async deleteItem({dispatch, state}) {
+      try {
+        console.log(state.deleteId);
+          await axios.delete(`/cursos/${state.deleteId}`)
+          this._vm.$toasted.show('Cursos delete', {
+              type : 'success'
+          })
+          dispatch('getData')
+      } catch (e) {
+          this._vm.$toasted.show('Error: ' + e , {
+              type : 'error'
+          })
+      }
+  }
   },
 };

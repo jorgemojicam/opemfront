@@ -15,15 +15,11 @@
         </a>
       </b-nav-item>
       <b-nav-item class="d-md-down-none">
-        <a href="#" class="px-2">
+        <a href="#" class="px-2" @click="refresh">
           <i class="fi flaticon-flip" />
         </a>
       </b-nav-item>
-      <b-nav-item class="d-md-down-none">
-        <a href="#" class="px-2">
-          <i class="fi flaticon-close" />
-        </a>
-      </b-nav-item>
+     
     </b-nav>
     <b-nav>
       <b-form class="d-sm-down-none ml-5" inline>
@@ -41,7 +37,7 @@
     </b-nav>
     <a class="navbarBrand d-md-none">
       <i class="fa fa-circle text-danger" />
-      &nbsp; sing &nbsp;
+      &nbsp; OpenApp &nbsp;
       <i class="fa fa-circle text-primary" />
     </a>
     <b-nav class="ml-auto">
@@ -152,6 +148,9 @@ export default {
     logout() {
       window.localStorage.setItem("authenticated", false);
       this.$router.push("/login");
+    },
+    refresh() {
+      window.location.reload();
     },
   },
   created(){

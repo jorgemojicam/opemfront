@@ -21,7 +21,7 @@
         </b-form>
       </div>
       <footer class="pageFooter">
-        2019 &copy; Sing App Vue Admin Dashboard Template.
+        2022 &copy; Mojidev
       </footer>
     </b-container>
   </div>

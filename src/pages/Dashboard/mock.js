@@ -1,9 +1,9 @@
 export default {
   bigStat: [
     {
-      product: 'Light Blue',
-      total: '4,232',
-      color: 'primary',
+      product: 'Certificados',
+      total: '23',
+      color: 'success',
       registrations: {
         value: 830,
         profit: true,
@@ -14,7 +14,7 @@ export default {
       },
     },
     {
-      product: 'Sing App',
+      product: 'Empresas aliadas',
       total: '754',
       color: 'danger',
       registrations: {
@@ -27,7 +27,7 @@ export default {
       },
     },
     {
-      product: 'RNS',
+      product: 'Cursos',
       total: '1,025',
       color: 'info',
       registrations: {

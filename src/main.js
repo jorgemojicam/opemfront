@@ -7,7 +7,7 @@ import VueTouch from 'vue-touch';
 import Trend from 'vuetrend';
 import Toasted from 'vue-toasted';
 import VueApexCharts from 'vue-apexcharts';
-
+import axios from 'axios';
 import store from './store';
 import router from './Routes';
 import App from './App';
@@ -15,7 +15,12 @@ import layoutMixin from './mixins/layout';
 import { AuthMixin } from './mixins/auth'
 import Widget from './components/Widget/Widget';
 import Vuelidate from 'vuelidate'
+import { ClientTable } from 'vue-tables-2';
+import config from './config'
 
+axios.defaults.baseURL = config.baseURLApi;
+
+Vue.use(ClientTable, { theme: 'bootstrap4' });
 Vue.use(Vuelidate)
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
