@@ -13,15 +13,8 @@
         <b-icon icon="printer"></b-icon> Imprimir
       </b-button>
     </b-button-group>
-    
-    <b-table
-      striped
-      hover
-      bordered
-      light
-      :items="data"
-      :fields="fields"
-    >
+
+    <b-table striped hover bordered light :items="dataTable" :fields="fields">
       <template #cell(actions)="row">
         <b-button
           pill
@@ -47,7 +40,8 @@
     <!-- Info modal -->
     <b-modal :id="infoModal.id" title="Cuidado !" hide-footer>
       <div class="d-block text-center">
-       Esta seguro de eliminar la empresa <strong>{{ infoModal.empresa }}</strong> 
+        Esta seguro de eliminar la empresa
+        <strong>{{ infoModal.empresa }}</strong>
       </div>
       <b-button class="mt-3" variant="outline-danger" block @click="del"
         >Eliminar</b-button
@@ -58,12 +52,14 @@
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import Loader from "@/components/Loader/Loader";
+import cursosservice from "../../../services/cursos.service";
 import { validationMixin } from "vuelidate";
 export default {
   mixins: [validationMixin],
   components: { Loader },
   data() {
     return {
+      dataTable:[],
       fields: [
         { key: "nombre_cur", lable: "Nombre" },
         { key: "descripcion_cur", lable: "Descripcion" },
@@ -77,36 +73,48 @@ export default {
   },
   computed: {
     ...mapState({
-      isLoading: (state) => state.cursos.isLoading,
-      data: (state) => state.cursos.data,
-      
+      loading: (state) => state.cursos.loading,
     }),
-    items () {
-      return this.$store.getters.items
-    }
   },
   methods: {
     info(item, index, button) {
       this.infoModal.empresa = item.nombre_cur;
       this.setDeleteId(item.id_cur);
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-      
     },
     ...mapActions({
-      getData: "cursos/getData",
-      deleteItem: 'cursos/deleteItem',
+      setData: "cursos/setData",
+      deleteItem: "cursos/deleteItem",
     }),
     ...mapMutations({
       setDeleteId: "cursos/setDeleteId",
+      hideLoader: "cursos/hideLoader",
+      showLoader: "cursos/showLoader",
     }),
     del() {
       this.$bvModal.hide("del");
       this.deleteItem();
     },
+   async get() {
+     try {
+        let res = await cursosservice.get();
+        this.dataTable = res.data;
+        this.setData(this.dataTable);
+        this.hideLoader();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async load() {
+        this.showLoader();
+        await this.get();
+    },
   },
 
+
   beforeMount() {
-    this.getData();
+    this.load();
+    
   },
 };
 </script>

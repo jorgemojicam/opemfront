@@ -23,7 +23,7 @@
         <NavLink
           :activeItem="activeItem"
           header="Cursos"
-          link="/app/cursos"
+          link="/admin/cursos"
           iconName="fa fa-graduation-cap"
           index="cursos"
           isHeader

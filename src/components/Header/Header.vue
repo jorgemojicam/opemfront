@@ -150,7 +150,7 @@ export default {
       this.$router.push("/login");
     },
     refresh() {
-      window.location.reload();
+      this.$router.push("/");
     },
   },
   created(){

@@ -1,18 +1,18 @@
 <template>
-    <div>
-        
-        <CursosTable/>
-    </div>
+  <div>
+    <CursosTable />
+  </div>
 </template>
 <script>
-import CursosTable from '@/components/LOGIC/cursos/CursosTable'
+import CursosTable from "@/components/LOGIC/cursos/CursosTable";
+import Loader from "@/components/Loader/Loader";
 
 export default {
-    components:{CursosTable},
-    data() {
-      return {
-        
-      }
-    }
-}
+  components: { Loader, CursosTable },
+  data() {
+    return {};
+  },
+  computed: {},
+  methods: {},
+};
 </script>

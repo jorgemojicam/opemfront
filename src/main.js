@@ -37,6 +37,7 @@ Vue.mixin(layoutMixin);
 Vue.mixin(AuthMixin);
 Vue.use(Toasted, {duration: 10000});
 
+//store.dispatch('auth/doInit')
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
