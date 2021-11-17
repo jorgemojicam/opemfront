@@ -9,7 +9,11 @@ import ErrorPage from "@/pages/Error/Error";
 
 //-- LOGIC ( All the bussiness logic components )
 import Cursos from "@/components/LOGIC/cursos/Cursos";
+import Certificaciones from "@/components/LOGIC/certificaciones/Certificaciones";
+
+//New pages
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
+import CertificacionesNew from "@/components/LOGIC/certificaciones/CertificacionesNew";
 
 // -- Template Resources
 import TypographyPage from "@/pages/Typography/Typography";
@@ -21,14 +25,20 @@ import NotificationsPage from "@/pages/Notifications/Notifications";
 
 // Mixins
 
-import { isAuthenticated } from "./mixins/auth";
+import {
+  isAuthenticated
+} from "./mixins/auth";
 
 Vue.use(Router);
 
 export default new Router({
- 
-  routes: [
-    { path: "/", redirect: { name: "Dashboard" } },
+
+  routes: [{
+      path: "/",
+      redirect: {
+        name: "Dashboard"
+      }
+    },
     {
       path: "/login",
       name: "Login",
@@ -43,17 +53,20 @@ export default new Router({
       path: "/app",
       name: "Layout",
       component: Layout,
-      redirect: { name: "Dashboard" },
-      beforeEnter: (to, from, next) => {
-        isAuthenticated() ? next() : next({ path: "/login" });
+      redirect: {
+        name: "Dashboard"
       },
-      children: [
-        {
+      beforeEnter: (to, from, next) => {
+        isAuthenticated() ? next() : next({
+          path: "/login"
+        });
+      },
+      children: [{
           path: "dashboard",
           name: "Dashboard",
           component: Dashboard,
         },
-        
+
         // ---------------------------------- //
         {
           path: "typography",
@@ -90,21 +103,33 @@ export default new Router({
     {
       path: "/admin",
       name: "Admin",
-      redirect: { name: "Dashboard" },
+      redirect: {
+        name: "Dashboard"
+      },
       component: Layout,
       beforeEnter: (to, from, next) => {
-        isAuthenticated() ? next() : next({ path: "/login" });
+        isAuthenticated() ? next() : next({
+          path: "/login"
+        });
       },
-      children: [
-        {
+      children: [{
           path: "cursos",
           name: "Cursos",
           component: Cursos,
         },
-        
+        {
+          path: "certificaciones",
+          name: "Certificaciones",
+          component: Certificaciones,
+        },
         {
           path: "cursos/new",
           component: CursosNew,
+        },
+        {
+          path: "certificaciones/new",
+          component: CertificacionesNew,
+
         },
         {
           path: 'cursos/:id/edit',

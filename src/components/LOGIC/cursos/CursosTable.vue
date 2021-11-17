@@ -113,8 +113,7 @@ export default {
 
 
   beforeMount() {
-    this.load();
-    
+    this.load();    
   },
 };
 </script>

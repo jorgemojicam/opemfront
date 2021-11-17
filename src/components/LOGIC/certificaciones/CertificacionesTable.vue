@@ -26,29 +26,30 @@
       </b-col>
     </b-row>
     <div v-if="loading"><Loader /></div>
-    <v-client-table
-      v-else
-      :data="tableData"
-      :columns="columns"
-      :options="options"
-      @row-click="onRowClick"
-      class="mt-3"
-    >
-      <template #actions="props">
-        <div>
-          <router-link :to="`/admin/cursos/${props.row.id}/edit`">
-            <button class="btn btn-primary btn-xs mx-1">Edit</button>
-          </router-link>
-          <button
-            @click.stop="setDeleteId(props.row.id)"
-            class="btn btn-danger mx-1 btn-xs"
-            v-b-modal.del
-          >
-            Delete
-          </button>
-        </div>
+
+    <b-table striped hover bordered light :items="tableData" :fields="fields">
+      <template #cell(actions)="row">
+        <b-button
+          pill
+          size="sm"
+          @click="info(row.item, row.index, $event.target)"
+          class="mr-2"
+          variant="success"
+        >
+          <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
+          Edit
+        </b-button>
+        <b-button
+          pill
+          variant="danger"
+          size="sm"
+          @click="info(row.item, row.index, $event.target)"
+        >
+          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+          Delete
+        </b-button>
       </template>
-    </v-client-table>
+    </b-table>
 
     <b-modal id="del" title="Confirm delete" cancel-variant="default">
       Are you sure you want to delete this item?
@@ -74,28 +75,26 @@ export default {
   data() {
     return {
       config: [],
-      columns: ["id_cur", "nombre", "descripcion", "actions"],
-      options: {
-        headings: {
-          id_cur: "id_cur",
-          nombre: "nombre",
-          descripcion: "descripcion",
-        },
-      },
+      fields: [
+        { key: "fechainicio_cer", lable: "fechainicio_cer" },
+        { key: "fechafin_cer", lable: "fechafin_cer" },
+        { key: "horas_cer", lable: "horas_cer" },
+        { key: "actions", label: "Opciones" },
+      ],
       showFilters: false,
       filters: [
-        { label: "nombre", title: "nombre" },
-        { label: "descripcion", title: "descripcion" },
-        { label: "id_cur", title: "id_cur", number: "true" },
+        { label: "fechainicio_cer", title: "fecha inicio" },
+        { label: "fechafin_cer", title: "fecha fin" },
+        { label: "horas_cer", title: "Duracion (H)", number: "true" },
       ],
     };
   },
   computed: {
     ...mapState({
-      loading: (state) => state.cursos.loading,
-      tableData: (state) => state.cursos.dataTable,
-      modalOpen: (state) => state.cursos.modalOpen,
-      deleteId: (state) => state.cursos.deleteId,
+      loading: (state) => state.certificaciones.loading,
+      tableData: (state) => state.certificaciones.dataTable,
+      modalOpen: (state) => state.certificaciones.modalOpen,
+      deleteId: (state) => state.certificaciones.deleteId,
     }),
     dataFormatter() {
       return dataFormatter;
@@ -127,15 +126,15 @@ export default {
       this.config.splice(id, 1, data);
     },
     onRowClick({ row }) {
-      this.$router.push(`/admin/cursos/${row.id}/edit`);
+      this.$router.push(`/admin/certificaciones/${row.id}/edit`);
     },
     ...mapActions({
-      getData: "cursos/getData",
-      getFilteredData: "cursos/getFilteredData",
-      deleteItem: "cursos/deleteItem",
+      getData: "certificaciones/getData",
+      getFilteredData: "certificaciones/getFilteredData",
+      deleteItem: "certificaciones/deleteItem",
     }),
     ...mapMutations({
-      setDeleteId: "cursos/setDeleteId",
+      setDeleteId: "certificaciones/setDeleteId",
     }),
     del() {
       this.$bvModal.hide("del");

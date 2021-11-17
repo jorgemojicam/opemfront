@@ -28,6 +28,14 @@
           index="cursos"
           isHeader
         />
+        <NavLink
+          :activeItem="activeItem"
+          header="Certificaciones"
+          link="/admin/certificaciones"
+          iconName="fa fa-table"
+          index="cursos"
+          isHeader
+        />
       </ul>
       <ul class="nav">
         <h5 class="navTitle">Template Resources</h5>
