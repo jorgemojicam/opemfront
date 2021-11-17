@@ -31,9 +31,6 @@ export default {
   getters: {
     getDataNow(state) {
       return state.dataTable;
-    },
-    getDataTable(state) {
-      return state.dataTable
     }
   },
   actions: {
@@ -47,7 +44,7 @@ export default {
     }) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/cursos`);
+        const response = await axios.get(`/certificaciones`);
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {
@@ -62,8 +59,8 @@ export default {
     }, payload) {
       try {
         console.log(payload);
-        const result = await axios.post(`/cursos`, payload);
-        this._vm.$toasted.show("Cursos creado", {
+        const result = await axios.post(`/certificaciones`, payload);
+        this._vm.$toasted.show("Certificaciones creado", {
           type: "success",
         });
 
@@ -80,8 +77,8 @@ export default {
     }) {
       try {
         console.log(state.deleteId);
-        await axios.delete(`/cursos/${state.deleteId}`);
-        this._vm.$toasted.show("Cursos delete", {
+        await axios.delete(`/certificaciones/${state.deleteId}`);
+        this._vm.$toasted.show("Certificaciones delete", {
           type: "success",
         });
         dispatch("getData");
