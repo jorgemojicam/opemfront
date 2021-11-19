@@ -3,7 +3,7 @@
     <b-button-group class="mb-2">
       <router-link :to="$route.fullPath + '/new'">
         <b-button variant="outline-primary">
-          <b-icon icon="plus-circle-fill"></b-icon> Nuevo
+          <b-icon icon="plus-circle-fill"></b-icon>  Nuevo
         </b-button>
       </router-link>
       <b-button variant="outline-primary">
