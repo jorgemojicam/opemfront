@@ -4,16 +4,19 @@ export default {
   namespaced: true,
   state: {
     dataTable: [],
+    dataForm: {},
     loading: false,
     modalOpen: false,
-    dataForm: {},
     deleteId: null,
   },
   //-- Will modify the state
   mutations: {
-    setData(state, payload) {
+    getData(state, payload) {
       state.dataTable = [];
       state.dataTable = payload;
+    },
+    getDataForm(state, payload) {
+      state.dataForm = payload;
     },
     showLoader(state) {
       state.loading = true;
@@ -21,34 +24,16 @@ export default {
     hideLoader(state) {
       state.loading = false;
     },
-    getDataForm(state, payload) {
-      state.dataForm = payload;
-    },
     setDeleteId(state, payload) {
       state.deleteId = payload;
     },
   },
-  getters: {
-    getDataNow(state) {
-      return state.dataTable;
-    },
-    getDataTable(state) {
-      return state.dataTable
-    }
-  },
   actions: {
-    setData({
-      commit
-    }, payload) {
-      commit("setData", payload);
-    },
-    async getData({
-      commit
-    }) {
+    async getData({ commit }) {
       try {
         commit("showLoader");
         const response = await axios.get(`/cursos`);
-        commit("setData", response.data);
+        commit("getData", response.data);
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -56,10 +41,21 @@ export default {
         });
       }
     },
-
-    async newCurso({
-      commit
-    }, payload) {
+    async getDataForm({ commit },payload) {
+      try {
+        commit("showLoader");
+        
+        const response = await axios.get(`/cursos/${payload}`);
+        console.log(response.data)
+        commit("getDataForm", response.data);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async newCurso({ commit }, payload) {
       try {
         console.log(payload);
         const result = await axios.post(`/cursos`, payload);
@@ -74,10 +70,7 @@ export default {
         });
       }
     },
-    async deleteItem({
-      dispatch,
-      state
-    }) {
+    async deleteItem({ dispatch, state }) {
       try {
         console.log(state.deleteId);
         await axios.delete(`/cursos/${state.deleteId}`);

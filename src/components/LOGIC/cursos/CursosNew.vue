@@ -1,7 +1,7 @@
 <template>
   <Widget>
     <form @submit.prevent="submitHandler">
-      <h4 class="h4">Crear curso</h4>
+      <h4 class="h4">{{ formName }} curso</h4>
 
       <b-form-group label="nombre" label-for="nombre">
         <b-form-input
@@ -49,9 +49,12 @@ import { mapState, mapActions } from "vuex";
 import { required, minLength } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 export default {
+  name: "cursosNew",
   mixins: [validationMixin],
   data() {
     return {
+      formName: "Crear",
+
       dataForm: {
         id_cur: null,
         nombre: "",
@@ -72,7 +75,7 @@ export default {
   },
   computed: {
     ...mapState({
-      data: (state) => state.cursosForm.data,
+      data: (state) => state.cursos.dataForm,
     }),
     cancelUrl() {
       return (
@@ -83,6 +86,7 @@ export default {
   methods: {
     ...mapActions({
       newCurso: "cursos/newCurso",
+      getDataForm: "cursos/getDataForm",
     }),
     async submitHandler() {
       // -- Form Validation with vuevalidate
@@ -90,7 +94,7 @@ export default {
       if (this.$v.dataForm.$anyError) {
         return;
       }
-     
+
       try {
         await this.newCurso(this.dataForm);
         this.$router.push(this.cancelUrl);
@@ -102,16 +106,41 @@ export default {
     },
 
     resetData() {
-      this.dataForm = {
+      if(this.dataForm){
+        this.dataForm= this.data;
+      }else{
+        this.dataForm = {
         id_cur: "",
         nombre: "",
         escripcion_cur: "",
       };
+      }
+
     },
     validateState(name) {
       const { $dirty, $error } = this.$v.dataForm[name];
       return $dirty ? !$error : null;
     },
+    async setComponent(mode) {
+      if (mode === "edit") {
+        this.formName = "Editar";
+        let id_cur =this.$route.params.id
+        try {
+          
+          await this.getDataForm(id_cur);
+          this.resetData();
+        } catch (e) {
+          this._vm.$toasted.show("Error " + e, {
+            type: "error",
+          });
+        }
+      }
+    },
+  },
+  beforeMount() {
+    const modeForm = this.$route.path.split("/").pop();
+    console.log(modeForm);
+    this.setComponent(modeForm);
   },
 };
 </script>

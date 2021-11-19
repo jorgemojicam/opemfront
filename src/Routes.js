@@ -118,23 +118,31 @@ export default new Router({
           component: Cursos,
         },
         {
+          path: 'cursos/:id/edit',
+          component: CursosNew,
+        },
+        {
+          path: 'cursos/new',
+          component: CursosNew,
+        },
+        {
+          path: 'cursos/:id',
+          beforeEnter(from, to, next) {
+            if (from.params.id === 'new') next()
+            else next(`/admin/cursos/${from.params.id}/edit`)
+            },
+          },
+        {
           path: "certificaciones",
           name: "Certificaciones",
           component: Certificaciones,
-        },
-        {
-          path: "cursos/new",
-          component: CursosNew,
         },
         {
           path: "certificaciones/new",
           component: CertificacionesNew,
 
         },
-        {
-          path: 'cursos/:id/edit',
-          component: CursosNew,
-        },
+        
       ],
     },
   ],

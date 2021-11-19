@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import CursosTable from "@/components/LOGIC/cursos/cursosTable2";
+import CursosTable from "@/components/LOGIC/cursos/CursosTable";
 import Loader from "@/components/Loader/Loader";
 
 export default {

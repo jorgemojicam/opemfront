@@ -14,18 +14,24 @@
       </b-button>
     </b-button-group>
 
-    <b-table striped hover bordered light :items="dataTable" :fields="fields">
+    <div v-if="loading"><Loader /></div>
+    <b-table
+      v-else
+      striped
+      hover
+      bordered
+      light
+      :items="dataTable"
+      :fields="fields"
+      @row-clicked="rowClicked"
+    >
       <template #cell(actions)="row">
-        <b-button
-          pill
-          size="sm"
-          @click="info(row.item, row.index, $event.target)"
-          class="mr-2"
-          variant="success"
-        >
-          <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-          Edit
-        </b-button>
+        <router-link :to="`/admin/cursos/${row.item.id_cur}/edit`">
+          <b-button pill size="sm" class="mr-2" variant="success">
+            <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
+            Edit
+          </b-button>
+        </router-link>
         <b-button
           pill
           variant="danger"
@@ -52,14 +58,12 @@
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import Loader from "@/components/Loader/Loader";
-import cursosservice from "../../../services/cursos.service";
 import { validationMixin } from "vuelidate";
 export default {
   mixins: [validationMixin],
   components: { Loader },
   data() {
     return {
-      dataTable:[],
       fields: [
         { key: "nombre_cur", lable: "Nombre" },
         { key: "descripcion_cur", lable: "Descripcion" },
@@ -73,6 +77,7 @@ export default {
   },
   computed: {
     ...mapState({
+      dataTable: (state) => state.cursos.dataTable,
       loading: (state) => state.cursos.loading,
     }),
   },
@@ -83,7 +88,7 @@ export default {
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     ...mapActions({
-      setData: "cursos/setData",
+      getData: "cursos/getData",
       deleteItem: "cursos/deleteItem",
     }),
     ...mapMutations({
@@ -95,25 +100,14 @@ export default {
       this.$bvModal.hide("del");
       this.deleteItem();
     },
-   async get() {
-     try {
-        let res = await cursosservice.get();
-        this.dataTable = res.data;
-        this.setData(this.dataTable);
-        this.hideLoader();
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async load() {
-        this.showLoader();
-        await this.get();
+    rowClicked(val, row) {
+      console.log(val, row);
+      //this.$router.push(`/admin/cursos/${row.id}/edit`)
     },
   },
 
-
   beforeMount() {
-    this.load();    
+    this.getData();
   },
 };
 </script>
