@@ -1,14 +1,14 @@
 <template>
   <div>
-    <CursosTable />
+    <EmpresasTable />
   </div>
 </template>
 <script>
-import CursosTable from "@/components/LOGIC/cursos/CursosTable";
+import EmpresasTable from "@/components/LOGIC/empresas/EmpresasTable";
 import Loader from "@/components/Loader/Loader";
 
 export default {
-  components: { Loader, CursosTable },
+  components: { Loader, EmpresasTable },
   data() {
     return {};
   },

@@ -36,6 +36,14 @@
           index="cursos"
           isHeader
         />
+         <NavLink
+          :activeItem="activeItem"
+          header="Empresas"
+          link="/admin/empresas"
+          iconName="fa fa-building"
+          index="cursos"
+          isHeader
+        />
       </ul>
       <ul class="nav">
         <h5 class="navTitle">Template Resources</h5>

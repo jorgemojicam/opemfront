@@ -10,10 +10,12 @@ import ErrorPage from "@/pages/Error/Error";
 //-- LOGIC ( All the bussiness logic components )
 import Cursos from "@/components/LOGIC/cursos/Cursos";
 import Certificaciones from "@/components/LOGIC/certificaciones/Certificaciones";
+import Empresas from "@/components/LOGIC/empresas/Empresas";
 
 //New pages
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
 import CertificacionesNew from "@/components/LOGIC/certificaciones/CertificacionesNew";
+import EmpresasNew from "@/components/LOGIC/empresas/EmpresasNew";
 
 // -- Template Resources
 import TypographyPage from "@/pages/Typography/Typography";
@@ -118,13 +120,24 @@ export default new Router({
           component: Cursos,
         },
         {
+          path: 'cursos/:id/edit',
+          component: CursosNew,
+        },
+        {
+          path: 'cursos/new',
+          component: CursosNew,
+        },
+        {
+          path: 'cursos/:id',
+          beforeEnter(from, to, next) {
+            if (from.params.id === 'new') next()
+            else next(`/admin/cursos/${from.params.id}/edit`)
+            },
+          },
+        {
           path: "certificaciones",
           name: "Certificaciones",
           component: Certificaciones,
-        },
-        {
-          path: "cursos/new",
-          component: CursosNew,
         },
         {
           path: "certificaciones/new",
@@ -132,9 +145,25 @@ export default new Router({
 
         },
         {
-          path: 'cursos/:id/edit',
-          component: CursosNew,
+          path: "empresas",
+          name: "Empresas",
+          component: Empresas,
         },
+        {
+          path: 'empresas/:id/edit',
+          component: EmpresasNew,
+        },
+        {
+          path: "empresas/new",
+          component: EmpresasNew,
+        },
+        {
+          path: 'empresas/:id',
+          beforeEnter(from, to, next) {
+            if (from.params.id === 'new') next()
+            else next(`/admin/empresas/${from.params.id}/edit`)
+            },
+          },
       ],
     },
   ],
