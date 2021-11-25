@@ -10,10 +10,12 @@ import ErrorPage from "@/pages/Error/Error";
 //-- LOGIC ( All the bussiness logic components )
 import Cursos from "@/components/LOGIC/cursos/Cursos";
 import Certificaciones from "@/components/LOGIC/certificaciones/Certificaciones";
+import Empresas from "@/components/LOGIC/empresas/Empresas";
 
 //New pages
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
 import CertificacionesNew from "@/components/LOGIC/certificaciones/CertificacionesNew";
+import EmpresasNew from "@/components/LOGIC/empresas/EmpresasNew";
 
 // -- Template Resources
 import TypographyPage from "@/pages/Typography/Typography";
@@ -142,7 +144,26 @@ export default new Router({
           component: CertificacionesNew,
 
         },
-        
+        {
+          path: "empresas",
+          name: "Empresas",
+          component: Empresas,
+        },
+        {
+          path: 'empresas/:id/edit',
+          component: EmpresasNew,
+        },
+        {
+          path: "empresas/new",
+          component: EmpresasNew,
+        },
+        {
+          path: 'empresas/:id',
+          beforeEnter(from, to, next) {
+            if (from.params.id === 'new') next()
+            else next(`/admin/empresas/${from.params.id}/edit`)
+            },
+          },
       ],
     },
   ],

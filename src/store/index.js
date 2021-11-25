@@ -8,6 +8,7 @@ import auth from './auth';
 // -- Components Store State
 import cursos from './logic/cursos'
 import certificaciones from './logic/certificaciones'
+import empresas from './logic/empresas'
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     layout,
     auth,
     cursos,
-    certificaciones
+    certificaciones,
+    empresas
   },
 });
