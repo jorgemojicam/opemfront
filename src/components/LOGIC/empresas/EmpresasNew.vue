@@ -136,26 +136,26 @@ export default {
       nit: {
         required,
         minLength: minLength(3),
-        minLength: maxLength(12),
+        maxLength: maxLength(12),
       },
       telefono: {
         required,
         minLength: minLength(5),
-        minLength: maxLength(11),
+        maxLength: maxLength(11),
       },
       correo: {
         required,
         email,
         minLength: minLength(3),
-        minLength: maxLength(60),
+        maxLength: maxLength(60),
       },
       direccion: {        
         minLength: minLength(3),
-        minLength: maxLength(150),
+        maxLength: maxLength(150),
       },
       personacontacto: {
         minLength: minLength(5),
-        minLength: maxLength(150),
+        maxLength: maxLength(150),
       },
     },
   },

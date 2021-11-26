@@ -21,7 +21,7 @@
       hover
       bordered
       light
-      :items="dataTable.items"
+      :items="dataTable"
       :fields="fields"
       @row-clicked="rowClicked"
     >
@@ -43,16 +43,6 @@
         </b-button>
       </template>
     </b-table>
-
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      align="fill"
-      size="sm"
-      class="mt-4"
-    ></b-pagination>
-
     <!-- Info modal -->
     <b-modal :id="infoModal.id" title="Cuidado !" hide-footer>
       <div class="d-block text-center">
@@ -85,9 +75,6 @@ export default {
         id: "info-modal",
         empresa: "",
       },
-      currentPage: 3,
-      rows: 100,
-      perPage: 1,
     };
   },
   computed: {
@@ -122,7 +109,7 @@ export default {
   },
 
   beforeMount() {
-    this.getData({ seze: 1 });
+    this.getData();
   },
 };
 </script>
