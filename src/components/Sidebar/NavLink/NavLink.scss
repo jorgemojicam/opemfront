@@ -52,7 +52,7 @@
     height: 32px;
     line-height: 28px;
     text-align: center;
-
+    margin-top: 10px;
     @media (min-width: map_get($grid-breakpoints, lg))
     and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px) {
       top: 12px;

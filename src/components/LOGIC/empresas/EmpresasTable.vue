@@ -3,7 +3,7 @@
     <b-button-group class="mb-2">
       <router-link :to="$route.fullPath + '/new'">
         <b-button variant="outline-primary">
-          <b-icon icon="plus-circle-fill"></b-icon>  Nuevo
+          <b-icon icon="plus-circle-fill"></b-icon> Nueva
         </b-button>
       </router-link>
       <b-button variant="outline-primary">
@@ -21,15 +21,15 @@
       hover
       bordered
       light
-      :items="dataTable"
+      :items="dataTable.items"
       :fields="fields"
       @row-clicked="rowClicked"
     >
       <template #cell(actions)="row">
-        <router-link :to="`/admin/cursos/${row.item.id_cur}/edit`">
+        <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
           <b-button pill size="sm" class="mr-2" variant="success">
             <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-            Edit
+            Editar
           </b-button>
         </router-link>
         <b-button
@@ -43,6 +43,16 @@
         </b-button>
       </template>
     </b-table>
+
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      align="fill"
+      size="sm"
+      class="mt-4"
+    ></b-pagination>
+
     <!-- Info modal -->
     <b-modal :id="infoModal.id" title="Cuidado !" hide-footer>
       <div class="d-block text-center">
@@ -65,36 +75,41 @@ export default {
   data() {
     return {
       fields: [
-        { key: "nombre_cur", lable: "Nombre" },
-        { key: "descripcion_cur", lable: "Descripcion" },
+        { key: "nombre_emp", label: "Razon social" },
+        { key: "nit_emp", label: "Nit" },
+        { key: "telefono_emp", label: "Telefono" },
+        { key: "correo_emp", label: "Correo" },
         { key: "actions", label: "Opciones" },
       ],
       infoModal: {
         id: "info-modal",
         empresa: "",
       },
+      currentPage: 3,
+      rows: 100,
+      perPage: 1,
     };
   },
   computed: {
     ...mapState({
-      dataTable: (state) => state.cursos.dataTable,
-      loading: (state) => state.cursos.loading,
+      dataTable: (state) => state.empresas.dataTable,
+      loading: (state) => state.empresas.loading,
     }),
   },
   methods: {
     info(item, index, button) {
-      this.infoModal.empresa = item.nombre_cur;
-      this.setDeleteId(item.id_cur);
+      this.infoModal.empresa = item.nombre_emp;
+      this.setDeleteId(item.id_emp);
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     ...mapActions({
-      getData: "cursos/getData",
-      deleteItem: "cursos/deleteItem",
+      getData: "empresas/getData",
+      deleteItem: "empresas/deleteItem",
     }),
     ...mapMutations({
-      setDeleteId: "cursos/setDeleteId",
-      hideLoader: "cursos/hideLoader",
-      showLoader: "cursos/showLoader",
+      setDeleteId: "empresas/setDeleteId",
+      hideLoader: "empresas/hideLoader",
+      showLoader: "empresas/showLoader",
     }),
     del() {
       this.$bvModal.hide("del");
@@ -107,7 +122,7 @@ export default {
   },
 
   beforeMount() {
-    this.getData();
+    this.getData({ seze: 1 });
   },
 };
 </script>
