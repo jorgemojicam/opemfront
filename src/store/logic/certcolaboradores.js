@@ -41,10 +41,10 @@ export default {
     },
     async getData({
       commit
-    }, payload) {
+    }) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/colaboradores?page=${payload.page}&size=${payload.size}`);
+        const response = await axios.get(`/certcolaboradores`);
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {
@@ -59,8 +59,8 @@ export default {
     }, payload) {
       try {
         console.log(payload);
-        const result = await axios.post(`/colaboradores`, payload);
-        this._vm.$toasted.show("colaboradores creado", {
+        const result = await axios.post(`/certcolaboradores`, payload);
+        this._vm.$toasted.show("Certificaciones creado", {
           type: "success",
         });
 
@@ -77,8 +77,8 @@ export default {
     }) {
       try {
         console.log(state.deleteId);
-        await axios.delete(`/colaboradores/${state.deleteId}`);
-        this._vm.$toasted.show("colaboradores delete", {
+        await axios.delete(`/certcolaboradores/${state.deleteId}`);
+        this._vm.$toasted.show("Certificaciones delete", {
           type: "success",
         });
         dispatch("getData");

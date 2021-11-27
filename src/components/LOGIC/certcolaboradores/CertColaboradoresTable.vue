@@ -75,17 +75,11 @@ export default {
   data() {
     return {
       fields: [
-        { key: "id_col", label: "id" },
-        { key: "paisdocumento_col", label: "Pais" },
-        { key: "tipodocumento_col", label: "Tipo Documento" },
-        { key: "numerodocumento_col", label: "Numero Documento" },
-        { key: "nombres_col", label: "Nombres" },
-        { key: "apellidos_col", label: "Apellidos" },
-        { key: "fechanacimiento_col", label: "Fecha Nacimiento" },
-        { key: "correopersonal_col", label: "Correo" },
-        { key: "telefono_col", label: "Telefono" },
-        { key: "direccion_col", label: "Direccion" },
-        { key: "idemp_col", label: "Id empresa" },
+        { key: "id_ceco", label: "id" },
+        { key: "idcer_ceco", label: "Pais" },
+        { key: "idcol_ceco", label: "Tipo Documento" },
+        { key: "idemp_ceco", label: "Numero Documento" },
+        { key: "descargado_ceco", label: "Nombres" },       
       ],
       infoModal: {
         id: "info-modal",
@@ -109,13 +103,13 @@ export default {
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     ...mapActions({
-      getData: "colaboradores/getData",
-      deleteItem: "colaboradores/deleteItem",
+      getData: "certcolaboradores/getData",
+      deleteItem: "certcolaboradores/deleteItem",
     }),
     ...mapMutations({
-      setDeleteId: "colaboradores/setDeleteId",
-      hideLoader: "colaboradores/hideLoader",
-      showLoader: "colaboradores/showLoader",
+      setDeleteId: "certcolaboradores/setDeleteId",
+      hideLoader: "certcolaboradores/hideLoader",
+      showLoader: "certcolaboradores/showLoader",
     }),
     del() {
       this.$bvModal.hide("del");
