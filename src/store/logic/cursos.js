@@ -44,7 +44,6 @@ export default {
     async getDataForm({ commit },payload) {
       try {
         commit("showLoader");
-        
         const response = await axios.get(`/cursos/${payload}`);
         console.log(response.data)
         commit("getDataForm", response.data);

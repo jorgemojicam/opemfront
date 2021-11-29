@@ -126,7 +126,6 @@ export default {
         this.formName = "Editar";
         let id_cur =this.$route.params.id
         try {
-          
           await this.getDataForm(id_cur);
           this.resetData();
         } catch (e) {
