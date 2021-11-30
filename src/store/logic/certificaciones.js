@@ -41,10 +41,11 @@ export default {
     },
     async getData({
       commit
-    }) {
+    },payload) {
       try {
+        const id = payload ? `/${payload.id}` : ""
         commit("showLoader");
-        const response = await axios.get(`/certificaciones`);
+        const response = await axios.get(`/certificaciones${id}`);
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {
