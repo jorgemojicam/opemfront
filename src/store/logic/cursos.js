@@ -41,12 +41,12 @@ export default {
         });
       }
     },
-    async getDataForm({ commit },payload) {
+    async getDataForm({ commit }, payload) {
       try {
         commit("showLoader");
         const response = await axios.get(`/cursos/${payload}`);
-        console.log(response.data)
-        commit("getDataForm", response.data);
+        console.log(response.data);
+        commit("getDataForm", response.data[0]);
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -59,6 +59,20 @@ export default {
         console.log(payload);
         const result = await axios.post(`/cursos`, payload);
         this._vm.$toasted.show("Cursos creado", {
+          type: "success",
+        });
+
+        commit(`getData`, result.data);
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async editCurso({ commit }, payload) {
+      try {
+        const result = await axios.put(`/cursos/${payload.id}`, payload);
+        this._vm.$toasted.show("Curso actualizado", {
           type: "success",
         });
 
