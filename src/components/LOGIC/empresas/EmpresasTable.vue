@@ -45,12 +45,13 @@
     </b-table>
 
     <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
+      v-model="page"
+      :total-rows="count"
+      :per-page="pageSize"
       align="fill"
       size="sm"
       class="mt-4"
+      @change="handlePageChange"
     ></b-pagination>
 
     <!-- Info modal -->
@@ -85,9 +86,9 @@ export default {
         id: "info-modal",
         empresa: "",
       },
-      currentPage: 3,
-      rows: 100,
-      perPage: 1,
+      page: 1,
+      count: 0,
+      pageSize: 3,
     };
   },
   computed: {
@@ -119,10 +120,40 @@ export default {
       console.log(val, row);
       //this.$router.push(`/admin/cursos/${row.id}/edit`)
     },
+    getRequestParams(searchTitle, page, pageSize) {
+      let params = {};
+      if (searchTitle) {
+        params["title"] = searchTitle;
+      }
+      if (page) {
+        params["page"] = page - 1;
+      }
+      if (pageSize) {
+        params["size"] = pageSize;
+      }
+      return params;
+    },
+    retrieveTutorials() {
+      const params = this.getRequestParams(
+        this.searchTitle,
+        this.page,
+        this.pageSize
+      );
+      console.log(params);
+
+      this.getData(params);
+    },
+    handlePageChange(value) {
+      this.page = value;
+      this.retrieveTutorials();
+    },
   },
 
   beforeMount() {
-    this.getData({ seze: 1 });
+    this.getData({ page: 0, size: 3 });
+    this.page = this.dataTable.currenPage;
+    this.count = this.dataTable.totalItems;
+    this.pageSize = this.dataTable.totalPages;
   },
 };
 </script>

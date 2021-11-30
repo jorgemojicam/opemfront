@@ -9,6 +9,8 @@ import auth from './auth';
 import cursos from './logic/cursos'
 import certificaciones from './logic/certificaciones'
 import empresas from './logic/empresas'
+import colaboradores from './logic/colaboradores'
+import certcolaboradores from './logic/certcolaboradores'
 
 Vue.use(Vuex);
 
@@ -18,6 +20,8 @@ export default new Vuex.Store({
     auth,
     cursos,
     certificaciones,
-    empresas
+    empresas,
+    colaboradores,
+    certcolaboradores
   },
 });

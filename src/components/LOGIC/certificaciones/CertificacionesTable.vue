@@ -1,30 +1,19 @@
  <template>
   <div>
-    <router-link :to="$route.fullPath + '/new'">
-      <button class="btn btn-primary">New</button>
-    </router-link>
-    <button class="btn btn-primary m-3" @click="addFilter">Add filter</button>
-    <b-row v-show="showFilters">
-      <b-col md="12">
-        <FilterForm
-          v-for="(component, index) in config"
-          :filters="filters"
-          :key="index"
-          :id="index"
-          @apply="apply"
-          @delFilter="delFilter(index)"
-        />
-      </b-col>
+    <b-button-group class="mb-2">
+      <router-link :to="$route.fullPath + '/new'">
+        <b-button variant="outline-primary">
+          <b-icon icon="plus-circle-fill"></b-icon> Nuevo
+        </b-button>
+      </router-link>
+      <b-button variant="outline-primary">
+        <b-icon icon="search"></b-icon> Filtro
+      </b-button>
+      <b-button variant="outline-primary">
+        <b-icon icon="printer"></b-icon> Imprimir
+      </b-button>
+    </b-button-group>
 
-      <b-col md="12" class="d-flex justify-content-end">
-        <button class="btn btn-primary mb-3" @click="submitHandler">
-          Apply
-        </button>
-        <button class="btn btn-primary mx-3 mb-3" @click.prevent="clearFilters">
-          Clear
-        </button>
-      </b-col>
-    </b-row>
     <div v-if="loading"><Loader /></div>
 
     <b-table striped hover bordered light :items="tableData" :fields="fields">
@@ -37,7 +26,7 @@
           variant="success"
         >
           <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-          Edit
+          
         </b-button>
         <b-button
           pill
@@ -46,7 +35,7 @@
           @click="info(row.item, row.index, $event.target)"
         >
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          Delete
+          
         </b-button>
       </template>
     </b-table>
@@ -76,17 +65,12 @@ export default {
     return {
       config: [],
       fields: [
-        { key: "fechainicio_cer", lable: "fechainicio_cer" },
-        { key: "fechafin_cer", lable: "fechafin_cer" },
-        { key: "horas_cer", lable: "horas_cer" },
+        { key: "curso.nombre_cur", label: "curso" },
+        { key: "fechainicio_cer", label: "fechainicio" },
+        { key: "fechafin_cer", label: "fechafin" },
+        { key: "horas_cer", label: "horas" },
         { key: "actions", label: "Opciones" },
-      ],
-      showFilters: false,
-      filters: [
-        { label: "fechainicio_cer", title: "fecha inicio" },
-        { label: "fechafin_cer", title: "fecha fin" },
-        { label: "horas_cer", title: "Duracion (H)", number: "true" },
-      ],
+      ],     
     };
   },
   computed: {

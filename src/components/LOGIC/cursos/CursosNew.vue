@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     ...mapState({
-      data: (state) => state.cursos.dataForm,
+      dataState: (state) => state.cursos.dataForm,
     }),
     cancelUrl() {
       return (
@@ -86,17 +86,27 @@ export default {
   methods: {
     ...mapActions({
       newCurso: "cursos/newCurso",
+      editCurso: "cursos/editCurso",
       getDataForm: "cursos/getDataForm",
     }),
     async submitHandler() {
-      // -- Form Validation with vuevalidate
+      // -- Form Validation with Vuevalidate
       this.$v.dataForm.$touch();
       if (this.$v.dataForm.$anyError) {
         return;
       }
 
       try {
-        await this.newCurso(this.dataForm);
+        if (this.$route.params.id) {
+          this.dataForm = {
+            ...this.dataForm,
+            id: this.$route.params.id,
+          };
+          await this.editCurso(this.dataForm);
+        } else {
+          await this.newCurso(this.dataForm);
+        }
+        
         this.$router.push(this.cancelUrl);
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -106,16 +116,19 @@ export default {
     },
 
     resetData() {
-      if(this.dataForm){
-        this.dataForm= this.data;
-      }else{
+      if (this.dataState) {
         this.dataForm = {
-        id_cur: "",
-        nombre: "",
-        escripcion_cur: "",
-      };
+          id_cur: this.dataState.id_cur,
+          nombre: this.dataState.descripcion_cur,
+          descripcion: this.dataState.nombre_cur,
+        };
+      } else {
+        this.dataForm = {
+          id_cur: null,
+          nombre: "",
+          descripcion: "",
+        };
       }
-
     },
     validateState(name) {
       const { $dirty, $error } = this.$v.dataForm[name];
@@ -124,9 +137,8 @@ export default {
     async setComponent(mode) {
       if (mode === "edit") {
         this.formName = "Editar";
-        let id_cur =this.$route.params.id
+        let id_cur = this.$route.params.id;
         try {
-          
           await this.getDataForm(id_cur);
           this.resetData();
         } catch (e) {

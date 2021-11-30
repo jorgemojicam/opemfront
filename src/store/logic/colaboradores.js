@@ -41,10 +41,10 @@ export default {
     },
     async getData({
       commit
-    }) {
+    }, payload) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/colaboradores`);
+        const response = await axios.get(`/colaboradores?page=${payload.page}&size=${payload.size}`);
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {

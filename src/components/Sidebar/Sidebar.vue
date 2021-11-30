@@ -36,12 +36,28 @@
           index="cursos"
           isHeader
         />
-         <NavLink
+        <NavLink
           :activeItem="activeItem"
           header="Empresas"
           link="/admin/empresas"
           iconName="fa fa-building"
-          index="cursos"
+          index="empresas"
+          isHeader
+        />
+        <NavLink
+          :activeItem="activeItem"
+          header="Colaboradores"
+          link="/admin/colaboradores"
+          iconName="fa fa-users"
+          index="colaboradores"
+          isHeader
+        />
+        <NavLink
+          :activeItem="activeItem"
+          header="Generar Cert"
+          link="/admin/certcolaboradores"
+          iconName="fa fa-file"
+          index="certcolaboradores"
           isHeader
         />
       </ul>

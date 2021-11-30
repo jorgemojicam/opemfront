@@ -32,11 +32,10 @@ export default {
   actions: {
     async getData({
       commit
-    }, payload) {
-      console.log("--->", payload)
+    }, payload) {   
       try {
         commit("showLoader");
-        const response = await axios.get(`/empresa`);
+        const response = await axios.get(`/empresa?page=${payload.page}&size=${payload.size}`);
         commit("getData", response.data);
         commit("hideLoader");
       } catch (e) {
@@ -52,13 +51,14 @@ export default {
         commit("showLoader");
 
         const response = await axios.get(`/empresa/${payload}`);
+
         let newData = {
-          nombre: response.data[0].nombre_emp || "",
-          nit: response.data[0].nit_emp || "",
-          telefono: response.data[0].telefono_emp || "",
-          correo: response.data[0].correo_emp || "",
-          direccion: response.data[0].direccion_emp || "",
-          personacontacto: response.data[0].personacontacto_emp || "",
+          nombre: response.data.items.nombre_emp || "",
+          nit: response.data.items.nit_emp || "",
+          telefono: response.data.items.telefono_emp || "",
+          correo: response.data.items.correo_emp || "",
+          direccion: response.data.items.direccion_emp || "",
+          personacontacto: response.data.items.personacontacto_emp || "",
         }
         commit("getDataForm", newData);
         commit("hideLoader");

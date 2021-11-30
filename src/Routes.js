@@ -11,6 +11,8 @@ import ErrorPage from "@/pages/Error/Error";
 import Cursos from "@/components/LOGIC/cursos/Cursos";
 import Certificaciones from "@/components/LOGIC/certificaciones/Certificaciones";
 import Empresas from "@/components/LOGIC/empresas/Empresas";
+import Colaboradores from "@/components/LOGIC/colaboradores/Colaboradores";
+import CertColaboradores from "@/components/LOGIC/certcolaboradores/CertColaboradores";
 
 //New pages
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
@@ -132,8 +134,8 @@ export default new Router({
           beforeEnter(from, to, next) {
             if (from.params.id === 'new') next()
             else next(`/admin/cursos/${from.params.id}/edit`)
-            },
           },
+        },
         {
           path: "certificaciones",
           name: "Certificaciones",
@@ -142,7 +144,6 @@ export default new Router({
         {
           path: "certificaciones/new",
           component: CertificacionesNew,
-
         },
         {
           path: "empresas",
@@ -162,8 +163,18 @@ export default new Router({
           beforeEnter(from, to, next) {
             if (from.params.id === 'new') next()
             else next(`/admin/empresas/${from.params.id}/edit`)
-            },
           },
+        },
+        {
+          path: "colaboradores",
+          name: "Colaboradores",
+          component: Colaboradores,
+        },
+        {
+          path: "certcolaboradores",
+          name: "CertColaboradores",
+          component: CertColaboradores,
+        },
       ],
     },
   ],
