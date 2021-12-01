@@ -75,11 +75,10 @@ export default {
   data() {
     return {
       fields: [
-        { key: "id_ceco", label: "id" },
-        { key: "idcer_ceco", label: "Pais" },
-        { key: "idcol_ceco", label: "Tipo Documento" },
-        { key: "idemp_ceco", label: "Numero Documento" },
-        { key: "descargado_ceco", label: "Nombres" },       
+        { key: "colaboradore.nombres_col", label: "Colaborador" },
+        { key: "idcol_ceco", label: "idcol_ceco" },
+        { key: "empresa.nombre_emp", label: "Empresa" },
+        { key: "descargado_ceco", label: "Descargado" },       
       ],
       infoModal: {
         id: "info-modal",
@@ -92,8 +91,8 @@ export default {
   },
   computed: {
     ...mapState({
-      dataTable: (state) => state.colaboradores.dataTable,
-      loading: (state) => state.colaboradores.loading,
+      dataTable: (state) => state.certcolaboradores.dataTable,
+      loading: (state) => state.certcolaboradores.loading,
     }),
   },
   methods: {

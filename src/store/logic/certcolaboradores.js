@@ -48,7 +48,8 @@ export default {
         if (payload.page && payload.size) {
           paging = `?page=${payload.page}&size=${payload.size}`
         }
-        const response = await axios.get(`/certcolaboradores${paging}`);
+        const response = await axios.get(`/certcol${paging}`);
+        console.log(response)
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {
@@ -63,7 +64,7 @@ export default {
     }, payload) {
       try {
         console.log(payload);
-        const result = await axios.post(`/certcolaboradores`, payload);
+        const result = await axios.post(`/certcol`, payload);
         this._vm.$toasted.show("Certificaciones creado", {
           type: "success",
         });
@@ -81,7 +82,7 @@ export default {
     }) {
       try {
         console.log(state.deleteId);
-        await axios.delete(`/certcolaboradores/${state.deleteId}`);
+        await axios.delete(`/certcol/${state.deleteId}`);
         this._vm.$toasted.show("Certificaciones delete", {
           type: "success",
         });
