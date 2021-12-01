@@ -5,12 +5,14 @@
       <b-container fluid>
         <b-row class="my-1">
           <b-col sm="12">
-            <b-form-group label="Cursos" label-for="nit">
-              <b-form-input list="my-list-id"></b-form-input>
-              <datalist id="my-list-id">
-                <option>Manual Option</option>
-                <option v-for="item in sizes" :key="item">{{ item }}</option>
-              </datalist>
+            <b-form-group label="Cursos" label-for="cursos">
+              <b-form-select
+                v-model="dataForm.idcur"
+                :options="dataCursos"
+                value-field="id_cur"
+                text-field="nombre_cur"
+              >
+              </b-form-select>
             </b-form-group>
           </b-col>
           <b-col sm="4">
@@ -18,16 +20,16 @@
               <b-form-input
                 type="date"
                 label="Fecha Inicio"
-                v-model="dataForm.fechai"
+                v-model="dataForm.fechainicio"
               />
             </b-form-group>
           </b-col>
           <b-col sm="4">
-            <b-form-group label="Fecha Fin" label-for="fechaf">
+            <b-form-group label="Fecha Fin" label-for="fechafin">
               <b-form-input
                 type="date"
                 label="Fecha Fin"
-                v-model="dataForm.fechaf"
+                v-model="dataForm.fechafin"
               />
             </b-form-group>
           </b-col>
@@ -65,23 +67,24 @@
 import { mapState, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 export default {
-  name: "empresasNew",
+  name: "certificacionesNew",
   mixins: [validationMixin],
   data() {
     return {
       formName: "Crear",
       sizes: ["Small", "Medium", "Large", "Extra Large"],
       dataForm: {
-        cursos: "",
-        fechai: "",
-        fechaf: "",
+        idcur: "",
+        fechainicio: "",
+        fechafin: "",
         horas: "",
       },
     };
   },
   computed: {
     ...mapState({
-      data: (state) => state.empresas.dataForm,
+      data: (state) => state.certificaciones.dataForm,
+      dataCursos: (state) => state.cursos.dataTable,
     }),
     cancelUrl() {
       return (
@@ -91,16 +94,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      newEmpresa: "empresas/newEmpresa",
-      editEmpresa: "empresas/editEmpresa",
-      getDataForm: "empresas/getDataForm",
+      newItem: "certificaciones/newItem",
+      editItem: "certificaciones/editItem",
+      getDataForm: "certificaciones/getDataForm",
+      getDataCursos: "cursos/getData",
     }),
     async submitHandler() {
-      // -- Form Validation with vuevalidate
-      this.$v.dataForm.$touch();
-      if (this.$v.dataForm.$anyError) {
+      //this.$v.dataForm.$touch();
+      /*if (this.$v.dataForm.$anyError) {
         return;
       }
+      */
 
       try {
         if (this.$route.params.id) {
@@ -108,15 +112,18 @@ export default {
             ...this.dataForm,
             id: this.$route.params.id,
           };
-          await this.editEmpresa(this.dataForm);
+
+          await this.editItem(this.dataForm);
         } else {
-          await this.newEmpresa(this.dataForm);
+          await this.newItem(this.dataForm);
         }
         this.$router.push(this.cancelUrl);
       } catch (e) {
+        console.log(e);
+        /*
         this._vm.$toasted.show("Error: " + e, {
           type: "error",
-        });
+        });*/
       }
     },
 
@@ -125,12 +132,9 @@ export default {
         this.dataForm = this.data;
       } else {
         this.dataForm = {
-          nombre: "",
-          nit: "",
-          telefono: "",
-          correo: "",
-          direccion: "",
-          personacontacto: "",
+          fechainicio: "",
+          fechafin: "",
+          horas: "",
         };
       }
     },
@@ -155,6 +159,8 @@ export default {
   beforeMount() {
     const modeForm = this.$route.path.split("/").pop();
     this.setComponent(modeForm);
+    this.getDataCursos();
+    console.log(this.dataCursos);
   },
 };
 </script>

@@ -41,7 +41,7 @@ export default {
     },
     async getData({
       commit
-    },payload) {
+    }, payload) {
       try {
         const id = payload ? `/${payload.id}` : ""
         commit("showLoader");
@@ -55,7 +55,7 @@ export default {
       }
     },
 
-    async newCurso({
+    async newItem({
       commit
     }, payload) {
       try {
@@ -83,6 +83,27 @@ export default {
           type: "success",
         });
         dispatch("getData");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async getDataForm({
+      commit
+    }, payload) {
+      try {
+        commit("showLoader");
+        
+        const response = await axios.get(`/certificaciones/${payload}`);     let newData = {
+          id: response.data.items.id_cer || "",
+          fechai: response.data.items.fechainicio_cer || "",
+          fechaf: response.data.items.fechafin_cer || "",
+          cursos: response.data.items.curso || "",
+
+        }
+        commit("getDataForm", newData);
+        commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
           type: "error",
