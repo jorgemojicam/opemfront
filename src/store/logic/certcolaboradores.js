@@ -41,10 +41,14 @@ export default {
     },
     async getData({
       commit
-    }) {
+    }, payload) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/certcolaboradores`);
+        var paging = ``
+        if (payload.page && payload.size) {
+          paging = `?page=${payload.page}&size=${payload.size}`
+        }
+        const response = await axios.get(`/certcolaboradores${paging}`);
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {
@@ -54,7 +58,7 @@ export default {
       }
     },
 
-    async newCurso({
+    async newItem({
       commit
     }, payload) {
       try {

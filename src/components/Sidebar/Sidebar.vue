@@ -22,6 +22,20 @@
         />
         <NavLink
           :activeItem="activeItem"
+          header="Configuracion"
+          link="/admin/configuraciones"
+          iconName="fa fa-cog"
+          index="configuraciones"
+          :childrenLinks="[
+            { header: 'Pais', link: '/admin/configuraciones/paises' },           
+            { header: 'Departamentos', link: '/admin/configuraciones/departamentos' },
+            { header: 'Ciudades', link: '/admin/configuraciones/ciudades' },
+            { header: 'Tipo Documentos', link: '/admin/configuraciones/tipodocs' },
+            
+          ]"
+        />
+        <NavLink
+          :activeItem="activeItem"
           header="Cursos"
           link="/admin/cursos"
           iconName="fa fa-graduation-cap"

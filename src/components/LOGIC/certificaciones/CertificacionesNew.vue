@@ -5,12 +5,12 @@
       <b-container fluid>
         <b-row class="my-1">
           <b-col sm="12">
-            <b-form-group label="Cursos" label-for="cursos">
+            <b-form-group label="Cursos" label-for="curso">
               <b-form-select
                 v-model="dataForm.idcur"
                 :options="dataCursos"
                 value-field="id_cur"
-                text-field="nombre_cur"
+                text-field="nombre_cur"               
               >
               </b-form-select>
             </b-form-group>
@@ -20,6 +20,7 @@
               <b-form-input
                 type="date"
                 label="Fecha Inicio"
+                :state="validateState('fechainicio')"
                 v-model="dataForm.fechainicio"
               />
             </b-form-group>
@@ -29,6 +30,7 @@
               <b-form-input
                 type="date"
                 label="Fecha Fin"
+                :state="validateState('fechafin')"
                 v-model="dataForm.fechafin"
               />
             </b-form-group>
@@ -66,20 +68,30 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
 export default {
   name: "certificacionesNew",
   mixins: [validationMixin],
   data() {
     return {
-      formName: "Crear",
-      sizes: ["Small", "Medium", "Large", "Extra Large"],
+      formName: "Crear",     
       dataForm: {
         idcur: "",
         fechainicio: "",
         fechafin: "",
-        horas: "",
+        horas: ""
       },
     };
+  },
+  validations: {
+    dataForm: {
+      fechainicio: {
+        required,
+      },
+      fechafin: {
+        required,
+      }
+    },
   },
   computed: {
     ...mapState({
@@ -100,12 +112,10 @@ export default {
       getDataCursos: "cursos/getData",
     }),
     async submitHandler() {
-      //this.$v.dataForm.$touch();
-      /*if (this.$v.dataForm.$anyError) {
+      this.$v.dataForm.$touch();
+      if (this.$v.dataForm.$anyError) {    
         return;
       }
-      */
-
       try {
         if (this.$route.params.id) {
           this.dataForm = {
@@ -127,8 +137,8 @@ export default {
       }
     },
 
-    resetData() {
-      if (this.dataForm) {
+    resetData() {  
+      if (this.dataForm) {   
         this.dataForm = this.data;
       } else {
         this.dataForm = {
@@ -146,7 +156,7 @@ export default {
       if (mode === "edit") {
         this.formName = "Editar";
         try {
-          await this.getDataForm(this.$route.params.id);
+          await this.getDataForm(this.$route.params.id);          
           this.resetData();
         } catch (e) {
           this._vm.$toasted.show("Error " + e, {
@@ -160,7 +170,6 @@ export default {
     const modeForm = this.$route.path.split("/").pop();
     this.setComponent(modeForm);
     this.getDataCursos();
-    console.log(this.dataCursos);
   },
 };
 </script>
