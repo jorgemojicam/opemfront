@@ -44,12 +44,19 @@ export default {
     }, payload) {
       try {
         commit("showLoader");
-        var paging = ``
-        if (payload.page && payload.size) {
-          paging = `?page=${payload.page}&size=${payload.size}`
+        var param = `?page=${payload.page}&size=${payload.size}`
+
+        if (payload.idcol) {
+          param += `&idcol=${payload.idcol}`
         }
-        const response = await axios.get(`/certcol${paging}`);
-        console.log(response)
+        if (payload.idemp) {
+          param += `&idemp=${payload.idemp}`
+        }
+        if (payload.idcer) {
+          param += `&idcer=${payload.idcer}`
+        }     
+        const response = await axios.get(`/certcol${param}`);
+
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {
@@ -63,7 +70,6 @@ export default {
       commit
     }, payload) {
       try {
-        console.log(payload);
         const result = await axios.post(`/certcol`, payload);
         this._vm.$toasted.show("Certificaciones creado", {
           type: "success",

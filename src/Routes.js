@@ -23,6 +23,7 @@ import TipoDocs from "@/components/LOGIC/tipodocs/TipoDocs";
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
 import CertificacionesNew from "@/components/LOGIC/certificaciones/CertificacionesNew";
 import EmpresasNew from "@/components/LOGIC/empresas/EmpresasNew";
+import CertColaboradoresNew from "@/components/LOGIC/certcolaboradores/CertColaboradoresNew";
 
 // -- Template Resources
 import TypographyPage from "@/pages/Typography/Typography";
@@ -43,168 +44,172 @@ Vue.use(Router);
 export default new Router({
 
   routes: [{
-    path: "/",
-    redirect: {
-      name: "Dashboard"
-    }
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
-  },
-  {
-    path: "/error",
-    name: "Error",
-    component: ErrorPage,
-  },
-  {
-    path: "/app",
-    name: "Layout",
-    component: Layout,
-    redirect: {
-      name: "Dashboard"
+      path: "/",
+      redirect: {
+        name: "Dashboard"
+      }
     },
-    beforeEnter: (to, from, next) => {
-      isAuthenticated() ? next() : next({
-        path: "/login"
-      });
+    {
+      path: "/login",
+      name: "Login",
+      component: Login,
     },
-    children: [{
-      path: "dashboard",
-      name: "Dashboard",
-      component: Dashboard,
+    {
+      path: "/error",
+      name: "Error",
+      component: ErrorPage,
     },
+    {
+      path: "/app",
+      name: "Layout",
+      component: Layout,
+      redirect: {
+        name: "Dashboard"
+      },
+      beforeEnter: (to, from, next) => {
+        isAuthenticated() ? next() : next({
+          path: "/login"
+        });
+      },
+      children: [{
+          path: "dashboard",
+          name: "Dashboard",
+          component: Dashboard,
+        },
 
-    // ---------------------------------- //
-    {
-      path: "typography",
-      name: "TypographyPage",
-      component: TypographyPage,
+        // ---------------------------------- //
+        {
+          path: "typography",
+          name: "TypographyPage",
+          component: TypographyPage,
+        },
+        {
+          path: "components/icons",
+          name: "IconsPage",
+          component: IconsPage,
+        },
+        {
+          path: "notifications",
+          name: "NotificationsPage",
+          component: NotificationsPage,
+        },
+        {
+          path: "components/charts",
+          name: "ChartsPage",
+          component: ChartsPage,
+        },
+        {
+          path: "tables",
+          name: "TablesBasicPage",
+          component: TablesBasicPage,
+        },
+        {
+          path: "components/maps",
+          name: "GoogleMapPage",
+          component: GoogleMapPage,
+        },
+      ],
     },
     {
-      path: "components/icons",
-      name: "IconsPage",
-      component: IconsPage,
-    },
-    {
-      path: "notifications",
-      name: "NotificationsPage",
-      component: NotificationsPage,
-    },
-    {
-      path: "components/charts",
-      name: "ChartsPage",
-      component: ChartsPage,
-    },
-    {
-      path: "tables",
-      name: "TablesBasicPage",
-      component: TablesBasicPage,
-    },
-    {
-      path: "components/maps",
-      name: "GoogleMapPage",
-      component: GoogleMapPage,
-    },
-    ],
-  },
-  {
-    path: "/admin",
-    name: "Admin",
-    redirect: {
-      name: "Dashboard"
-    },
-    component: Layout,
-    beforeEnter: (to, from, next) => {
-      isAuthenticated() ? next() : next({
-        path: "/login"
-      });
-    },
-    children: [{
-      path: "cursos",
-      name: "Cursos",
-      component: Cursos,
-    },
-    {
-      path: 'cursos/:id/edit',
-      component: CursosNew,
-    },
-    {
-      path: 'cursos/new',
-      component: CursosNew,
-    },
-    {
-      path: 'cursos/:id',
-      beforeEnter(from, to, next) {
-        if (from.params.id === 'new') next()
-        else next(`/admin/cursos/${from.params.id}/edit`)
+      path: "/admin",
+      name: "Admin",
+      redirect: {
+        name: "Dashboard"
       },
-    },
-    {
-      path: "certificaciones",
-      name: "Certificaciones",
-      component: Certificaciones,
-    },
-    {
-      path: "certificaciones/new",
-      component: CertificacionesNew,
-    },
-    {
-      path: 'certificaciones/:id/edit',
-      component: CertificacionesNew,
-    },
-    {
-      path: "empresas",
-      name: "Empresas",
-      component: Empresas,
-    },
-    {
-      path: 'empresas/:id/edit',
-      component: EmpresasNew,
-    },
-    {
-      path: "empresas/new",
-      component: EmpresasNew,
-    },
-    {
-      path: 'empresas/:id',
-      beforeEnter(from, to, next) {
-        if (from.params.id === 'new') next()
-        else next(`/admin/empresas/${from.params.id}/edit`)
+      component: Layout,
+      beforeEnter: (to, from, next) => {
+        isAuthenticated() ? next() : next({
+          path: "/login"
+        });
       },
+      children: [{
+          path: "cursos",
+          name: "Cursos",
+          component: Cursos,
+        },
+        {
+          path: 'cursos/:id/edit',
+          component: CursosNew,
+        },
+        {
+          path: 'cursos/new',
+          component: CursosNew,
+        },
+        {
+          path: 'cursos/:id',
+          beforeEnter(from, to, next) {
+            if (from.params.id === 'new') next()
+            else next(`/admin/cursos/${from.params.id}/edit`)
+          },
+        },
+        {
+          path: "certificaciones",
+          name: "Certificaciones",
+          component: Certificaciones,
+        },
+        {
+          path: "certificaciones/new",
+          component: CertificacionesNew,
+        },
+        {
+          path: 'certificaciones/:id/edit',
+          component: CertificacionesNew,
+        },
+        {
+          path: "empresas",
+          name: "Empresas",
+          component: Empresas,
+        },
+        {
+          path: 'empresas/:id/edit',
+          component: EmpresasNew,
+        },
+        {
+          path: "empresas/new",
+          component: EmpresasNew,
+        },
+        {
+          path: 'empresas/:id',
+          beforeEnter(from, to, next) {
+            if (from.params.id === 'new') next()
+            else next(`/admin/empresas/${from.params.id}/edit`)
+          },
+        },
+        {
+          path: "colaboradores",
+          name: "Colaboradores",
+          component: Colaboradores,
+        },
+        {
+          path: "certcolaboradores",
+          name: "CertColaboradores",
+          component: CertColaboradores         
+        },
+        {
+          path: "certcolaboradores/new",       
+          component: CertColaboradoresNew,
+        },
+        {
+          path: "configuraciones/paises",
+          name: "paises",
+          component: Paises,
+        },
+        {
+          path: "configuraciones/departamentos",
+          name: "departamentos",
+          component: Departamentos,
+        },
+        {
+          path: "configuraciones/ciudades",
+          name: "ciudades",
+          component: Ciudades,
+        },
+        {
+          path: "configuraciones/tipodocs",
+          name: "tipodocs",
+          component: TipoDocs,
+        }
+      ],
     },
-    {
-      path: "colaboradores",
-      name: "Colaboradores",
-      component: Colaboradores,
-    },
-    {
-      path: "certcolaboradores",
-      name: "CertColaboradores",
-      component: CertColaboradores,
-    },
-    {
-      path: "configuraciones/paises",
-      name: "paises",
-      component: Paises,
-    },
-    {
-      path: "configuraciones/departamentos",
-      name: "departamentos",
-      component: Departamentos,
-    },
-    {
-      path: "configuraciones/ciudades",
-      name: "ciudades",
-      component: Ciudades,
-    },
-    {
-      path: "configuraciones/tipodocs",
-      name: "tipodocs",
-      component: TipoDocs,
-    }
-    ],
-  },
   ],
 });

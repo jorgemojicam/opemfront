@@ -54,11 +54,25 @@ export default {
         });
       }
     },
+    async getDataByCurso({
+      commit
+    }, payload) {
+      try {     
+        commit("showLoader");
+        const response = await axios.get(`/certificaciones/getByCurso?idcur=${payload}`);
+        commit("setData", response.data);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
     async newItem({
       commit
     }, payload) {
       try {
-   
+
         const result = await axios.post(`/certificaciones`, payload);
         this._vm.$toasted.show("Certificaciones creado", {
           type: "success",
@@ -75,7 +89,7 @@ export default {
       dispatch,
       state
     }) {
-      try {       
+      try {
         await axios.delete(`/certificaciones/${state.deleteId}`);
         this._vm.$toasted.show("Certificaciones delete", {
           type: "success",
@@ -95,7 +109,7 @@ export default {
         commit("showLoader");
 
         const response = await axios.get(`/certificaciones/${payload}`);
-     
+        console.log(response)
         let newData = {
           id: response.data.items[0].id_cer || "",
           fechainicio: response.data.items[0].fechainicio_cer || "",
@@ -103,7 +117,7 @@ export default {
           horas: response.data.items[0].horas_cer || "",
           idcur: response.data.items[0].curso.id_cur || "",
         }
-        
+
         commit("getDataForm", newData);
         commit("hideLoader");
       } catch (e) {

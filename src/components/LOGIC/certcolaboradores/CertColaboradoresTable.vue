@@ -2,7 +2,7 @@
   <div>
     <b-button-group class="mb-2">
       <router-link :to="$route.fullPath + '/new'">
-        <b-button variant="outline-primary" >
+        <b-button variant="outline-primary">
           <b-icon icon="plus-circle-fill"></b-icon> Nueva
         </b-button>
       </router-link>
@@ -78,7 +78,7 @@ export default {
         { key: "colaboradore.nombres_col", label: "Colaborador" },
         { key: "idcol_ceco", label: "idcol_ceco" },
         { key: "empresa.nombre_emp", label: "Empresa" },
-        { key: "descargado_ceco", label: "Descargado" },       
+        { key: "descargado_ceco", label: "Descargado" },
       ],
       infoModal: {
         id: "info-modal",
@@ -118,10 +118,16 @@ export default {
       console.log(val, row);
       //this.$router.push(`/admin/cursos/${row.id}/edit`)
     },
-    getRequestParams(searchTitle, page, pageSize) {
+    getRequestParams(page, pageSize, idcol, idcer, idemp) {
       let params = {};
-      if (searchTitle) {
-        params["title"] = searchTitle;
+      if (idcol) {
+        params["idcol"] = idcol;
+      }
+      if (idcol) {
+        params["idcer"] = idcer;
+      }
+      if (idcol) {
+        params["idemp"] = idemp;
       }
       if (page) {
         params["page"] = page - 1;
@@ -131,22 +137,19 @@ export default {
       }
       return params;
     },
-    retrieveTutorials() {
-      const params = this.getRequestParams(
-        this.searchTitle,
-        this.page,
-        this.pageSize
-      );
-            this.getData(params);
+    retrieveParam() {
+      const params = this.getRequestParams(this.page, this.pageSize, 1, 1, 1);
+      this.getData(params);
     },
     handlePageChange(value) {
       this.page = value;
-      this.retrieveTutorials();
+      this.retrieveParam();
     },
   },
 
   beforeMount() {
-    this.getData({ page: 0, size: 10 });
+    const params = this.getRequestParams(1, 10, 1, 1, 1);
+    this.getData(params);
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
     this.pageSize = this.dataTable.totalPages;
