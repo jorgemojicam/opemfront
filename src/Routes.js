@@ -23,6 +23,7 @@ import TipoDocs from "@/components/LOGIC/tipodocs/TipoDocs";
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
 import CertificacionesNew from "@/components/LOGIC/certificaciones/CertificacionesNew";
 import EmpresasNew from "@/components/LOGIC/empresas/EmpresasNew";
+import ColaboradoresNew from "@/components/LOGIC/colaboradores/ColaboradoresNew";
 import CertColaboradoresNew from "@/components/LOGIC/certcolaboradores/CertColaboradoresNew";
 
 // -- Template Resources
@@ -179,6 +180,10 @@ export default new Router({
           path: "colaboradores",
           name: "Colaboradores",
           component: Colaboradores,
+        },
+        {
+          path: "colaboradores/new",
+          component: ColaboradoresNew,
         },
         {
           path: "certcolaboradores",

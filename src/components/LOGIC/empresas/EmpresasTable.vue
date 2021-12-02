@@ -23,7 +23,6 @@
       light
       :items="dataTable.items"
       :fields="fields"
-      @row-clicked="rowClicked"
     >
       <template #cell(actions)="row">
         <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
@@ -88,7 +87,7 @@ export default {
       },
       page: 1,
       count: 0,
-      pageSize: 3,
+      pageSize: 10,
     };
   },
   computed: {
@@ -116,15 +115,8 @@ export default {
       this.$bvModal.hide("del");
       this.deleteItem();
     },
-    rowClicked(val, row) {
-      console.log(val, row);
-      //this.$router.push(`/admin/cursos/${row.id}/edit`)
-    },
-    getRequestParams(searchTitle, page, pageSize) {
+    getRequestParams(page, pageSize) {
       let params = {};
-      if (searchTitle) {
-        params["title"] = searchTitle;
-      }
       if (page) {
         params["page"] = page - 1;
       }
@@ -134,11 +126,7 @@ export default {
       return params;
     },
     retrieveTutorials() {
-      const params = this.getRequestParams(
-        this.searchTitle,
-        this.page,
-        this.pageSize
-      );
+      const params = this.getRequestParams(this.page, this.pageSize);
       console.log(params);
 
       this.getData(params);
@@ -150,10 +138,10 @@ export default {
   },
 
   beforeMount() {
-    this.getData({ page: 0, size: 3 });
+    const params = this.getRequestParams(1, 10);
+    this.getData(params);
     this.page = this.dataTable.currenPage;
-    this.count = this.dataTable.totalItems;
-    this.pageSize = this.dataTable.totalPages;
+    this.count = this.dataTable.totalPages;
   },
 };
 </script>

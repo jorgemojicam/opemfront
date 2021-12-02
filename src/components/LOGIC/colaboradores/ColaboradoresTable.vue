@@ -2,7 +2,7 @@
   <div>
     <b-button-group class="mb-2">
       <router-link :to="$route.fullPath + '/new'">
-        <b-button variant="outline-primary" >
+        <b-button variant="outline-primary">
           <b-icon icon="plus-circle-fill"></b-icon> Nueva
         </b-button>
       </router-link>
@@ -23,15 +23,15 @@
       light
       :items="dataTable.items"
       :fields="fields"
-      @row-clicked="rowClicked"
     >
-      <template #cell(actions)="row">
+      <template #cell(edit)="row">
         <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
           <b-button pill size="sm" class="mr-2" variant="success">
             <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-            Editar
           </b-button>
         </router-link>
+      </template>
+      <template #cell(delete)="row">
         <b-button
           pill
           variant="danger"
@@ -39,7 +39,6 @@
           @click="info(row.item, row.index, $event.target)"
         >
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          Delete
         </b-button>
       </template>
     </b-table>
@@ -75,8 +74,7 @@ export default {
   data() {
     return {
       fields: [
-        { key: "id_col", label: "id" },
-        { key: "paisdocumento_col", label: "Pais" },
+        { key: "pai.inicianles_pais", label: "Pais" },
         { key: "tipodocumento_col", label: "Tipo Documento" },
         { key: "numerodocumento_col", label: "Numero Documento" },
         { key: "nombres_col", label: "Nombres" },
@@ -86,6 +84,9 @@ export default {
         { key: "telefono_col", label: "Telefono" },
         { key: "direccion_col", label: "Direccion" },
         { key: "idemp_col", label: "Id empresa" },
+        { key: "edit", label: "" },
+        { key: "delete", label: "" },
+        { key: "singup", label: "" },
       ],
       infoModal: {
         id: "info-modal",
@@ -121,10 +122,6 @@ export default {
       this.$bvModal.hide("del");
       this.deleteItem();
     },
-    rowClicked(val, row) {
-      console.log(val, row);
-      //this.$router.push(`/admin/cursos/${row.id}/edit`)
-    },
     getRequestParams(searchTitle, page, pageSize) {
       let params = {};
       if (searchTitle) {
@@ -144,7 +141,7 @@ export default {
         this.page,
         this.pageSize
       );
-            this.getData(params);
+      this.getData(params);
     },
     handlePageChange(value) {
       this.page = value;

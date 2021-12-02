@@ -53,14 +53,12 @@ export default {
         });
       }
     },
-
-    async newCurso({
+    async newItem({
       commit
     }, payload) {
-      try {
-        console.log(payload);
+      try {    
         const result = await axios.post(`/colaboradores`, payload);
-        this._vm.$toasted.show("colaboradores creado", {
+        this._vm.$toasted.show("colaborador creado", {
           type: "success",
         });
 
