@@ -7,7 +7,8 @@
     >
       <header class="logo">
         <router-link to="/app/dashboard"
-          ><span class="primary-word">Opem </span>
+          ><span class="primary-word">OP</span>
+          <span class="secondary-word">EM</span>
         </router-link>
       </header>
 
@@ -76,23 +77,7 @@
         />
       </ul>
       <ul class="nav">
-        <h5 class="navTitle">Template Resources</h5>
-        <NavLink
-          :activeItem="activeItem"
-          header="Typography"
-          link="/app/typography"
-          iconName="flaticon-list"
-          index="typography"
-          isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Tables Basic"
-          link="/app/tables"
-          iconName="flaticon-equal-1"
-          index="tables"
-          isHeader
-        />
+        <h5 class="navTitle">Template Resources</h5>  
         <NavLink
           :activeItem="activeItem"
           header="Notifications"

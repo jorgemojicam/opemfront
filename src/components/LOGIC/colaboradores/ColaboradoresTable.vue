@@ -75,26 +75,24 @@ export default {
     return {
       fields: [
         { key: "pai.inicianles_pais", label: "Pais" },
-        { key: "tipodocumento_col", label: "Tipo Documento" },
+        { key: "tipodocumento.iniciales_tipo", label: "Tipo Documento" },
         { key: "numerodocumento_col", label: "Numero Documento" },
         { key: "nombres_col", label: "Nombres" },
         { key: "apellidos_col", label: "Apellidos" },
-        { key: "fechanacimiento_col", label: "Fecha Nacimiento" },
+        { key: "empresa.nombre_emp", label: "Empresa" },
         { key: "correopersonal_col", label: "Correo" },
-        { key: "telefono_col", label: "Telefono" },
-        { key: "direccion_col", label: "Direccion" },
-        { key: "idemp_col", label: "Id empresa" },
+        { key: "telefono_col", label: "Telefono" },          
         { key: "edit", label: "" },
         { key: "delete", label: "" },
         { key: "singup", label: "" },
       ],
       infoModal: {
         id: "info-modal",
-        empresa: "",
+        colaborador: "",
       },
       page: 1,
       count: 0,
-      pageSize: 3,
+      pageSize: 10,
     };
   },
   computed: {
@@ -153,7 +151,7 @@ export default {
     this.getData({ page: 0, size: 10 });
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
-    this.pageSize = this.dataTable.totalPages;
+    console.log(this.dataTable)
   },
 };
 </script>

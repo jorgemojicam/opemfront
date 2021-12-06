@@ -141,7 +141,7 @@ export default {
     const params = this.getRequestParams(1, 10);
     this.getData(params);
     this.page = this.dataTable.currenPage;
-    this.count = this.dataTable.totalPages;
+    this.count = this.dataTable.totalItems;
   },
 };
 </script>

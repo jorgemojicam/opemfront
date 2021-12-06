@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     dataTable: [],
+    dataList: [],
     loading: false,
     modalOpen: false,
     dataForm: {},
@@ -14,6 +15,10 @@ export default {
     setData(state, payload) {
       state.dataTable = [];
       state.dataTable = payload;
+    },
+    setDataList(state, payload) {
+      state.dataList = [];
+      state.dataList = payload;
     },
     showLoader(state) {
       state.loading = true;
@@ -56,7 +61,7 @@ export default {
     async newItem({
       commit
     }, payload) {
-      try {    
+      try {
         const result = await axios.post(`/colaboradores`, payload);
         this._vm.$toasted.show("colaborador creado", {
           type: "success",
@@ -80,6 +85,23 @@ export default {
           type: "success",
         });
         dispatch("getData");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async getDataList({
+      commit
+    }, payload) {
+      try {
+        commit("showLoader");
+        
+        const idemp = payload.idemp ? `?idemp=${payload.idemp}` : ``
+        console.log("state ",idemp)
+        const response = await axios.get(`/colaboradores/getByParam${idemp}`);
+        commit("setDataList", response.data);
+        commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
           type: "error",
