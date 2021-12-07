@@ -90,6 +90,8 @@ export default {
         idcer: "",
         idemp: "",
         idcol: "",
+        estado:0,
+        descargado:0
       },
     };
   },
@@ -119,8 +121,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      newItem: "certificaciones/newItem",
-      editItem: "certificaciones/editItem",
+      newItem: "certcolaboradores/newItem",
+      editItem: "certcolaboradores/editItem",
       getDataCert: "certificaciones/getDataByCurso",
       getDataCursos: "cursos/getData",
       getDataEmpresa: "empresas/getDataList",

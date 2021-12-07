@@ -61,13 +61,14 @@
       <b-button class="mt-3" variant="outline-danger" block @click="del"
         >Eliminar</b-button
       >
-    </b-modal>
+    </b-modal>  
   </div>
 </template>
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import Loader from "@/components/Loader/Loader";
 import { validationMixin } from "vuelidate";
+
 export default {
   mixins: [validationMixin],
   components: { Loader },
@@ -81,7 +82,7 @@ export default {
         { key: "apellidos_col", label: "Apellidos" },
         { key: "empresa.nombre_emp", label: "Empresa" },
         { key: "correopersonal_col", label: "Correo" },
-        { key: "telefono_col", label: "Telefono" },          
+        { key: "telefono_col", label: "Telefono" },
         { key: "edit", label: "" },
         { key: "delete", label: "" },
         { key: "singup", label: "" },
@@ -145,13 +146,14 @@ export default {
       this.page = value;
       this.retrieveTutorials();
     },
+  
   },
 
   beforeMount() {
     this.getData({ page: 0, size: 10 });
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
-    console.log(this.dataTable)
+    console.log(this.dataTable);
   },
 };
 </script>

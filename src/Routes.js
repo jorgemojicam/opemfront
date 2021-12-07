@@ -25,6 +25,7 @@ import CertificacionesNew from "@/components/LOGIC/certificaciones/Certificacion
 import EmpresasNew from "@/components/LOGIC/empresas/EmpresasNew";
 import ColaboradoresNew from "@/components/LOGIC/colaboradores/ColaboradoresNew";
 import CertColaboradoresNew from "@/components/LOGIC/certcolaboradores/CertColaboradoresNew";
+import CertColaboradoresPdf from "@/components/LOGIC/certcolaboradores/CertColaboradoresPdf";
 
 // -- Template Resources
 import GoogleMapPage from "@/pages/Maps/Google";
@@ -185,6 +186,10 @@ export default new Router({
     {
       path: "certcolaboradores/new",
       component: CertColaboradoresNew,
+    },    
+    {
+      path: "certcolaboradores/pdf",
+      component: CertColaboradoresPdf,
     },
     {
       path: "configuraciones/paises",
