@@ -19,7 +19,6 @@
           <i class="fi flaticon-flip" />
         </a>
       </b-nav-item>
-     
     </b-nav>
     <b-nav>
       <b-form class="d-sm-down-none ml-5" inline>
@@ -50,13 +49,13 @@
           <span class="avatar rounded-circle thumb-sm float-left mr-2">
             <img
               class="rounded-circle"
-              src="../../assets/people/a7.png"
+              src="../../assets/people/default.jpeg"
               alt="..."
             />
           </span>
-          <span class="px-2">{{nameuser}}</span>
+          <span class="px-2">{{ nameuser }}</span>
           <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge"
-            >9</span
+            >0</span
           >
           <i class="fi flaticon-arrow-down px-2" />
         </template>
@@ -75,19 +74,19 @@
           ><i class="fi flaticon-person px-3 mr-3" /> Mi Cuenta</b-dropdown-item
         >
         <b-dropdown-divider />
-        <b-dropdown-item
+        <b-dropdown-item v-b-tooltip.hover title="No disponible aun"
           ><i
             class="fi flaticon-calendar-9 px-3 mr-3"
           />Calendario</b-dropdown-item
         >
-        <b-dropdown-item
+        <b-dropdown-item v-b-tooltip.hover title="No disponible aun"
           ><i class="fi flaticon-email px-3 mr-3" /> Bandeja
           &nbsp;&nbsp;<b-badge
             variant="inverse"
             pill
             class="animate__animated animate__bounceIn"
             style="padding: 6px 9px"
-            >9</b-badge
+            >0</b-badge
           >
         </b-dropdown-item>
         <b-dropdown-divider />
@@ -106,16 +105,16 @@ import Notifications from "@/components/Notifications/Notifications";
 export default {
   name: "Header",
   components: { Notifications },
-  data(){
+  data() {
     return {
-      nameuser:null
-    }
+      nameuser: null,
+    };
   },
   computed: {
     ...mapState("layout", ["sidebarClose", "sidebarStatic"]),
     ...mapState({
-      currentUser: state => state.auth.currentUser
-    })
+      currentUser: (state) => state.auth.currentUser,
+    }),
   },
   methods: {
     ...mapActions("layout", [
@@ -153,10 +152,10 @@ export default {
       this.$router.push("/");
     },
   },
-  created(){
-    const dataUser =JSON.parse(localStorage.getItem('datauser'))
-    this.nameuser = dataUser.nombres_col
-  }
+  created() {
+    const dataUser = JSON.parse(localStorage.getItem("datauser"));
+    this.nameuser = dataUser.nombres_col;
+  },
 };
 </script>
 

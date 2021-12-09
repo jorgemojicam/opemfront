@@ -2,7 +2,6 @@
   <div class="dashboard-page">
     <h1 class="page-title">Inicio</h1>
 
-  
     <b-row>
       <b-col xs="12" lg="6" xl="4" v-for="stat in mock.bigStat" :key="stat.id">
         <BigStat
@@ -15,61 +14,27 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col xs="12">
+      <b-col xs="12"> 
         <Widget
-          title="<h5>Certificados <span class='fw-semi-bold'>Recientes</span></h5>"
-          bodyClass="widget-table-overflow"
-          customHeader
-        >
-          <div class="table-responsive">
-            <table class="table table-striped table-lg mb-0 requests-table">
-              <thead>
-                <tr class="text-muted">
-                  <th>Estudiantte</th>
-                  <th>Correo</th>
-                  <th>Cedula</th>
-                  <th>Curso</th>
-                  <th>Fecha</th>
-                  <th>Ciudad</th>
-                  <th>Estados</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="row in mock.table" :key="row.id">
-                  <td>{{ row.name }}</td>
-                  <td>{{ row.email }}</td>
-                  <td>{{ row.product }}</td>
-                  <td>{{ row.price }}</td>
-                  <td>{{ row.date }}</td>
-                  <td>{{ row.city }}</td>
-                  <td>
-                    <b-badge
-                      :variant="
-                        row.status === 'Pending'
-                          ? 'success'
-                          : row.status === 'Declined'
-                          ? 'danger'
-                          : 'info'
-                      "
-                      pill
-                    >
-                      {{ row.status }}
-                    </b-badge>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </Widget>
+              title="<h5>2021 <span class='fw-semi-bold'>Certificaciones</span></h5>"
+              close collapse customHeader
+          >
+            <echart :options="cd.echarts.line" :init-options="initEchartsOptions" style="height: 370px"></echart>
+          </Widget>
       </b-col>
     </b-row>
+
+ 
   </div>
 </template>
 
 <script>
 import Widget from "@/components/Widget/Widget";
 import BigStat from "./components/BigStat/BigStat";
+import ECharts from 'vue-echarts/components/ECharts';
+import 'echarts/lib/chart/line';
 import mock from "./mock";
+import {chartData} from './mock';
 
 import { Chart } from "highcharts-vue";
 
@@ -79,10 +44,15 @@ export default {
     Widget,
     BigStat,
     highcharts: Chart,
+    echart: ECharts
   },
   data() {
     return {
       mock,
+      cd: chartData,
+      initEchartsOptions: {
+        renderer: 'canvas'
+      },
     };
   },
   methods: {
