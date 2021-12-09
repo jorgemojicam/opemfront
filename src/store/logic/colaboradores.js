@@ -47,10 +47,14 @@ export default {
     async getData({
       commit
     }, payload) {
+      const nombre = payload.nombre ? `&nombre=${payload.nombre}`: ``
+   
       try {
         commit("showLoader");
-        const response = await axios.get(`/colaboradores?page=${payload.page}&size=${payload.size}`);
-        commit("setData", response.data);
+        const response = await axios.get(`/colaboradores?page=${payload.page}&size=${payload.size}${nombre}`);
+        console.log(response.data) 
+        commit("setData", response.data);    
+           
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {

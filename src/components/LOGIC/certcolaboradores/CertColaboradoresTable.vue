@@ -50,7 +50,7 @@
           variant="warning"
           @click="generate(row)"
         >
-          <b-icon icon="exclamation-circle" aria-hidden="true"></b-icon>
+          <b-icon icon="download" aria-hidden="true"></b-icon>
         </b-button>
       </template>
     </b-table>
@@ -81,41 +81,67 @@
       :float-layout="true"
       :enable-download="true"
       :preview-modal="true"
-      :paginate-elements-by-height="1400"
+      :paginate-elements-by-height="1123"
       filename="certificacion"
       :pdf-quality="2"
       :manual-pagination="false"
       pdf-format="a4"
       pdf-orientation="portrait"
-      pdf-content-width="800px"
+      pdf-content-width="794px"
       ref="html2Pdf"
     >
       <section slot="pdf-content">
-        <b-container class="bv-example-row">
+        <b-container style="height: 100%">
           <b-row>
-            <b-col cols="3"></b-col>
-            <b-col cols="7">
-              <br /><br /><br /><br /><br /><br /><br /><br />
-              <h1>{{ certificado.colaborador.nombres }}</h1>
-              cc: 109581176
-              <br /><br /><br />
-              <br />
-              Aplico y aprobo satisfactoriamente el curso
-              <h1>{{ certificado.curso.nombre }}</h1>
-              <br /><br /><br />
-              <br />
-              <h3>
-                Realizo con una intensidad de
-                {{ certificado.curso.duracion }} horas
-              </h3>
+            <b-col cols="3">
+              <img
+                src="../../../assets/certificado/lateral.jpg"
+                style="width: 100%"
+                alt=""
+              />
             </b-col>
-             <b-col cols="2"></b-col>
+            <b-col cols="7">
+              <b-row>                
+                <h1>{{ certificado.colaborador.nombres }}</h1>
+                cc: 109581176
+                <br /><br /><br />
+                <br />
+                Aplico y aprobo satisfactoriamente el curso
+                <h1>{{ certificado.curso.nombre }}</h1>
+                <br /><br /><br />
+                <br />
+                <h4>
+                  Realizo con una intensidad de
+                  {{ certificado.curso.duracion }} horas
+                </h4>
+                <h3>Fecha de finalizacion: {{ certificado.curso.fechafin }}</h3>
+                <br /><br /><br />
+                <b-col cols="3">
+                  <img
+                    src="../../../assets/certificado/firma.png"
+                    style="width: 100%"
+                    alt=""
+                  />
+                </b-col>
+                <b-col cols="9"></b-col>
+              </b-row>
+              <b-row>
+                <img
+                  src="../../../assets/certificado/footer.jpg"
+                  style="width: 100%"
+                  alt=""
+                />
+              </b-row>
+            </b-col>
+            <b-col cols="2"></b-col>
           </b-row>
         </b-container>
       </section>
     </vue-html2pdf>
   </div>
 </template>
+
+
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import Loader from "@/components/Loader/Loader";
@@ -224,6 +250,7 @@ export default {
       this.certificado.colaborador.nombres =
         items.colaboradore.nombres_col + " " + items.colaboradore.apellidos_col;
       this.certificado.curso.duracion = items.certificacione.horas_cer;
+      this.certificado.curso.fechafin = items.certificacione.fechafin_cer;
       this.generateReport();
     },
     generateReport() {
