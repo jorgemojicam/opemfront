@@ -55,8 +55,7 @@ export default {
       }
     },
     async newCurso({ commit }, payload) {
-      try {
-        console.log(payload);
+      try {     
         const result = await axios.post(`/cursos`, payload);
         this._vm.$toasted.show("Cursos creado", {
           type: "success",

@@ -36,11 +36,11 @@ export default {
   actions: {
     async getData({
       commit
-    }, payload) {   
+    }, payload) {
       try {
         commit("showLoader");
         const response = await axios.get(`/empresa?page=${payload.page}&size=${payload.size}`);
-        commit("getData", response.data);
+        commit("getData", response.data);     
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -50,10 +50,10 @@ export default {
     },
     async getDataList({
       commit
-    }) {   
+    }) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/empresa`);        
+        const response = await axios.get(`/empresa`);
         commit("getDataList", response.data.items);
         commit("hideLoader");
       } catch (e) {

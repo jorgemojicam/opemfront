@@ -86,10 +86,11 @@ export default {
     return {
       config: [],
       fields: [
-        { key: "curso.nombre_cur", label: "curso" },
-        { key: "fechainicio_cer", label: "fechainicio" },
-        { key: "fechafin_cer", label: "fechafin" },
-        { key: "horas_cer", label: "horas" },
+        { key: "curso.nombre_cur", label: "Curso" },
+        { key: "cohorte_cer", label: "Cohorte" },
+        { key: "fechainicio_cer", label: "Fechainicio" },
+        { key: "fechafin_cer", label: "Fechafin" },
+        { key: "horas_cer", label: "Horas" },
         { key: "actions", label: "Opciones" },
       ],
       page: 1,
@@ -188,8 +189,6 @@ export default {
     this.getData({ page: 0, size: 10 });
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
-    //this.perPage = this.dataTable.totalPages;
-    console.log(this.dataTable);
   },
 };
 </script>

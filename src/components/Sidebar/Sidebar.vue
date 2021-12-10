@@ -7,7 +7,8 @@
     >
       <header class="logo">
         <router-link to="/app/dashboard"
-          ><span class="primary-word">Opem </span>
+          ><span class="primary-word">OP</span>
+          <span class="secondary-word">EM</span>
         </router-link>
       </header>
 

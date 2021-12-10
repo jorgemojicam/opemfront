@@ -109,7 +109,7 @@ export default {
         commit("showLoader");
 
         const response = await axios.get(`/certificaciones/${payload}`);
-        console.log(response)
+
         let newData = {
           id: response.data.items[0].id_cer || "",
           fechainicio: response.data.items[0].fechainicio_cer || "",
