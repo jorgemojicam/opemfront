@@ -91,7 +91,7 @@
       ref="html2Pdf"
     >
       <section slot="pdf-content">
-        <b-container style="height: 100%">
+        <b-container style="height: 100%;">
           <b-row>
             <b-col cols="3">
               <img

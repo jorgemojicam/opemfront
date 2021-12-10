@@ -13,6 +13,7 @@ import colaboradores from './logic/colaboradores'
 import certcolaboradores from './logic/certcolaboradores'
 import paises from './logic/paises'
 import tipodocumento from './logic/tipodocumento'
+import roles from './logic/roles'
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     colaboradores,
     certcolaboradores,
     paises,
-    tipodocumento
+    tipodocumento,
+    roles
   },
 });
