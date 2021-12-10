@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import CertCoalboradoresTable from "@/components/LOGIC/colaboradores/ColaboradoresTable";
+import CertCoalboradoresTable from "@/components/LOGIC/certcolaboradores/CertColaboradoresTable";
 import Loader from "@/components/Loader/Loader";
 export default {
   components: { Loader, CertCoalboradoresTable },

@@ -41,11 +41,11 @@ export default {
     },
     async getData({
       commit
-    },payload) {
+    }, payload) {
       try {
-        const id = payload ? `/${payload.id}` : ""
+        const pagin = `?page=${payload.page}&size=${payload.size}`
         commit("showLoader");
-        const response = await axios.get(`/certificaciones${id}`);
+        const response = await axios.get(`/certificaciones${pagin}`);
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {
@@ -54,12 +54,25 @@ export default {
         });
       }
     },
-
-    async newCurso({
+    async getDataByCurso({
+      commit
+    }, payload) {
+      try {     
+        commit("showLoader");
+        const response = await axios.get(`/certificaciones/getByCurso?idcur=${payload}`);
+        commit("setData", response.data);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async newItem({
       commit
     }, payload) {
       try {
-        console.log(payload);
+
         const result = await axios.post(`/certificaciones`, payload);
         this._vm.$toasted.show("Certificaciones creado", {
           type: "success",
@@ -77,12 +90,54 @@ export default {
       state
     }) {
       try {
-        console.log(state.deleteId);
         await axios.delete(`/certificaciones/${state.deleteId}`);
         this._vm.$toasted.show("Certificaciones delete", {
           type: "success",
         });
+
         dispatch("getData");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async getDataForm({
+      commit
+    }, payload) {
+      try {
+        commit("showLoader");
+
+        const response = await axios.get(`/certificaciones/${payload}`);
+
+        let newData = {
+          id: response.data.items[0].id_cer || "",
+          fechainicio: response.data.items[0].fechainicio_cer || "",
+          fechafin: response.data.items[0].fechafin_cer || "",
+          horas: response.data.items[0].horas_cer || "",
+          idcur: response.data.items[0].curso.id_cur || "",
+        }
+
+        commit("getDataForm", newData);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async editItem({
+      commit
+    }, payload) {
+      const id = payload.id
+      try {
+        console.log(payload)
+        const result = await axios.put(`/certificaciones/${id}`, payload);
+        this._vm.$toasted.show("Empresa actualizada", {
+          type: "success",
+        });
+
+        commit(`getData`, result.data);
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
           type: "error",

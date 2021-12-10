@@ -10,38 +10,48 @@
                 v-model="dataForm.idcur"
                 :options="dataCursos"
                 value-field="id_cur"
-                text-field="nombre_cur"               
+                text-field="nombre_cur"
+                @change="changeCurso"
               >
               </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col sm="4">
-            <b-form-group label="Fecha Inicio" label-for="fechai">
-              <b-form-input
-                type="date"
-                label="Fecha Inicio"
-                :state="validateState('fechainicio')"
-                v-model="dataForm.fechainicio"
-              />
+          <b-col sm="12">
+            <b-form-group label="Certificaciones" label-for="certificaciones">
+              <b-form-select v-model="dataForm.idcer">
+                <b-form-select-option
+                  v-for="cert in dataCert"
+                  :key="cert.id_cer"
+                  :value="cert.id_cer"
+                >
+                  Inicio:
+                  {{ cert.fechainicio_cer + " hasta " + cert.fechafin_cer }}
+                  cohorte {{ cert.cohorte_cer }}
+                </b-form-select-option>
+              </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col sm="4">
-            <b-form-group label="Fecha Fin" label-for="fechafin">
-              <b-form-input
-                type="date"
-                label="Fecha Fin"
-                :state="validateState('fechafin')"
-                v-model="dataForm.fechafin"
-              />
+          <b-col sm="12">
+            <b-form-group label="Empresa" label-for="empresa">
+              <b-form-select
+                :options="dataEmp"
+                v-model="dataForm.idemp"
+                value-field="id_emp"
+                text-field="nombre_emp"
+                @change="changeEmpresa"
+              >
+              </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col sm="4">
-            <b-form-group label="Horas duracion" label-for="horas">
-              <b-form-input
-                type="number"
-                label="Horas"
-                v-model="dataForm.horas"
-              />
+          <b-col sm="12">
+            <b-form-group label="Colaborador" label-for="colaborador">
+              <b-form-select
+                :options="dataCol"
+                v-model="dataForm.idcol"
+                value-field="id_col"
+                text-field="nombres_col"
+              >
+              </b-form-select>
             </b-form-group>
           </b-col>
         </b-row>
@@ -74,29 +84,34 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
-      formName: "Crear",     
+      formName: "Inscripcion",
       dataForm: {
         idcur: "",
-        fechainicio: "",
-        fechafin: "",
-        horas: ""
+        idcer: "",
+        idemp: "",
+        idcol: "",
+        estado:0,
+        descargado:0
       },
     };
   },
   validations: {
     dataForm: {
-      fechainicio: {
+      idcur: {
         required,
       },
-      fechafin: {
+      idcer: {
         required,
-      }
+      },
     },
   },
   computed: {
     ...mapState({
       data: (state) => state.certificaciones.dataForm,
       dataCursos: (state) => state.cursos.dataTable,
+      dataCert: (state) => state.certificaciones.dataTable,
+      dataEmp: (state) => state.empresas.dataList,
+      dataCol: (state) => state.colaboradores.dataList,
     }),
     cancelUrl() {
       return (
@@ -106,14 +121,16 @@ export default {
   },
   methods: {
     ...mapActions({
-      newItem: "certificaciones/newItem",
-      editItem: "certificaciones/editItem",
-      getDataForm: "certificaciones/getDataForm",
+      newItem: "certcolaboradores/newItem",
+      editItem: "certcolaboradores/editItem",
+      getDataCert: "certificaciones/getDataByCurso",
       getDataCursos: "cursos/getData",
+      getDataEmpresa: "empresas/getDataList",
+      getDataCol: "colaboradores/getDataList",
     }),
     async submitHandler() {
       this.$v.dataForm.$touch();
-      if (this.$v.dataForm.$anyError) {    
+      if (this.$v.dataForm.$anyError) {
         return;
       }
       try {
@@ -136,9 +153,14 @@ export default {
         });*/
       }
     },
-
-    resetData() {  
-      if (this.dataForm) {   
+    changeCurso() {
+      this.getDataCert(this.dataForm.idcur);
+    },
+    changeEmpresa() {  
+      this.getDataCol({ idemp: this.dataForm.idemp });
+    },
+    resetData() {
+      if (this.dataForm) {
         this.dataForm = this.data;
       } else {
         this.dataForm = {
@@ -156,7 +178,7 @@ export default {
       if (mode === "edit") {
         this.formName = "Editar";
         try {
-          await this.getDataForm(this.$route.params.id);          
+          await this.getDataForm(this.$route.params.id);
           this.resetData();
         } catch (e) {
           this._vm.$toasted.show("Error " + e, {
@@ -170,6 +192,7 @@ export default {
     const modeForm = this.$route.path.split("/").pop();
     this.setComponent(modeForm);
     this.getDataCursos();
+    this.getDataEmpresa();
   },
 };
 </script>

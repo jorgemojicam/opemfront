@@ -7,7 +7,8 @@
     >
       <header class="logo">
         <router-link to="/app/dashboard"
-          ><span class="primary-word">Opem </span>
+          ><span class="primary-word">OP</span>
+          <span class="secondary-word">EM</span>
         </router-link>
       </header>
 
@@ -19,6 +20,20 @@
           iconName="fi flaticon-home"
           index="dashboard"
           isHeader
+        />
+        <NavLink
+          :activeItem="activeItem"
+          header="Configuracion"
+          link="/admin/configuraciones"
+          iconName="fa fa-cog"
+          index="configuraciones"
+          :childrenLinks="[
+            { header: 'Pais', link: '/admin/configuraciones/paises' },           
+            { header: 'Departamentos', link: '/admin/configuraciones/departamentos' },
+            { header: 'Ciudades', link: '/admin/configuraciones/ciudades' },
+            { header: 'Tipo Documentos', link: '/admin/configuraciones/tipodocs' },
+            
+          ]"
         />
         <NavLink
           :activeItem="activeItem"
@@ -61,87 +76,9 @@
           isHeader
         />
       </ul>
-      <ul class="nav">
-        <h5 class="navTitle">Template Resources</h5>
-        <NavLink
-          :activeItem="activeItem"
-          header="Typography"
-          link="/app/typography"
-          iconName="flaticon-list"
-          index="typography"
-          isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Tables Basic"
-          link="/app/tables"
-          iconName="flaticon-equal-1"
-          index="tables"
-          isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Notifications"
-          link="/app/notifications"
-          iconName="flaticon-bell"
-          index="notifications"
-          isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Components"
-          link="/app/components"
-          iconName="flaticon-network"
-          index="components"
-          :childrenLinks="[
-            { header: 'Charts', link: '/app/components/charts' },
-            { header: 'Icons', link: '/app/components/icons' },
-            { header: 'Maps', link: '/app/components/maps' },
-          ]"
-        />
-      </ul>
-      <h5 class="navTitle">LABELS</h5>
-      <ul class="sidebarLabels">
-        <li>
-          <a href="#">
-            <i class="fa fa-circle text-danger" />
-            <span class="labelName">Core</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-circle text-primary" />
-            <span class="labelName">UI Elements</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-circle text-success" />
-            <span class="labelName">Forms</span>
-          </a>
-        </li>
-      </ul>
-      <h5 class="navTitle">PROJECTS</h5>
-      <div class="sidebarAlerts">
-        <b-alert
-          v-for="alert in alerts"
-          :key="alert.id"
-          class="sidebarAlert"
-          variant="transparent"
-          show
-          dismissible
-        >
-          <span>{{ alert.title }}</span
-          ><br />
-          <b-progress
-            class="sidebarProgress progress-xs mt-1"
-            :variant="alert.color"
-            :value="alert.value"
-            :max="100"
-          />
-          <small>{{ alert.footer }}</small>
-        </b-alert>
-      </div>
+       
+
+     
     </nav>
   </div>
 </template>

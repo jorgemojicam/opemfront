@@ -2,36 +2,75 @@
   <div>
     <b-button-group class="mb-2">
       <router-link :to="$route.fullPath + '/new'">
-        <b-button variant="outline-primary" >
+        <b-button variant="outline-primary">
           <b-icon icon="plus-circle-fill"></b-icon> Nueva
         </b-button>
       </router-link>
-      <b-button variant="outline-primary">
+      <b-button v-b-toggle.collapse-1 variant="outline-primary">
         <b-icon icon="search"></b-icon> Filtro
       </b-button>
-      <b-button variant="outline-primary">
-        <b-icon icon="printer"></b-icon> Imprimir
-      </b-button>
     </b-button-group>
-
+    <!-- filtros -->
+    <b-collapse id="collapse-1">
+      <b-card border-variant="primary">
+        <b-card-text>
+          <b-container fluid>
+            <b-row class="my-1">
+              <b-col sm="3">
+                <b-form-input
+                  id="numerodocumento"
+                  placeholder="Numero cedula"
+                  v-model="cedula"
+                ></b-form-input>
+              </b-col>
+              <b-col sm="3">
+                <b-form-input
+                  id="nombre"
+                  placeholder="Nombres"
+                  v-model="nombre"
+                ></b-form-input>
+              </b-col>
+              <b-col sm="3">
+                <b-form-select
+                  :options="dataEmpresa"
+                  value-field="id_emp"
+                  text-field="nombre_emp"
+                  v-model="idemp"
+                >
+                  <b-form-select-option value=""
+                    >-Todas las Empresas-</b-form-select-option
+                  >
+                </b-form-select>
+              </b-col>
+              <b-col sm="3">
+                <b-button variant="primary" @click="filter">
+                  <b-icon icon="search"></b-icon> Buscar
+                </b-button>
+              </b-col>
+            </b-row>
+          </b-container>
+        </b-card-text>
+      </b-card>
+    </b-collapse>
+    <br />
     <div v-if="loading"><Loader /></div>
+    <!-- tabla -->
     <b-table
       v-else
       striped
       hover
-      bordered
       light
       :items="dataTable.items"
       :fields="fields"
-      @row-clicked="rowClicked"
     >
-      <template #cell(actions)="row">
+      <template #cell(edit)="row">
         <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
           <b-button pill size="sm" class="mr-2" variant="success">
             <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-            Editar
           </b-button>
         </router-link>
+      </template>
+      <template #cell(delete)="row">
         <b-button
           pill
           variant="danger"
@@ -39,7 +78,6 @@
           @click="info(row.item, row.index, $event.target)"
         >
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          Delete
         </b-button>
       </template>
     </b-table>
@@ -69,37 +107,42 @@
 import { mapActions, mapState, mapMutations } from "vuex";
 import Loader from "@/components/Loader/Loader";
 import { validationMixin } from "vuelidate";
+
 export default {
   mixins: [validationMixin],
   components: { Loader },
   data() {
     return {
       fields: [
-        { key: "id_col", label: "id" },
-        { key: "paisdocumento_col", label: "Pais" },
-        { key: "tipodocumento_col", label: "Tipo Documento" },
+        { key: "pai.inicianles_pais", label: "Pais" },
+        { key: "tipodocumento.iniciales_tipo", label: "Tipo Documento" },
         { key: "numerodocumento_col", label: "Numero Documento" },
-        { key: "nombres_col", label: "Nombres" },
+        { key: "nombres_col", label: "Nombres", sortable: true },
         { key: "apellidos_col", label: "Apellidos" },
-        { key: "fechanacimiento_col", label: "Fecha Nacimiento" },
+        { key: "empresa.nombre_emp", label: "Empresa" },
         { key: "correopersonal_col", label: "Correo" },
         { key: "telefono_col", label: "Telefono" },
-        { key: "direccion_col", label: "Direccion" },
-        { key: "idemp_col", label: "Id empresa" },
+        { key: "edit", label: "" },
+        { key: "delete", label: "" },
+        { key: "singup", label: "" },
       ],
       infoModal: {
         id: "info-modal",
-        empresa: "",
+        colaborador: "",
       },
       page: 1,
       count: 0,
-      pageSize: 3,
+      pageSize: 10,
+      nombre: "",
+      cedula: "",
+      idemp: "",
     };
   },
   computed: {
     ...mapState({
       dataTable: (state) => state.colaboradores.dataTable,
       loading: (state) => state.colaboradores.loading,
+      dataEmpresa: (state) => state.empresas.dataList,
     }),
   },
   methods: {
@@ -111,6 +154,7 @@ export default {
     ...mapActions({
       getData: "colaboradores/getData",
       deleteItem: "colaboradores/deleteItem",
+      getDataEmpresa: "empresas/getDataList",
     }),
     ...mapMutations({
       setDeleteId: "colaboradores/setDeleteId",
@@ -121,14 +165,10 @@ export default {
       this.$bvModal.hide("del");
       this.deleteItem();
     },
-    rowClicked(val, row) {
-      console.log(val, row);
-      //this.$router.push(`/admin/cursos/${row.id}/edit`)
-    },
-    getRequestParams(searchTitle, page, pageSize) {
+    getRequestParams(nombre, page, pageSize) {
       let params = {};
-      if (searchTitle) {
-        params["title"] = searchTitle;
+      if (nombre) {
+        params["nombre"] = nombre;
       }
       if (page) {
         params["page"] = page - 1;
@@ -144,19 +184,22 @@ export default {
         this.page,
         this.pageSize
       );
-            this.getData(params);
+      this.getData(params);
     },
     handlePageChange(value) {
       this.page = value;
       this.retrieveTutorials();
     },
+    filter() {
+      const params = this.getRequestParams(this.nombre, 1, 10);      
+      this.getData(params);
+    },
   },
-
   beforeMount() {
     this.getData({ page: 0, size: 10 });
+    this.getDataEmpresa();
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
-    this.pageSize = this.dataTable.totalPages;
   },
 };
 </script>

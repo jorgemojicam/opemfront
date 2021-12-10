@@ -41,10 +41,22 @@ export default {
     },
     async getData({
       commit
-    }) {
+    }, payload) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/certcolaboradores`);
+        var param = `?page=${payload.page}&size=${payload.size}`
+
+        if (payload.idcol) {
+          param += `&idcol=${payload.idcol}`
+        }
+        if (payload.idemp) {
+          param += `&idemp=${payload.idemp}`
+        }
+        if (payload.idcer) {
+          param += `&idcer=${payload.idcer}`
+        }     
+        const response = await axios.get(`/certcol${param}`);
+
         commit("setData", response.data);
         commit("hideLoader");
       } catch (e) {
@@ -54,12 +66,11 @@ export default {
       }
     },
 
-    async newCurso({
+    async newItem({
       commit
     }, payload) {
       try {
-        console.log(payload);
-        const result = await axios.post(`/certcolaboradores`, payload);
+        const result = await axios.post(`/certcol`, payload);
         this._vm.$toasted.show("Certificaciones creado", {
           type: "success",
         });
@@ -77,7 +88,7 @@ export default {
     }) {
       try {
         console.log(state.deleteId);
-        await axios.delete(`/certcolaboradores/${state.deleteId}`);
+        await axios.delete(`/certcol/${state.deleteId}`);
         this._vm.$toasted.show("Certificaciones delete", {
           type: "success",
         });

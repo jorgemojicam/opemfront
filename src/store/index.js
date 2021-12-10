@@ -11,6 +11,8 @@ import certificaciones from './logic/certificaciones'
 import empresas from './logic/empresas'
 import colaboradores from './logic/colaboradores'
 import certcolaboradores from './logic/certcolaboradores'
+import paises from './logic/paises'
+import tipodocumento from './logic/tipodocumento'
 
 Vue.use(Vuex);
 
@@ -22,6 +24,8 @@ export default new Vuex.Store({
     certificaciones,
     empresas,
     colaboradores,
-    certcolaboradores
+    certcolaboradores,
+    paises,
+    tipodocumento
   },
 });

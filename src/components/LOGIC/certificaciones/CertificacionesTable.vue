@@ -16,39 +16,60 @@
 
     <div v-if="loading"><Loader /></div>
 
-    <b-table striped hover bordered light :items="tableData" :fields="fields">
+    <b-table
+      striped
+      hover
+      bordered
+      light
+      :items="dataTable.items"
+      :fields="fields"
+      :per-page="perPage"
+    >
       <template #cell(actions)="row">
+        <!-- <router-link :to="`${$route.fullPath}/${row.item.id_cer}/edit`"> -->
         <b-button
           pill
           size="sm"
-          @click="info(row.item, row.index, $event.target)"
+          @click="info(row.item, 'edit')"
           class="mr-2"
           variant="success"
         >
           <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-          
         </b-button>
+
         <b-button
           pill
           variant="danger"
           size="sm"
-          @click="info(row.item, row.index, $event.target)"
+          @click="del(row.item, row.index, $event.target)"
         >
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          
         </b-button>
       </template>
     </b-table>
 
-    <b-modal id="del" title="Confirm delete" cancel-variant="default">
-      Are you sure you want to delete this item?
+    <b-pagination
+      v-model="page"
+      :total-rows="count"
+      :per-page="perPage"
+      align="fill"
+      size="sm"
+      class="mt-4"
+      @change="handlePageChange"
+    ></b-pagination>
 
-      <template #modal-footer="">
-        <button class="btn btn-primary" @click="$bvModal.hide('del')">
-          Cancel
-        </button>
-        <button class="btn btn-danger" @click="del">Delete</button>
-      </template>
+    <b-modal :id="infoModal.id" title="Cuidado !" hide-footer>
+      <div class="d-block text-center">
+        Esta seguro de eliminar el certificado
+        <strong>{{ infoModal.fechainicio }}</strong>
+      </div>
+      <b-button
+        class="mt-3"
+        variant="outline-danger"
+        block
+        @click="confirmDelte($event.target)"
+        >Eliminar</b-button
+      >
     </b-modal>
   </div>
 </template>
@@ -65,18 +86,26 @@ export default {
     return {
       config: [],
       fields: [
-        { key: "curso.nombre_cur", label: "curso" },
-        { key: "fechainicio_cer", label: "fechainicio" },
-        { key: "fechafin_cer", label: "fechafin" },
-        { key: "horas_cer", label: "horas" },
+        { key: "curso.nombre_cur", label: "Curso" },
+        { key: "cohorte_cer", label: "Cohorte" },
+        { key: "fechainicio_cer", label: "Fechainicio" },
+        { key: "fechafin_cer", label: "Fechafin" },
+        { key: "horas_cer", label: "Horas" },
         { key: "actions", label: "Opciones" },
-      ],     
+      ],
+      page: 1,
+      count: 0,
+      perPage: 10,
+      infoModal: {
+        id: "info-modal",
+        curso: "",
+      },
     };
   },
   computed: {
     ...mapState({
       loading: (state) => state.certificaciones.loading,
-      tableData: (state) => state.certificaciones.dataTable,
+      dataTable: (state) => state.certificaciones.dataTable,
       modalOpen: (state) => state.certificaciones.modalOpen,
       deleteId: (state) => state.certificaciones.deleteId,
     }),
@@ -85,6 +114,9 @@ export default {
     },
   },
   methods: {
+    info(item, mode) {
+      this.$router.push(`${this.$route.fullPath}/${item.id_cer}/${mode}`);
+    },
     submitHandler() {
       let request = "?";
       this.config.forEach((item) => {
@@ -120,13 +152,43 @@ export default {
     ...mapMutations({
       setDeleteId: "certificaciones/setDeleteId",
     }),
-    del() {
-      this.$bvModal.hide("del");
+    del(item, index, button) {
+      this.infoModal.fechainicio = item.fechainicio_cer;
+      this.setDeleteId(item.id_cer);
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    },
+    confirmDelte(btn) {
+      this.$root.$emit("bv::hide::modal", this.infoModal.id, btn);
       this.deleteItem();
+      //TODO:para revisar
+      this.getData({ page: 0, size: 10 });
+      this.page = this.dataTable.currenPage;
+      this.count = this.dataTable.totalItems;
+    },
+    getRequestParams(page, perPage) {
+      let params = {};
+      if (page) {
+        params["page"] = page - 1;
+      }
+      if (perPage) {
+        params["size"] = perPage;
+      }
+      return params;
+    },
+    retrieveTutorials() {
+      const params = this.getRequestParams(this.page, this.perPage);
+      this.getData(params);
+    },
+    handlePageChange(value) {
+      this.page = value;
+      this.size = 10;
+      this.retrieveTutorials();
     },
   },
   beforeMount() {
-    this.getData();
+    this.getData({ page: 0, size: 10 });
+    this.page = this.dataTable.currenPage;
+    this.count = this.dataTable.totalItems;
   },
 };
 </script>

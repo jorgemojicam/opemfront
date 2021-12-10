@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     dataTable: [],
+    dataList: [],
     dataForm: {},
     loading: false,
     modalOpen: false,
@@ -12,9 +13,12 @@ export default {
   //-- Will modify the state
   mutations: {
     getData(state, payload) {
-
       state.dataTable = [];
       state.dataTable = payload;
+    },
+    getDataList(state, payload) {
+      state.dataList = [];
+      state.dataList = payload;
     },
     getDataForm(state, payload) {
       state.dataForm = payload;
@@ -32,11 +36,25 @@ export default {
   actions: {
     async getData({
       commit
-    }, payload) {   
+    }, payload) {
       try {
         commit("showLoader");
         const response = await axios.get(`/empresa?page=${payload.page}&size=${payload.size}`);
-        commit("getData", response.data);
+        commit("getData", response.data);     
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async getDataList({
+      commit
+    }) {
+      try {
+        commit("showLoader");
+        const response = await axios.get(`/empresa`);
+        commit("getDataList", response.data.items);
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {

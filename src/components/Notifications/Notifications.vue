@@ -2,7 +2,7 @@
   <section class="notifications navbar-notifications">
     <header class="cardHeader card-header">
       <div class="text-center mb-sm">
-        <strong>You have 13 notifications</strong>
+        <strong>You have 0 notifications</strong>
       </div>
       <b-button-group id="notification-b-buttons">
         <b-button variant="default" @click="changeNotificationsTab(1)"
@@ -16,11 +16,11 @@
         >
       </b-button-group>
     </header>
-    <NewNotifictionsList v-if="newNotifications" />
-    <NotifictionsList v-else-if="notificationsTabSelected === 1" />
-    <Messages v-else-if="notificationsTabSelected === 2" />
-    <Progress v-else-if="notificationsTabSelected === 3" />
-    <NotifictionsList v-else />
+    <NewNotifictionsList v-if="newNotifications && show" />
+    <NotifictionsList v-else-if="notificationsTabSelected === 1 && show" />
+    <Messages v-else-if="notificationsTabSelected === 2 && show" />
+    <Progress v-else-if="notificationsTabSelected === 3 && show" />
+    <!-- <NotifictionsList v-else /> -->
     <footer class="cardFooter text-sm card-footer">
       <span class="fs-mini">Synced at: 21 Apr 2014 18:36</span>
       <b-button
@@ -61,6 +61,7 @@ export default {
       notificationsTabSelected: 1,
       newNotifications: null,
       isLoad: false,
+      show:false,
     };
   },
   methods: {
