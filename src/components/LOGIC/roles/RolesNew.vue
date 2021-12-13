@@ -78,8 +78,8 @@ export default {
       data: (state) => state.colaboradores.dataForm,
     }),
     cancelUrl() {
-      return (
-        "/" + this.$route.fullPath.split("/").slice(1).splice(0, 2).join("/")
+      return (        
+        `/${this.$route.fullPath.split("/").slice(1).splice(0, 3).join("/")}`
       );
     },
   },

@@ -19,6 +19,7 @@ import Departamentos from "@/components/LOGIC/departamentos/Departamentos";
 import Ciudades from "@/components/LOGIC/ciudades/Ciudades";
 import TipoDocs from "@/components/LOGIC/tipodocs/TipoDocs";
 import Roles from "@/components/LOGIC/roles/Roles";
+import Permisos from "@/components/LOGIC/permisos/Permisos";
 
 //New pages
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
@@ -222,6 +223,11 @@ export default new Router({
       path: "configuraciones/roles/new",
       name: "nuevo",
       component: RolesNew,
+    },
+    {
+      path: "configuraciones/permisos",
+      name: "permisos",
+      component: Permisos,
     },
     ],
   },

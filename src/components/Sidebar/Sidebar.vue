@@ -33,6 +33,7 @@
             { header: 'Ciudades', link: '/admin/configuraciones/ciudades' },
             { header: 'Tipo Documentos', link: '/admin/configuraciones/tipodocs' },
             { header: 'Roles', link: '/admin/configuraciones/roles' },
+            { header: 'Permisos', link: '/admin/configuraciones/permisos' },
             
           ]"
         />
