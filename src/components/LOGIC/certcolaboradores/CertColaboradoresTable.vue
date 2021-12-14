@@ -91,7 +91,7 @@
       ref="html2Pdf"
     >
       <section slot="pdf-content">
-        <b-container style="height: 100%;">
+        <b-container style="height: 100%">
           <b-row>
             <b-col cols="3">
               <img
@@ -101,7 +101,7 @@
               />
             </b-col>
             <b-col cols="7">
-              <b-row>                
+              <b-row>
                 <h1>{{ certificado.colaborador.nombres }}</h1>
                 cc: 109581176
                 <br /><br /><br />
@@ -123,6 +123,9 @@
                     alt=""
                   />
                 </b-col>
+                <v-col cols="12">
+                  <qrcode-vue :value="valueqr" :size="sizeqr" level="H" />
+                </v-col>
                 <b-col cols="9"></b-col>
               </b-row>
               <b-row>
@@ -147,9 +150,11 @@ import { mapActions, mapState, mapMutations } from "vuex";
 import Loader from "@/components/Loader/Loader";
 import { validationMixin } from "vuelidate";
 import VueHtml2pdf from "vue-html2pdf";
+import QrcodeVue from "qrcode.vue";
 export default {
   mixins: [validationMixin],
-  components: { Loader, VueHtml2pdf },
+  components: { Loader, VueHtml2pdf, QrcodeVue },
+  name:"CertColaboradoresTable",
   data() {
     return {
       fields: [
@@ -189,6 +194,8 @@ export default {
       page: 1,
       count: 0,
       pageSize: 10,
+      valueqr: "http://localhost:3001",
+      sizeqr: 140,
     };
   },
   computed: {
@@ -251,6 +258,7 @@ export default {
         items.colaboradore.nombres_col + " " + items.colaboradore.apellidos_col;
       this.certificado.curso.duracion = items.certificacione.horas_cer;
       this.certificado.curso.fechafin = items.certificacione.fechafin_cer;
+      this.valueqr =  `${this.valueqr}?idceco=${items.idcer_ceco}`
       this.generateReport();
     },
     generateReport() {

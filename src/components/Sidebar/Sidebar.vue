@@ -78,9 +78,6 @@
           isHeader
         />
       </ul>
-       
-
-     
     </nav>
   </div>
 </template>

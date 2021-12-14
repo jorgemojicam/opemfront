@@ -20,22 +20,45 @@
     <div v-if="loading"><Loader /></div>
     <!-- tabla -->
     <b-table v-else striped hover light :items="dataTable" :fields="fields">
+      <template #cell(ver)="row">
+        <b-form-checkbox
+          unchecked-value="0"
+          checked="1"
+          :value="loadPermisos(row, 'ver')"
+          switch
+          @change="changeVer(row, $event)"
+        >
+        </b-form-checkbox>
+      </template>
+      <template #cell(crear)="row">
+        <b-form-checkbox
+          unchecked-value="not_accepted"
+          checked="1"
+          :value="loadPermisos(row, 'crear')"
+          switch
+          @change="changeVer(row)"
+        >
+        </b-form-checkbox>
+      </template>
       <template #cell(edit)="row">
-        <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
-          <b-button pill size="sm" class="mr-2" variant="success">
-            <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-          </b-button>
-        </router-link>
+        <b-form-checkbox
+          unchecked-value="not_accepted"
+          checked="1"
+          :value="loadPermisos(row, 'editar')"
+          switch
+          @change="changeVer(row)"
+        >
+        </b-form-checkbox>
       </template>
       <template #cell(delete)="row">
-        <b-button
-          pill
-          variant="danger"
-          size="sm"
-          @click="info(row.item, row.index, $event.target)"
+        <b-form-checkbox
+          unchecked-value="not_accepted"
+          checked="1"
+          :value="loadPermisos(row, 'eliminar')"
+          switch
+          @change="changeVer(row)"
         >
-          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-        </b-button>
+        </b-form-checkbox>
       </template>
     </b-table>
     <!-- Info modal -->
@@ -62,13 +85,16 @@ export default {
     return {
       fields: [
         { key: "nombre_mod", label: "Nombre", sortable: true },
-        { key: "edit", label: "" },
-        { key: "delete", label: "" },
+        { key: "ver", label: "Ver" },
+        { key: "edit", label: "Editar" },
+        { key: "crear", label: "Crear" },
+        { key: "delete", label: "Eliminar" },
       ],
       infoModal: {
         id: "info-modal",
         colaborador: "",
       },
+      selected: [],
     };
   },
   computed: {
@@ -101,12 +127,34 @@ export default {
     changeRol() {
       this.getData({ idrol: this.idrol });
     },
+    changeVer(row, check) {
+      console.log("----->", row, " --> ", check);
+    },
+    loadPermisos(row, tipo) {
+      if (row.item.roles.length > 0) {
+        if (row.item.roles[0].permisosroles) {
+          if (tipo === "ver") {
+            return row.item.roles[0].permisosroles.ver_prol;
+          }else if (tipo === "crear") {
+            return row.item.roles[0].permisosroles.crear_prol;
+          }else if (tipo === "editar") {
+            return row.item.roles[0].permisosroles.editar_prol;
+          }else if (tipo === "eliminar") {
+            return row.item.roles[0].permisosroles.eliminar_prol;
+          }else{
+            return 0;
+          }
+        }else{
+          return 0;
+        }
+      }
+    },
   },
   beforeMount() {
     this.getDataRoles();
     this.idrol = this.dataRoles[0].id_rol;
     this.getData({ idrol: this.idrol });
-    console.log(this.dataTable)
+    console.log(this.dataTable);
   },
 };
 </script>
