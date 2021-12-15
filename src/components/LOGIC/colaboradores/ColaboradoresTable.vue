@@ -80,6 +80,13 @@
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
         </b-button>
       </template>
+      <template #cell(singup)="row">
+        <router-link :to="`${$route.fullPath}/cuentaacceso/${row.item.id_col}`">
+          <b-button pill :variant="existCuentAcceso(row)" size="sm">
+            <b-icon icon="person-fill" aria-hidden="true"></b-icon>
+          </b-button>
+        </router-link>
+      </template>
     </b-table>
     <!-- paginacion  -->
     <b-pagination
@@ -191,9 +198,16 @@ export default {
       this.retrieveTutorials();
     },
     filter() {
-      const params = this.getRequestParams(this.nombre, 1, 10);      
+      const params = this.getRequestParams(this.nombre, 1, 10);
       this.getData(params);
     },
+    existCuentAcceso(row){
+      if(row.item.cuentaacceso){
+        return 'primary'
+      }else{
+        return 'light'
+      }
+    }
   },
   beforeMount() {
     this.getData({ page: 0, size: 10 });

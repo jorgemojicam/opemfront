@@ -47,9 +47,30 @@ export default {
         var param = ``
         if (payload.idcue) {
           param += `?idcue=${payload.idcue}`
-        }         
+        }
         const response = await axios.get(`/cuentaacceso${param}`);
         commit("setData", response.data);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async getDataForm({
+      commit
+    }, payload) {
+      try {
+        commit("showLoader");
+        const response = await axios.get(`/cuentaacceso?idcol=${payload}`);
+        let newData = {}
+        if (response.data.length > 0) {
+          newData = {
+            username: response.data[0].username_cue || "",
+            idrol: response.data[0].idroles_cue || "",
+          }
+        }
+        commit("getDataForm", newData);
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {

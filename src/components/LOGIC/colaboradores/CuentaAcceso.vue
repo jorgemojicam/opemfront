@@ -4,8 +4,8 @@
       <h4 class="h4">{{ formName }} Cuenta Acceso</h4>
       <b-container fluid>
         <b-row class="my-1">
-          <b-col sm="5">
-            <b-form-group label="Numero Documento" label-for="numerodocumento">
+          <b-col sm="12">
+            <b-form-group label="Numero Documento" label-for="username">
               <b-form-input
                 id="username"
                 v-model="dataForm.username"
@@ -14,14 +14,35 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col sm="4">
-            <b-form-group label="Password" label-for="password">
+          <b-col sm="5">
+            <b-form-group label="Contraseña" label-for="password">
               <b-form-input
+                type="password"
                 v-model="dataForm.password"
-                placeholder="Password"
+                placeholder="Ingrese Contraseña"
                 :state="validateState('password')"
               ></b-form-input>
             </b-form-group>
+          </b-col>
+          <b-col sm="5">
+            <b-form-group label="Confirma Contraseña" label-for="password">
+              <b-form-input
+                type="password"
+                v-model="confirmpass"
+                placeholder="Repita la contraseña"
+                :state="validateState('password')"
+              ></b-form-input>
+            </b-form-group>
+          </b-col>
+          <b-col sm="2">
+            <label for="" class="d-block">Aleatorio</label>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="generatePass"
+            >
+              Generar
+            </button>
           </b-col>
 
           <b-col sm="5">
@@ -31,6 +52,7 @@
                 :options="dataRoles"
                 value-field="id_rol"
                 text-field="nombre_rol"
+                :state="validateState('idrol')"
               >
               </b-form-select>
             </b-form-group>
@@ -66,6 +88,7 @@ export default {
   data() {
     return {
       formName: "Crear",
+      confirmpass: "",
       dataForm: {
         username: "",
         password: "",
@@ -84,15 +107,14 @@ export default {
         maxLength: maxLength(12),
       },
       idrol: {
-        required
+        required,
       },
     },
   },
   computed: {
     ...mapState({
-      data: (state) => state.colaboradores.dataForm,
+      data: (state) => state.cuentaacceso.dataForm,
       dataRoles: (state) => state.roles.dataTable,
-      
     }),
     cancelUrl() {
       return (
@@ -105,9 +127,7 @@ export default {
       newItem: "cuentaacceso/newItem",
       editItem: "cuentaacceso/editItem",
       getDataForm: "cuentaacceso/getDataForm",
-      getDataPais: "paises/getData",
-      getDataTipoDoc: "tipodocumento/getData",
-      getDataEmpresa: "empresas/getDataList",
+      getDataRoles: "roles/getData",
     }),
     async submitHandler() {
       this.$v.dataForm.$touch();
@@ -141,9 +161,9 @@ export default {
         this.dataForm = this.data;
       } else {
         this.dataForm = {
-          fechainicio: "",
-          fechafin: "",
-          horas: "",
+          username: "",
+          password: "",
+          idrol: "",
         };
       }
     },
@@ -151,26 +171,27 @@ export default {
       const { $dirty, $error } = this.$v.dataForm[name];
       return $dirty ? !$error : null;
     },
-    async setComponent(mode) {
-      if (mode === "edit") {
-        this.formName = "Editar";
-        try {
-          await this.getDataForm(this.$route.params.id);
-          this.resetData();
-        } catch (e) {
-          this._vm.$toasted.show("Error " + e, {
-            type: "error",
-          });
-        }
+    async setComponent() {
+      this.formName = "Editar";
+      try {
+        await this.getDataForm(this.$route.params.id);
+        this.resetData();
+      } catch (e) {
+        this._vm.$toasted.show("Error " + e, {
+          type: "error",
+        });
       }
+    },
+    generatePass() {      
+      const ram = (Math.random() + 1).toString(36).substring(1);
+      this.dataForm.password = ram;
+      this.confirmpass = ram;
     },
   },
   beforeMount() {
-    const modeForm = this.$route.path.split("/").pop();
-    this.setComponent(modeForm);
-    this.getDataPais();
-    this.getDataTipoDoc();
-    this.getDataEmpresa();
+    //const modeForm = this.$route.path.split("/").pop();
+    this.setComponent();
+    this.getDataRoles();
   },
 };
 </script>

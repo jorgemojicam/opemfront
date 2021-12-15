@@ -12,6 +12,7 @@ import Cursos from "@/components/LOGIC/cursos/Cursos";
 import Certificaciones from "@/components/LOGIC/certificaciones/Certificaciones";
 import Empresas from "@/components/LOGIC/empresas/Empresas";
 import Colaboradores from "@/components/LOGIC/colaboradores/Colaboradores";
+import CuentaAcceso from "@/components/LOGIC/colaboradores/CuentaAcceso";
 import CertColaboradores from "@/components/LOGIC/certcolaboradores/CertColaboradores";
 //-----Configuraciones
 import Paises from "@/components/LOGIC/paises/Paises";
@@ -182,6 +183,10 @@ export default new Router({
     {
       path: 'colaboradores/:id/edit',
       component: ColaboradoresNew,
+    },    
+    {
+      path: 'colaboradores/cuentaacceso/:id',
+      component: CuentaAcceso,
     },
     {
       path: "certcolaboradores",

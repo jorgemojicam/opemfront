@@ -16,6 +16,7 @@ import tipodocumento from './logic/tipodocumento'
 import roles from './logic/roles'
 import modulos from './logic/modulos'
 import permisos from './logic/permisos'
+import cuentaacceso from './logic/cuentaacceso'
 
 Vue.use(Vuex);
 
@@ -32,6 +33,7 @@ export default new Vuex.Store({
     tipodocumento,
     roles,
     permisos,
-    modulos
+    modulos,
+    cuentaacceso
   },
 });
