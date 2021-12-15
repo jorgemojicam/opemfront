@@ -36,6 +36,8 @@ import ChartsPage from "@/pages/Charts/Charts";
 import IconsPage from "@/pages/Icons/Icons";
 import NotificationsPage from "@/pages/Notifications/Notifications";
 
+import mockData from "@/pages/Dashboard/mock.js";
+
 // Mixins
 
 import {
@@ -193,6 +195,8 @@ export default new Router({
     {
       path: "certcolaboradores/pdf",
       component: CertColaboradoresPdf,
+      props : mockData.dataPdf
+      
     },
     {
       path: "configuraciones/paises",

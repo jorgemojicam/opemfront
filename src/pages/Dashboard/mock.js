@@ -103,6 +103,13 @@ export default {
       status: 'Sent',
     },
   ],
+  dataPdf:{
+    colaborador:{
+      nombres : "Henrry MOJICA",
+      apellidos : "Mojica maRTINEZ"
+    }
+  }
+  
 };
 
 export const chartData = {
