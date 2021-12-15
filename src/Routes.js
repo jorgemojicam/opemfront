@@ -18,6 +18,8 @@ import Paises from "@/components/LOGIC/paises/Paises";
 import Departamentos from "@/components/LOGIC/departamentos/Departamentos";
 import Ciudades from "@/components/LOGIC/ciudades/Ciudades";
 import TipoDocs from "@/components/LOGIC/tipodocs/TipoDocs";
+import Roles from "@/components/LOGIC/roles/Roles";
+import Permisos from "@/components/LOGIC/permisos/Permisos";
 
 //New pages
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
@@ -25,6 +27,7 @@ import CertificacionesNew from "@/components/LOGIC/certificaciones/Certificacion
 import EmpresasNew from "@/components/LOGIC/empresas/EmpresasNew";
 import ColaboradoresNew from "@/components/LOGIC/colaboradores/ColaboradoresNew";
 import CertColaboradoresNew from "@/components/LOGIC/certcolaboradores/CertColaboradoresNew";
+import RolesNew from "@/components/LOGIC/roles/RolesNew";
 import CertColaboradoresPdf from "@/components/LOGIC/certcolaboradores/CertColaboradoresPdf";
 
 // -- Template Resources
@@ -188,7 +191,7 @@ export default new Router({
     {
       path: "certcolaboradores/new",
       component: CertColaboradoresNew,
-    },    
+    },
     {
       path: "certcolaboradores/pdf",
       component: CertColaboradoresPdf,
@@ -214,7 +217,22 @@ export default new Router({
       path: "configuraciones/tipodocs",
       name: "tipodocs",
       component: TipoDocs,
-    }
+    },
+    {
+      path: "configuraciones/roles",
+      name: "roles",
+      component: Roles,
+    },
+    {
+      path: "configuraciones/roles/new",
+      name: "nuevo",
+      component: RolesNew,
+    },
+    {
+      path: "configuraciones/permisos",
+      name: "permisos",
+      component: Permisos,
+    },
     ],
   },
   ],
