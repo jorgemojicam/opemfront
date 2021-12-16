@@ -63,14 +63,15 @@ export default {
       try {
         commit("showLoader");
         const response = await axios.get(`/cuentaacceso?idcol=${payload}`);
-        let newData = {}
         if (response.data.length > 0) {
-          newData = {
-            username: response.data[0].username_cue || "",
+          let newData = {
+            id: response.data[0].id_cue || "",           
             idrol: response.data[0].idroles_cue || "",
           }
+          commit("getDataForm", newData);
+        } else {
+          commit("getDataForm", {});
         }
-        commit("getDataForm", newData);
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {

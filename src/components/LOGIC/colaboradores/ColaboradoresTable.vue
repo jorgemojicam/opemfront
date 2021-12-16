@@ -64,7 +64,7 @@
       :fields="fields"
     >
       <template #cell(edit)="row">
-        <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
+        <router-link  :to="`${$route.fullPath}/${row.item.id_col}/edit`">
           <b-button pill size="sm" class="mr-2" variant="success">
             <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
           </b-button>
@@ -81,7 +81,16 @@
         </b-button>
       </template>
       <template #cell(singup)="row">
-        <router-link :to="`${$route.fullPath}/cuentaacceso/${row.item.id_col}`">
+        <!-- <router-link :to="`${$route.fullPath}/cuentaacceso/${row.item.id_col}`"> -->
+        <router-link
+          :to="{
+            name: 'cuentaacceso',
+            params: {
+              id: row.item.id_col,
+              cedula: row.item.numerodocumento_col,
+            },
+          }"
+        >
           <b-button pill :variant="existCuentAcceso(row)" size="sm">
             <b-icon icon="person-fill" aria-hidden="true"></b-icon>
           </b-button>
@@ -201,13 +210,13 @@ export default {
       const params = this.getRequestParams(this.nombre, 1, 10);
       this.getData(params);
     },
-    existCuentAcceso(row){
-      if(row.item.cuentaacceso){
-        return 'primary'
-      }else{
-        return 'light'
+    existCuentAcceso(row) {
+      if (row.item.cuentaacceso) {
+        return "primary";
+      } else {
+        return "light";
       }
-    }
+    },
   },
   beforeMount() {
     this.getData({ page: 0, size: 10 });

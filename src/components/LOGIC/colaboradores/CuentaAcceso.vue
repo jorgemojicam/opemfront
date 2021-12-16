@@ -8,9 +8,9 @@
             <b-form-group label="Numero Documento" label-for="username">
               <b-form-input
                 id="username"
+                readonly
                 v-model="dataForm.username"
                 placeholder="Usuario"
-                :state="validateState('username')"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -36,11 +36,7 @@
           </b-col>
           <b-col sm="2">
             <label for="" class="d-block">Aleatorio</label>
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="generatePass"
-            >
+            <button type="button" class="btn btn-primary" @click="generatePass">
               Generar
             </button>
           </b-col>
@@ -90,6 +86,8 @@ export default {
       formName: "Crear",
       confirmpass: "",
       dataForm: {
+        id: "",
+        idcolaborador: "",
         username: "",
         password: "",
         idrol: "",
@@ -98,13 +96,10 @@ export default {
   },
   validations: {
     dataForm: {
-      username: {
-        required,
-      },
       password: {
         required,
         minLength: minLength(5),
-        maxLength: maxLength(12),
+        maxLength: maxLength(15),
       },
       idrol: {
         required,
@@ -135,15 +130,14 @@ export default {
         return;
       }
       try {
-        if (this.$route.params.id) {
+        if (this.dataForm.id) {
           this.dataForm = {
             ...this.dataForm,
-            id: this.$route.params.id,
           };
-          console.log(this.dataForm);
 
           await this.editItem(this.dataForm);
         } else {
+          console.log(this.dataForm);
           await this.newItem(this.dataForm);
         }
         this.$router.push(this.cancelUrl);
@@ -161,11 +155,12 @@ export default {
         this.dataForm = this.data;
       } else {
         this.dataForm = {
-          username: "",
           password: "",
           idrol: "",
         };
       }
+      this.dataForm.username = this.$route.params.cedula;
+      this.dataForm.idcolaborador = this.$route.params.id;
     },
     validateState(name) {
       const { $dirty, $error } = this.$v.dataForm[name];
@@ -182,7 +177,7 @@ export default {
         });
       }
     },
-    generatePass() {      
+    generatePass() {
       const ram = (Math.random() + 1).toString(36).substring(1);
       this.dataForm.password = ram;
       this.confirmpass = ram;

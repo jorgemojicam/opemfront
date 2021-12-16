@@ -185,7 +185,8 @@ export default new Router({
       component: ColaboradoresNew,
     },    
     {
-      path: 'colaboradores/cuentaacceso/:id',
+      path: 'colaboradores/cuentaacceso',
+      name: 'cuentaacceso',
       component: CuentaAcceso,
     },
     {
