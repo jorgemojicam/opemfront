@@ -93,12 +93,12 @@ export default {
       try {
         commit("showLoader");
         const response = await axios.get(`/rol/${payload}`);
+       
         let newData = {
-          id: response.data.items[0].id_rol || "",
-          nombre: response.data.items[0].nombre_rol || "",
-          descripcion: response.data.items[0].descripcion_rol || "",       
-        }
-
+          id: response.data[0].id_rol || "",
+          nombre: response.data[0].nombre_rol || "",
+          descripcion: response.data[0].descripcion_rol || "",       
+        }        
         commit("getDataForm", newData);
         commit("hideLoader");
       } catch (e) {

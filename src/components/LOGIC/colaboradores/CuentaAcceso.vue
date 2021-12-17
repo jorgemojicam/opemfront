@@ -134,10 +134,8 @@ export default {
           this.dataForm = {
             ...this.dataForm,
           };
-
           await this.editItem(this.dataForm);
         } else {
-          console.log(this.dataForm);
           await this.newItem(this.dataForm);
         }
         this.$router.push(this.cancelUrl);

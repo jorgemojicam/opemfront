@@ -12,6 +12,10 @@ export default {
   },
   //-- Will modify the state
   mutations: {
+    getData(state, payload) {
+      state.dataTable = [];
+      state.dataTable = payload;
+    },
     setData(state, payload) {
       state.dataTable = [];
       state.dataTable = payload;
@@ -47,14 +51,41 @@ export default {
     async getData({
       commit
     }, payload) {
-      const nombre = payload.nombre ? `&nombre=${payload.nombre}`: ``
-   
+      const nombre = payload.nombre ? `&nombre=${payload.nombre}` : ``
+      const idemp = payload.idemp ? `&idemp=${payload.idemp}` : ``
+      const cedula = payload.cedula ? `&cedula=${payload.cedula}` : ``
       try {
         commit("showLoader");
-        const response = await axios.get(`/colaboradores?page=${payload.page}&size=${payload.size}${nombre}`);
-        console.log(response.data) 
-        commit("setData", response.data);    
-           
+        const response = await axios.get(`/colaboradores?page=${payload.page}&size=${payload.size}${nombre}${idemp}${cedula}`);
+        commit("setData", response.data);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async getDataForm({
+      commit
+    }, payload) {
+      try {
+        commit("showLoader");
+        const response = await axios.get(`/colaboradores/getByParam/${payload}`);
+        if (response.data.length > 0) {
+          let newData = {
+            paisdocumento: response.data[0].paisdocumento_col,
+            tipodocumento: response.data[0].tipodocumento_col,
+            numerodocumento: response.data[0].numerodocumento_col,
+            nombres: response.data[0].nombres_col,
+            apellidos: response.data[0].apellidos_col,
+            fechanacimiento: response.data[0].fechanacimiento_col,
+            correopersonal: response.data[0].correopersonal_col,
+            telefono: response.data[0].telefono_col,
+            direccion: response.data[0].direccion_col,
+            idemp: response.data[0].idemp_col,
+          }
+          commit("getDataForm", newData);
+        }
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -68,6 +99,22 @@ export default {
       try {
         const result = await axios.post(`/colaboradores`, payload);
         this._vm.$toasted.show("colaborador creado", {
+          type: "success",
+        });
+
+        commit(`getData`, result.data);
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async editItem({
+      commit
+    }, payload) {
+      try {
+        const result = await axios.put(`/colaboradores/${payload.id}`, payload);
+        this._vm.$toasted.show("Registro actualizado", {
           type: "success",
         });
 
@@ -100,9 +147,9 @@ export default {
     }, payload) {
       try {
         commit("showLoader");
-        
+
         const idemp = payload.idemp ? `?idemp=${payload.idemp}` : ``
-        console.log("state ",idemp)
+        console.log("state ", idemp)
         const response = await axios.get(`/colaboradores/getByParam${idemp}`);
         commit("setDataList", response.data);
         commit("hideLoader");
