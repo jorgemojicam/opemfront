@@ -115,7 +115,6 @@ export default {
         });*/
       }
     },
-
     resetData() {      
       if (this.dataForm) {
         this.dataForm = this.data;

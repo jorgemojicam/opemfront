@@ -5,6 +5,7 @@ export default {
   state: {
     dataTable: [],
     dataList: [],
+    dataMenu: [],
     dataForm: {},
     loading: false,
     modalOpen: false,
@@ -15,6 +16,10 @@ export default {
     getData(state, payload) {
       state.dataTable = [];
       state.dataTable = payload;
+    },
+    getMenu(state, payload) {
+      state.dataMenu = [];
+      state.dataMenu = payload;
     },
     getDataList(state, payload) {
       state.dataList = [];
@@ -40,7 +45,21 @@ export default {
       try {
         commit("showLoader");
         const response = await axios.get(`/modulos?idrol=${payload.idrol}`);
-        commit("getData", response.data);     
+        commit("getData", response.data);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async getMenu({
+      commit
+    }, payload) {
+      try {
+        commit("showLoader");
+        const response = await axios.get(`/modulos?idrol=${payload}&menu=true`);
+        commit("getMenu", response.data);
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {

@@ -24,11 +24,11 @@
       <ul class="sub-menu">
         <NavLink v-for="link in childrenLinks"
           :activeItem="activeItem"
-          :header="link.header"
-          :index="link.index"
-          :link="link.link"
+          :header="link.title_mod"
+          :index="link.nombre_mod"
+          :link="link.route_mod"
           :childrenLinks="link.childrenLinks"
-          :key="link.link"
+          :key="link.nombre_mod"
         />
       </ul>
     </b-collapse>
