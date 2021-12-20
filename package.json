@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --port 3000",
     "build": "vue-cli-service build",
+    "postbuild": "mv dist/ public_html/",
     "lint": "vue-cli-service lint",
     "start": "node server.js"
   },
