@@ -81,17 +81,15 @@
       :float-layout="true"
       :enable-download="true"
       :preview-modal="true"
-      :paginate-elements-by-height="1123"
       filename="certificacion"
       :pdf-quality="2"
-      :manual-pagination="false"
+      :manual-pagination="true"
       pdf-format="a4"
       pdf-orientation="portrait"
-      pdf-content-width="794px"
       ref="html2Pdf"
     >
       <section slot="pdf-content">
-        <b-container style="height: 100%">
+        <!-- <b-container style="height: 100%">
           <b-row>
             <b-col cols="3">
               <img
@@ -101,7 +99,7 @@
               />
             </b-col>
             <b-col cols="7">
-              <b-row>                
+              <b-row>
                 <h1>{{ certificado.colaborador.nombres }}</h1>
                 cc: 109581176
                 <br /><br /><br />
@@ -123,6 +121,9 @@
                     alt=""
                   />
                 </b-col>
+                <v-col cols="12">
+                  <qrcode-vue :value="valueqr" :size="sizeqr" level="H" />
+                </v-col>
                 <b-col cols="9"></b-col>
               </b-row>
               <b-row>
@@ -135,7 +136,8 @@
             </b-col>
             <b-col cols="2"></b-col>
           </b-row>
-        </b-container>
+        </b-container> -->
+       <PdfCertificado :details="this.certificado"/>
       </section>
     </vue-html2pdf>
   </div>
@@ -145,11 +147,14 @@
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import Loader from "@/components/Loader/Loader";
+import PdfCertificado from "@/components/LOGIC/certcolaboradores/CertColaboradoresPdf";
 import { validationMixin } from "vuelidate";
 import VueHtml2pdf from "vue-html2pdf";
+import QrcodeVue from "qrcode.vue";
 export default {
   mixins: [validationMixin],
-  components: { Loader, VueHtml2pdf },
+  components: { Loader, VueHtml2pdf ,PdfCertificado,QrcodeVue},
+  name:"CertColaboradoresTable",
   data() {
     return {
       fields: [
@@ -189,6 +194,8 @@ export default {
       page: 1,
       count: 0,
       pageSize: 10,
+      valueqr: "http://localhost:3001",
+      sizeqr: 140,
     };
   },
   computed: {
@@ -248,9 +255,11 @@ export default {
       console.log(items);
       this.certificado.curso.nombre = items.certificacione.curso.nombre_cur;
       this.certificado.colaborador.nombres =
-        items.colaboradore.nombres_col + " " + items.colaboradore.apellidos_col;
+        items.colaboradore.nombres_col ; 
+      this.certificado.colaborador.apellidos =  items.colaboradore.apellidos_col;
       this.certificado.curso.duracion = items.certificacione.horas_cer;
       this.certificado.curso.fechafin = items.certificacione.fechafin_cer;
+      this.valueqr =  `${this.valueqr}?idceco=${items.idcer_ceco}`
       this.generateReport();
     },
     generateReport() {

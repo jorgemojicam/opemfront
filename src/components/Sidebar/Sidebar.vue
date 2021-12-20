@@ -32,6 +32,8 @@
             { header: 'Departamentos', link: '/admin/configuraciones/departamentos' },
             { header: 'Ciudades', link: '/admin/configuraciones/ciudades' },
             { header: 'Tipo Documentos', link: '/admin/configuraciones/tipodocs' },
+            { header: 'Roles', link: '/admin/configuraciones/roles' },
+            { header: 'Permisos', link: '/admin/configuraciones/permisos' },
             
           ]"
         />
@@ -76,9 +78,6 @@
           isHeader
         />
       </ul>
-       
-
-     
     </nav>
   </div>
 </template>

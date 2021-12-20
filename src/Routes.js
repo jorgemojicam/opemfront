@@ -12,12 +12,15 @@ import Cursos from "@/components/LOGIC/cursos/Cursos";
 import Certificaciones from "@/components/LOGIC/certificaciones/Certificaciones";
 import Empresas from "@/components/LOGIC/empresas/Empresas";
 import Colaboradores from "@/components/LOGIC/colaboradores/Colaboradores";
+import CuentaAcceso from "@/components/LOGIC/colaboradores/CuentaAcceso";
 import CertColaboradores from "@/components/LOGIC/certcolaboradores/CertColaboradores";
 //-----Configuraciones
 import Paises from "@/components/LOGIC/paises/Paises";
 import Departamentos from "@/components/LOGIC/departamentos/Departamentos";
 import Ciudades from "@/components/LOGIC/ciudades/Ciudades";
 import TipoDocs from "@/components/LOGIC/tipodocs/TipoDocs";
+import Roles from "@/components/LOGIC/roles/Roles";
+import Permisos from "@/components/LOGIC/permisos/Permisos";
 
 //New pages
 import CursosNew from "@/components/LOGIC/cursos/CursosNew";
@@ -25,6 +28,7 @@ import CertificacionesNew from "@/components/LOGIC/certificaciones/Certificacion
 import EmpresasNew from "@/components/LOGIC/empresas/EmpresasNew";
 import ColaboradoresNew from "@/components/LOGIC/colaboradores/ColaboradoresNew";
 import CertColaboradoresNew from "@/components/LOGIC/certcolaboradores/CertColaboradoresNew";
+import RolesNew from "@/components/LOGIC/roles/RolesNew";
 import CertColaboradoresPdf from "@/components/LOGIC/certcolaboradores/CertColaboradoresPdf";
 
 // -- Template Resources
@@ -32,6 +36,8 @@ import GoogleMapPage from "@/pages/Maps/Google";
 import ChartsPage from "@/pages/Charts/Charts";
 import IconsPage from "@/pages/Icons/Icons";
 import NotificationsPage from "@/pages/Notifications/Notifications";
+
+import mockData from "@/pages/Dashboard/mock.js";
 
 // Mixins
 
@@ -171,12 +177,14 @@ export default new Router({
       component: Colaboradores,
     },
     {
-      path: "colaboradores/new",
-      component: ColaboradoresNew,
-    },
+      path: 'colaboradores/nuevo',
+      name: 'colaboradoresnew',
+      component: ColaboradoresNew,      
+    },       
     {
-      path: 'colaboradores/:id/edit',
-      component: ColaboradoresNew,
+      path: 'colaboradores/cuentaacceso',
+      name: 'cuentaacceso',
+      component: CuentaAcceso,
     },
     {
       path: "certcolaboradores",
@@ -186,10 +194,12 @@ export default new Router({
     {
       path: "certcolaboradores/new",
       component: CertColaboradoresNew,
-    },    
+    },
     {
       path: "certcolaboradores/pdf",
       component: CertColaboradoresPdf,
+      props : mockData.dataPdf
+      
     },
     {
       path: "configuraciones/paises",
@@ -210,7 +220,22 @@ export default new Router({
       path: "configuraciones/tipodocs",
       name: "tipodocs",
       component: TipoDocs,
-    }
+    },
+    {
+      path: "configuraciones/roles",
+      name: "roles",
+      component: Roles,
+    },
+    {
+      path: "configuraciones/roles/nuevo",
+      name: "rolesnew",
+      component: RolesNew,
+    },
+    {
+      path: "configuraciones/permisos",
+      name: "permisos",
+      component: Permisos,
+    },
     ],
   },
   ],

@@ -203,12 +203,12 @@ export default {
         return;
       }
       try {
+        
         if (this.$route.params.id) {
           this.dataForm = {
             ...this.dataForm,
             id: this.$route.params.id,
-          };
-          console.log(this.dataForm);
+          };          
 
           await this.editItem(this.dataForm);
         } else {
@@ -217,13 +217,12 @@ export default {
         this.$router.push(this.cancelUrl);
       } catch (e) {
         console.log(e);
-        /*
+        
         this._vm.$toasted.show("Error: " + e, {
           type: "error",
-        });*/
+        });
       }
     },
-
     resetData() {
       if (this.dataForm) {
         this.dataForm = this.data;
@@ -240,6 +239,7 @@ export default {
       return $dirty ? !$error : null;
     },
     async setComponent(mode) {
+
       if (mode === "edit") {
         this.formName = "Editar";
         try {
@@ -254,7 +254,7 @@ export default {
     },
   },
   beforeMount() {
-    const modeForm = this.$route.path.split("/").pop();
+    const modeForm = this.$route.params.mode
     this.setComponent(modeForm);
     this.getDataPais();
     this.getDataTipoDoc();
