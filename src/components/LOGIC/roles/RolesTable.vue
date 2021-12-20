@@ -10,7 +10,15 @@
     <!-- tabla -->
     <b-table v-else striped hover light :items="dataTable" :fields="fields">
       <template #cell(edit)="row">
-        <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
+        <router-link
+          :to="{
+            name: 'rolesnew',
+            params: {
+              id: row.item.id_rol,
+              mode: 'edit',
+            },
+          }"
+        >
           <b-button pill size="sm" class="mr-2" variant="success">
             <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
           </b-button>

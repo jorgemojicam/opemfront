@@ -12,6 +12,7 @@ import Cursos from "@/components/LOGIC/cursos/Cursos";
 import Certificaciones from "@/components/LOGIC/certificaciones/Certificaciones";
 import Empresas from "@/components/LOGIC/empresas/Empresas";
 import Colaboradores from "@/components/LOGIC/colaboradores/Colaboradores";
+import CuentaAcceso from "@/components/LOGIC/colaboradores/CuentaAcceso";
 import CertColaboradores from "@/components/LOGIC/certcolaboradores/CertColaboradores";
 //-----Configuraciones
 import Paises from "@/components/LOGIC/paises/Paises";
@@ -176,12 +177,14 @@ export default new Router({
       component: Colaboradores,
     },
     {
-      path: "colaboradores/new",
-      component: ColaboradoresNew,
-    },
+      path: 'colaboradores/nuevo',
+      name: 'colaboradoresnew',
+      component: ColaboradoresNew,      
+    },       
     {
-      path: 'colaboradores/:id/edit',
-      component: ColaboradoresNew,
+      path: 'colaboradores/cuentaacceso',
+      name: 'cuentaacceso',
+      component: CuentaAcceso,
     },
     {
       path: "certcolaboradores",
@@ -224,8 +227,8 @@ export default new Router({
       component: Roles,
     },
     {
-      path: "configuraciones/roles/new",
-      name: "nuevo",
+      path: "configuraciones/roles/nuevo",
+      name: "rolesnew",
       component: RolesNew,
     },
     {

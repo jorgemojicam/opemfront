@@ -116,14 +116,13 @@ export default {
       }
     },
 
-    resetData() {
+    resetData() {      
       if (this.dataForm) {
         this.dataForm = this.data;
       } else {
         this.dataForm = {
-          fechainicio: "",
-          fechafin: "",
-          horas: "",
+          nombre: "",
+          descripcion: ""
         };
       }
     },
@@ -146,7 +145,7 @@ export default {
     },
   },
   beforeMount() {
-    const modeForm = this.$route.path.split("/").pop();
+    const modeForm = this.$route.params.mode
     this.setComponent(modeForm);
   },
 };

@@ -41,11 +41,37 @@ export default {
     },
     async getData({
       commit
-    }) {
+    }, payload) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/rol`);
+        var param = ``
+        if (payload.idcue) {
+          param += `?idcue=${payload.idcue}`
+        }
+        const response = await axios.get(`/cuentaacceso${param}`);
         commit("setData", response.data);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async getDataForm({
+      commit
+    }, payload) {
+      try {
+        commit("showLoader");
+        const response = await axios.get(`/cuentaacceso?idcol=${payload}`);
+        if (response.data.length > 0) {
+          let newData = {
+            id: response.data[0].id_cue || "",           
+            idrol: response.data[0].idroles_cue || "",
+          }
+          commit("getDataForm", newData);
+        } else {
+          commit("getDataForm", {});
+        }
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -57,9 +83,8 @@ export default {
       commit
     }, payload) {
       try {
-
-        const result = await axios.post(`/rol`, payload);
-        this._vm.$toasted.show("Certificaciones creado", {
+        const result = await axios.post(`/cuentaacceso`, payload);
+        this._vm.$toasted.show("Registro creado", {
           type: "success",
         });
 
@@ -75,50 +100,12 @@ export default {
       state
     }) {
       try {
-        await axios.delete(`/rol/${state.deleteId}`);
-        this._vm.$toasted.show("Certificaciones delete", {
+        console.log(state.deleteId);
+        await axios.delete(`/cuentaacceso/${state.deleteId}`);
+        this._vm.$toasted.show("registro eliminado", {
           type: "success",
         });
-
         dispatch("getData");
-      } catch (e) {
-        this._vm.$toasted.show("Error: " + e, {
-          type: "error",
-        });
-      }
-    },
-    async getDataForm({
-      commit
-    }, payload) {
-      try {
-        commit("showLoader");
-        const response = await axios.get(`/rol/${payload}`);
-       
-        let newData = {
-          id: response.data[0].id_rol || "",
-          nombre: response.data[0].nombre_rol || "",
-          descripcion: response.data[0].descripcion_rol || "",       
-        }        
-        commit("getDataForm", newData);
-        commit("hideLoader");
-      } catch (e) {
-        this._vm.$toasted.show("Error: " + e, {
-          type: "error",
-        });
-      }
-    },
-    async editItem({
-      commit
-    }, payload) {
-      const id = payload.id
-      try {
-        console.log(payload)
-        const result = await axios.put(`/rol/${id}`, payload);
-        this._vm.$toasted.show("Empresa actualizada", {
-          type: "success",
-        });
-
-        commit(`getData`, result.data);
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
           type: "error",

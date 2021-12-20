@@ -23,7 +23,7 @@
                   v-model="cedula"
                 ></b-form-input>
               </b-col>
-              <b-col sm="3">
+              <b-col sm="4">
                 <b-form-input
                   id="nombre"
                   placeholder="Nombres"
@@ -42,8 +42,8 @@
                   >
                 </b-form-select>
               </b-col>
-              <b-col sm="3">
-                <b-button variant="primary" @click="filter">
+              <b-col sm="2">
+                <b-button variant="primary" class="d-inline-block" @click="filter">
                   <b-icon icon="search"></b-icon> Buscar
                 </b-button>
               </b-col>
@@ -64,7 +64,15 @@
       :fields="fields"
     >
       <template #cell(edit)="row">
-        <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
+        <router-link
+          :to="{
+            name: 'colaboradoresnew',
+            params: {
+              id: row.item.id_col,
+              mode: 'edit',
+            },
+          }"
+        >
           <b-button pill size="sm" class="mr-2" variant="success">
             <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
           </b-button>
@@ -79,6 +87,22 @@
         >
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
         </b-button>
+      </template>
+      <template #cell(singup)="row">
+        <!-- <router-link :to="`${$route.fullPath}/cuentaacceso/${row.item.id_col}`"> -->
+        <router-link
+          :to="{
+            name: 'cuentaacceso',
+            params: {
+              id: row.item.id_col,
+              cedula: row.item.numerodocumento_col,
+            },
+          }"
+        >
+          <b-button pill :variant="existCuentAcceso(row)" size="sm">
+            <b-icon icon="person-fill" aria-hidden="true"></b-icon>
+          </b-button>
+        </router-link>
       </template>
     </b-table>
     <!-- paginacion  -->
@@ -165,10 +189,16 @@ export default {
       this.$bvModal.hide("del");
       this.deleteItem();
     },
-    getRequestParams(nombre, page, pageSize) {
+    getRequestParams(page, pageSize, nombre, empresa, cedula) {
       let params = {};
       if (nombre) {
         params["nombre"] = nombre;
+      }
+      if (empresa) {
+        params["idemp"] = empresa;
+      }
+      if (cedula) {
+        params["cedula"] = cedula;
       }
       if (page) {
         params["page"] = page - 1;
@@ -180,9 +210,11 @@ export default {
     },
     retrieveTutorials() {
       const params = this.getRequestParams(
-        this.searchTitle,
         this.page,
-        this.pageSize
+        this.pageSize,
+        this.nombre,
+        this.idemp,
+        this.cedula
       );
       this.getData(params);
     },
@@ -191,8 +223,21 @@ export default {
       this.retrieveTutorials();
     },
     filter() {
-      const params = this.getRequestParams(this.nombre, 1, 10);      
+      const params = this.getRequestParams(
+        1,
+        10,
+        this.nombre,
+        this.idemp,
+        this.cedula
+      );
       this.getData(params);
+    },
+    existCuentAcceso(row) {
+      if (row.item.cuentaacceso) {
+        return "primary";
+      } else {
+        return "light";
+      }
     },
   },
   beforeMount() {
