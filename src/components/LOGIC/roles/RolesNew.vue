@@ -64,7 +64,7 @@ export default {
       nombre: {
         required,
         minLength: minLength(3),
-        maxLength: maxLength(50),
+        maxLength: maxLength(40),
       },
       descripcion: {
         required,
@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     ...mapState({
-      data: (state) => state.colaboradores.dataForm,
+      data: (state) => state.roles.dataForm,
     }),
     cancelUrl() {
       return (        
@@ -100,23 +100,19 @@ export default {
             ...this.dataForm,
             id: this.$route.params.id,
           };
-          console.log(this.dataForm);
-
           await this.editItem(this.dataForm);
         } else {
           await this.newItem(this.dataForm);
         }
         this.$router.push(this.cancelUrl);
-      } catch (e) {
-        console.log(e);
-        /*
+      } catch (e) {        
         this._vm.$toasted.show("Error: " + e, {
           type: "error",
-        });*/
+        });
       }
     },
-    resetData() {      
-      if (this.dataForm) {
+    resetData() {            
+      if (this.data) {      
         this.dataForm = this.data;
       } else {
         this.dataForm = {
@@ -132,7 +128,7 @@ export default {
     async setComponent(mode) {
       if (mode === "edit") {
         this.formName = "Editar";
-        try {
+        try {   
           await this.getDataForm(this.$route.params.id);
           this.resetData();
         } catch (e) {
@@ -144,7 +140,7 @@ export default {
     },
   },
   beforeMount() {
-    const modeForm = this.$route.params.mode
+    const modeForm = this.$route.params.mode    
     this.setComponent(modeForm);
   },
 };

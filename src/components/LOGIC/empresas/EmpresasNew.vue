@@ -223,12 +223,11 @@ export default {
       const { $dirty, $error } = this.$v.dataForm[name];
       return $dirty ? !$error : null;
     },
-    async setComponent(mode) {
-      
+    async setComponent(mode) {      
       if (mode === "edit") {
         this.formName = "Editar";
         try {          
-          await this.getDataForm(this.$route.params.id);
+          await this.getDataForm(this.$route.params.id);          
           this.resetData();
         } catch (e) {
           this._vm.$toasted.show("Error " + e, {
