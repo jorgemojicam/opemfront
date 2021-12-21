@@ -92,13 +92,13 @@ export default {
       dataMenu: (state) => state.modulos.dataMenu,
     }),
   },
-  mounted() {
+  async mounted() {
     const dataUser = JSON.parse(localStorage.getItem("datauser"));
     const idrol = dataUser.idroles_cue;
     
-    this.getMenu(idrol);
+    await this.getMenu(idrol);
     this.modulos = this.dataMenu;
-    console.log(this.dataMenu);
+
   },
 };
 </script>

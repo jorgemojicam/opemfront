@@ -92,8 +92,9 @@ export default {
       ],
       infoModal: {
         id: "info-modal",
-        colaborador: "",
+        permisos: "",
       },
+      dataForm: {},
       selected: [],
     };
   },
@@ -114,6 +115,7 @@ export default {
       getData: "modulos/getData",
       getDataRoles: "roles/getData",
       deleteItem: "permisos/deleteItem",
+      editItem: "permisos/editItem",
     }),
     ...mapMutations({
       setDeleteId: "roles/setDeleteId",
@@ -127,31 +129,42 @@ export default {
     changeRol() {
       this.getData({ idrol: this.idrol });
     },
-    changeVer(row, check) {
+    async changeVer(row, check) {
       console.log("----->", row, " --> ", check);
+      const permisos = row.item.roles[0].permisosroles
+      this.dataForm = {
+        idrol: this.idrol,
+        idmodulo: row.item.id_mod,
+        ver: check,
+        crear: permisos.crear_prol || 0,
+        editar: permisos.editar_prol ||0,
+        eliminar: permisos.eliminar_prol || 0,
+      };
+      console.log("dataForm-->", this.dataForm);
+      await this.editItem(this.dataForm);
     },
     loadPermisos(row, tipo) {
       if (row.item.roles.length > 0) {
         if (row.item.roles[0].permisosroles) {
           if (tipo === "ver") {
             return row.item.roles[0].permisosroles.ver_prol;
-          }else if (tipo === "crear") {
+          } else if (tipo === "crear") {
             return row.item.roles[0].permisosroles.crear_prol;
-          }else if (tipo === "editar") {
+          } else if (tipo === "editar") {
             return row.item.roles[0].permisosroles.editar_prol;
-          }else if (tipo === "eliminar") {
+          } else if (tipo === "eliminar") {
             return row.item.roles[0].permisosroles.eliminar_prol;
-          }else{
+          } else {
             return 0;
           }
-        }else{
+        } else {
           return 0;
         }
       }
     },
   },
-  beforeMount() {
-    this.getDataRoles();
+  async beforeMount() {
+    await this.getDataRoles();
     this.idrol = this.dataRoles[0].id_rol;
     this.getData({ idrol: this.idrol });
     console.log(this.dataTable);

@@ -1,4 +1,5 @@
 import axios from "axios";
+import createPersistedState from "vuex-persistedstate";
 
 export default {
   namespaced: true,
@@ -11,6 +12,7 @@ export default {
     modalOpen: false,
     deleteId: null,
   },
+  plugins: [createPersistedState()],
   //-- Will modify the state
   mutations: {
     getData(state, payload) {
@@ -58,7 +60,7 @@ export default {
     }, payload) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/modulos?idrol=${payload}&menu=true`);
+        const response = await axios.get(`/modulos?idrol=${payload}&menu=true`);              
         commit("getMenu", response.data);
         commit("hideLoader");
       } catch (e) {
