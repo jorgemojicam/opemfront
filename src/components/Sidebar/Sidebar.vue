@@ -14,7 +14,9 @@
 
       <ul class="nav" v-for="modu in modulos" :key="modu.index">
         <NavLink
-          v-if="modu.roles.length > 0"
+          v-if="
+            modu.roles.length > 0 && modu.roles[0].permisosroles.ver_prol == 1
+          "
           :activeItem="activeItem"
           :header="modu.title_mod"
           :link="modu.route_mod"
@@ -95,10 +97,9 @@ export default {
   async mounted() {
     const dataUser = JSON.parse(localStorage.getItem("datauser"));
     const idrol = dataUser.idroles_cue;
-    
     await this.getMenu(idrol);
     this.modulos = this.dataMenu;
-
+    console.log(this.modulos)
   },
 };
 </script>

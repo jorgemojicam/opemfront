@@ -69,14 +69,14 @@ export default {
         commit("showLoader");
 
         const response = await axios.get(`/empresa/${payload}`);
-
+ 
         let newData = {
-          nombre: response.data.items.nombre_emp || "",
-          nit: response.data.items.nit_emp || "",
-          telefono: response.data.items.telefono_emp || "",
-          correo: response.data.items.correo_emp || "",
-          direccion: response.data.items.direccion_emp || "",
-          personacontacto: response.data.items.personacontacto_emp || "",
+          nombre: response.data.items[0].nombre_emp || "",
+          nit: response.data.items[0].nit_emp || "",
+          telefono: response.data.items[0].telefono_emp || "",
+          correo: response.data.items[0].correo_emp || "",
+          direccion: response.data.items[0].direccion_emp || "",
+          personacontacto: response.data.items[0].personacontacto_emp || "",
         }
         commit("getDataForm", newData);
         commit("hideLoader");
@@ -106,8 +106,8 @@ export default {
       commit
     }, payload) {
       try {
-        const result = await axios.put(`/empresa`, payload);
-        this._vm.$toasted.show("Empresa actualizada", {
+        const result = await axios.put(`/empresa/${payload.id}`, payload);
+        this._vm.$toasted.show("Empresa actualizada correctamente", {
           type: "success",
         });
 

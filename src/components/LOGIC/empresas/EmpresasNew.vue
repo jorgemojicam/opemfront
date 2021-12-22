@@ -181,7 +181,7 @@ export default {
       getDataForm: "empresas/getDataForm",
     }),
     async submitHandler() {
-      // -- Form Validation with vuevalidate
+
       this.$v.dataForm.$touch();
       if (this.$v.dataForm.$anyError) {
         return;
@@ -206,6 +206,7 @@ export default {
     },
 
     resetData() {
+     
       if (this.dataForm) {
         this.dataForm = this.data;
       } else {

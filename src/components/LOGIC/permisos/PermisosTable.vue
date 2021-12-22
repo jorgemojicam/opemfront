@@ -23,10 +23,10 @@
       <template #cell(ver)="row">
         <b-form-checkbox
           unchecked-value="0"
-          checked="1"
-          :value="loadPermisos(row, 'ver')"
+          value="1"
+          :checked="loadPermisos(row, 'ver')"
           switch
-          @change="changeVer(row, $event)"
+          @change="changeAction(row, $event, 'ver')"
         >
         </b-form-checkbox>
       </template>
@@ -36,7 +36,7 @@
           checked="1"
           :value="loadPermisos(row, 'crear')"
           switch
-          @change="changeVer(row)"
+          @change="changeAction(row, $event, 'crear')"
         >
         </b-form-checkbox>
       </template>
@@ -46,7 +46,7 @@
           checked="1"
           :value="loadPermisos(row, 'editar')"
           switch
-          @change="changeVer(row)"
+          @change="changeAction(row)"
         >
         </b-form-checkbox>
       </template>
@@ -56,21 +56,11 @@
           checked="1"
           :value="loadPermisos(row, 'eliminar')"
           switch
-          @change="changeVer(row)"
+          @change="changeAction(row)"
         >
         </b-form-checkbox>
       </template>
     </b-table>
-    <!-- Info modal -->
-    <b-modal :id="infoModal.id" title="Cuidado !" hide-footer>
-      <div class="d-block text-center">
-        Esta seguro de eliminar la empresa
-        <strong>{{ infoModal.empresa }}</strong>
-      </div>
-      <b-button class="mt-3" variant="outline-danger" block @click="del"
-        >Eliminar</b-button
-      >
-    </b-modal>
   </div>
 </template>
 <script>
@@ -90,12 +80,9 @@ export default {
         { key: "crear", label: "Crear" },
         { key: "delete", label: "Eliminar" },
       ],
-      infoModal: {
-        id: "info-modal",
-        permisos: "",
-      },
       dataForm: {},
       selected: [],
+      idrol: "",
     };
   },
   computed: {
@@ -106,48 +93,99 @@ export default {
     }),
   },
   methods: {
-    info(item, index, button) {
-      this.infoModal.empresa = item.nombre_emp;
-      this.setDeleteId(item.id_emp);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
     ...mapActions({
       getData: "modulos/getData",
       getDataRoles: "roles/getData",
-      deleteItem: "permisos/deleteItem",
       editItem: "permisos/editItem",
+      newItem: "permisos/newItem",
     }),
     ...mapMutations({
       setDeleteId: "roles/setDeleteId",
       hideLoader: "roles/hideLoader",
       showLoader: "roles/showLoader",
     }),
-    del() {
-      this.$bvModal.hide("del");
-      this.deleteItem();
-    },
+
     changeRol() {
       this.getData({ idrol: this.idrol });
     },
-    async changeVer(row, check) {
-      console.log("----->", row, " --> ", check);
-      const permisos = row.item.roles[0].permisosroles
-      this.dataForm = {
-        idrol: this.idrol,
-        idmodulo: row.item.id_mod,
-        ver: check,
-        crear: permisos.crear_prol || 0,
-        editar: permisos.editar_prol ||0,
-        eliminar: permisos.eliminar_prol || 0,
-      };
-      console.log("dataForm-->", this.dataForm);
-      await this.editItem(this.dataForm);
+    async changeAction(row, check, tipo) {
+      var ver, crear, editar, eliminar;
+      ver = crear = editar = eliminar = 0;
+
+      if (row.item.roles.length === 0) {
+        if (tipo == "crear") {
+          crear = parseInt(check);
+        }
+        if (tipo == "ver") {
+          ver = parseInt(check);
+        }
+
+        if (tipo == "editar") {
+          editar = parseInt(check);
+        }
+
+        if (tipo == "eliminar") {
+          eliminar = parseInt(check);
+        }
+
+        this.dataForm = {
+          idrol: this.idrol,
+          idmodulo: row.item.id_mod,
+          ver: ver,
+          crear: crear,
+          editar: editar,
+          eliminar: eliminar,
+        };
+
+        await this.newItem(this.dataForm);
+      } else {
+        const permisos = row.item.roles[0].permisosroles;
+
+        if (tipo == "crear") {
+          crear = parseInt(check);
+        } else {
+          crear = permisos.crear_prol || 0;
+        }
+
+        if (tipo == "ver") {
+          ver = parseInt(check);
+        } else {
+          ver = permisos.ver_prol || 0;
+        }
+
+        if (tipo == "editar") {
+          editar = parseInt(check);
+        } else {
+          editar = permisos.editar_prol || 0;
+        }
+
+        if (tipo == "eliminar") {
+          eliminar = parseInt(check);
+        } else {
+          eliminar = permisos.eliminar_prol || 0;
+        }
+
+        this.dataForm = {
+          id: permisos.id_prol,
+          idrol: this.idrol,
+          idmodulo: row.item.id_mod,
+          ver: ver,
+          crear: crear,
+          editar: editar,
+          eliminar: eliminar,
+        };
+        await this.editItem(this.dataForm);
+      }
     },
     loadPermisos(row, tipo) {
       if (row.item.roles.length > 0) {
         if (row.item.roles[0].permisosroles) {
           if (tipo === "ver") {
-            return row.item.roles[0].permisosroles.ver_prol;
+            if (row.item.roles[0].permisosroles.ver_prol) {
+              return row.item.roles[0].permisosroles.ver_prol;
+            } else {
+              return 0;
+            }
           } else if (tipo === "crear") {
             return row.item.roles[0].permisosroles.crear_prol;
           } else if (tipo === "editar") {
@@ -167,7 +205,6 @@ export default {
     await this.getDataRoles();
     this.idrol = this.dataRoles[0].id_rol;
     this.getData({ idrol: this.idrol });
-    console.log(this.dataTable);
   },
 };
 </script>

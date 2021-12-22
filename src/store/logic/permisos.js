@@ -10,7 +10,6 @@ export default {
     modalOpen: false,
     deleteId: null,
   },
-  //-- Will modify the state
   mutations: {
     getData(state, payload) {
       state.dataTable = [];
@@ -28,10 +27,7 @@ export default {
     },
     hideLoader(state) {
       state.loading = false;
-    },
-    setDeleteId(state, payload) {
-      state.deleteId = payload;
-    },
+    },  
   },
   actions: {
     async getData({
@@ -91,7 +87,7 @@ export default {
     }, payload) {
       try {
         const result = await axios.post(`/permisosroles`, payload);
-        this._vm.$toasted.show("Empresa creada", {
+        this._vm.$toasted.show("Permiso creado correctamente", {
           type: "success",
         });
 
@@ -106,8 +102,8 @@ export default {
       commit
     }, payload) {
       try {
-        const result = await axios.put(`/permisosroles`, payload);
-        this._vm.$toasted.show("permisosroles actualizada", {
+        const result = await axios.put(`/permisosroles/${payload.id}`, payload);
+        this._vm.$toasted.show("Permiso actualizado correctamente", {
           type: "success",
         });
 
@@ -117,23 +113,6 @@ export default {
           type: "error",
         });
       }
-    },
-    async deleteItem({
-      dispatch,
-      state
-    }) {
-      try {
-        console.log(state.deleteId);
-        await axios.delete(`/permisosroles/${state.deleteId}`);
-        this._vm.$toasted.show("permisos roles delete", {
-          type: "success",
-        });
-        dispatch("getData");
-      } catch (e) {
-        this._vm.$toasted.show("Error: " + e, {
-          type: "error",
-        });
-      }
-    },
+    }
   },
 };
