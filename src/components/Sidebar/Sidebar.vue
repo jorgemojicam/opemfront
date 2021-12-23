@@ -95,11 +95,17 @@ export default {
     }),
   },
   async mounted() {
+    localStorage.removeItem("menu");
     const dataUser = JSON.parse(localStorage.getItem("datauser"));
     const idrol = dataUser.idroles_cue;
     await this.getMenu(idrol);
     this.modulos = this.dataMenu;
-    console.log(this.modulos)
+    const encrMenu = this.$CryptoJS.AES.encrypt(
+      JSON.stringify(this.modulos),
+      "staencripmaschimba"
+    ).toString();
+    localStorage.setItem("menu", encrMenu);
+    //const decryptedText = this.$CryptoJS.AES.decrypt(encrMenu, "staencripmaschimba").toString(this.CryptoJS.enc.Utf8)
   },
 };
 </script>
