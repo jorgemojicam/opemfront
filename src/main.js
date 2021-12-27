@@ -17,11 +17,9 @@ import Widget from './components/Widget/Widget';
 import Vuelidate from 'vuelidate'
 import { ClientTable } from 'vue-tables-2';
 import config from './config'
-import VueCryptojs from 'vue-cryptojs'
 
 axios.defaults.baseURL = config.baseURLApi;
 
-Vue.use(VueCryptojs)
 Vue.use(ClientTable, { theme: 'bootstrap4' });
 Vue.use(Vuelidate)
 Vue.use(BootstrapVue);
