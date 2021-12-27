@@ -8,10 +8,7 @@
       </router-link>
       <b-button variant="outline-primary">
         <b-icon icon="search"></b-icon> Filtro
-      </b-button>
-      <b-button variant="outline-primary">
-        <b-icon icon="printer"></b-icon> Imprimir
-      </b-button>
+      </b-button>  
     </b-button-group>
 
     <div v-if="loading"><Loader /></div>
@@ -19,7 +16,6 @@
       v-else
       striped
       hover
-      bordered
       light
       :items="dataTable.items"
       :fields="fields"
@@ -38,7 +34,7 @@
           @click="info(row.item, row.index, $event.target)"
         >
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          Delete
+          Eliminar
         </b-button>
       </template>
     </b-table>
@@ -75,7 +71,7 @@ export default {
   data() {
     return {
       fields: [
-        { key: "nombre_emp", label: "Razon social" },
+        { key: "nombre_emp", label: "Razon social", sortable: true },
         { key: "nit_emp", label: "Nit" },
         { key: "telefono_emp", label: "Telefono" },
         { key: "correo_emp", label: "Correo" },

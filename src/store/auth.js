@@ -41,8 +41,7 @@ export default {
                 let token = localStorage.getItem('token');
                 if (token) {
                    // console.log(res.data.dataUser);
-                    currentUser = res.data.dataUser; // use dispatch to call another action 
-                    
+                    currentUser = res.data.dataUser; // use dispatch to call another action                     
                 }
                 commit('LOGIN_SUCCESS', currentUser)
             } catch (e) {
@@ -55,7 +54,8 @@ export default {
             if (payload.password && payload.username) {
                 try {
                     const res = await axios.post(url, payload)
-                    const token = res.data
+                    const token = res.data                    
+
                     dispatch('receiveToken', token) // Call functions
                     dispatch('doInit',res)
                 } catch (e) {

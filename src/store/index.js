@@ -36,4 +36,5 @@ export default new Vuex.Store({
     modulos,
     cuentaacceso
   },
+ 
 });

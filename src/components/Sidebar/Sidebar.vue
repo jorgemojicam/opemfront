@@ -12,70 +12,18 @@
         </router-link>
       </header>
 
-      <ul class="nav">
+      <ul class="nav" v-for="modu in modulos" :key="modu.index">
         <NavLink
+          v-if="
+            modu.roles.length > 0 && modu.roles[0].permisosroles.ver_prol == 1
+          "
           :activeItem="activeItem"
-          header="Dashboard"
-          link="/app/dashboard"
-          iconName="fi flaticon-home"
-          index="dashboard"
+          :header="modu.title_mod"
+          :link="modu.route_mod"
+          :iconName="modu.icon_mod"
+          :index="modu.nombre_mod"
           isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Configuracion"
-          link="/admin/configuraciones"
-          iconName="fa fa-cog"
-          index="configuraciones"
-          :childrenLinks="[
-            { header: 'Pais', link: '/admin/configuraciones/paises' },           
-            { header: 'Departamentos', link: '/admin/configuraciones/departamentos' },
-            { header: 'Ciudades', link: '/admin/configuraciones/ciudades' },
-            { header: 'Tipo Documentos', link: '/admin/configuraciones/tipodocs' },
-            { header: 'Roles', link: '/admin/configuraciones/roles' },
-            { header: 'Permisos', link: '/admin/configuraciones/permisos' },
-            
-          ]"
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Cursos"
-          link="/admin/cursos"
-          iconName="fa fa-graduation-cap"
-          index="cursos"
-          isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Certificaciones"
-          link="/admin/certificaciones"
-          iconName="fa fa-table"
-          index="cursos"
-          isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Empresas"
-          link="/admin/empresas"
-          iconName="fa fa-building"
-          index="empresas"
-          isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Colaboradores"
-          link="/admin/colaboradores"
-          iconName="fa fa-users"
-          index="colaboradores"
-          isHeader
-        />
-        <NavLink
-          :activeItem="activeItem"
-          header="Generar Cert"
-          link="/admin/certcolaboradores"
-          iconName="fa fa-file"
-          index="certcolaboradores"
-          isHeader
+          :childrenLinks="modu.Submodulos.length > 0 ? modu.Submodulos : null"
         />
       </ul>
     </nav>
@@ -92,6 +40,7 @@ export default {
   components: { NavLink },
   data() {
     return {
+      modulos: [],
       alerts: [
         {
           id: 0,
@@ -111,7 +60,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions("layout", ["changeSidebarActive", "switchSidebar"]),
+    ...mapActions({
+      changeSidebarActive: "layout/changeSidebarActive",
+      switchSidebar: "layout/switchSidebar",
+      getMenu: "modulos/getMenu",
+    }),
     setActiveByRoute() {
       const paths = this.$route.fullPath.split("/");
       paths.pop();
@@ -134,11 +87,25 @@ export default {
     this.setActiveByRoute();
   },
   computed: {
-    ...mapState("layout", {
-      sidebarStatic: (state) => state.sidebarStatic,
-      sidebarOpened: (state) => !state.sidebarClose,
-      activeItem: (state) => state.sidebarActiveElement,
+    ...mapState({
+      sidebarStatic: (state) => state.layout.sidebarStatic,
+      sidebarOpened: (state) => !state.layout.sidebarClose,
+      activeItem: (state) => state.layout.sidebarActiveElement,
+      dataMenu: (state) => state.modulos.dataMenu,
     }),
+  },
+  async mounted() {
+    localStorage.removeItem("menu");
+    const dataUser = JSON.parse(localStorage.getItem("datauser"));
+    const idrol = dataUser.idroles_cue;
+    await this.getMenu(idrol);
+    this.modulos = this.dataMenu;
+    const encrMenu = this.$CryptoJS.AES.encrypt(
+      JSON.stringify(this.modulos),
+      "staencripmaschimba"
+    ).toString();
+    localStorage.setItem("menu", encrMenu);
+    //const decryptedText = this.$CryptoJS.AES.decrypt(encrMenu, "staencripmaschimba").toString(this.CryptoJS.enc.Utf8)
   },
 };
 </script>
