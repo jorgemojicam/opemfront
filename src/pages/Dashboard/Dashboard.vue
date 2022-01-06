@@ -16,7 +16,7 @@
     <b-row>
       <b-col xs="12"> 
         <Widget
-              title="<h5>2021 <span class='fw-semi-bold'>Certificaciones</span></h5>"
+              title="<h5>2021 <span class='fw-semi-bold'>Certificaciones teset</span></h5>"
               close collapse customHeader
           >
             <echart :options="cd.echarts.line" :init-options="initEchartsOptions" style="height: 370px"></echart>

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import config from "../config"
+//import config from "../config"
 import axios from "axios"
 import jwt from "jsonwebtoken"
 import router from '../Routes'
@@ -49,7 +49,7 @@ export default {
             }
         },
         async loginUser({dispatch}, payload) {
-            let url= config.baseURLApi +"/cuentaacceso/auth";
+            let url= "/cuentaacceso/auth";
             dispatch('requestLogin') // Setting the loading flag
             if (payload.password && payload.username) {
                 try {
