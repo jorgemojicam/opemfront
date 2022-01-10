@@ -89,54 +89,7 @@
       ref="html2Pdf"
     >
       <section slot="pdf-content">
-        <!-- <b-container style="height: 100%">
-          <b-row>
-            <b-col cols="3">
-              <img
-                src="../../../assets/certificado/lateral.jpg"
-                style="width: 100%"
-                alt=""
-              />
-            </b-col>
-            <b-col cols="7">
-              <b-row>
-                <h1>{{ certificado.colaborador.nombres }}</h1>
-                cc: 109581176
-                <br /><br /><br />
-                <br />
-                Aplico y aprobo satisfactoriamente el curso
-                <h1>{{ certificado.curso.nombre }}</h1>
-                <br /><br /><br />
-                <br />
-                <h4>
-                  Realizo con una intensidad de
-                  {{ certificado.curso.duracion }} horas
-                </h4>
-                <h3>Fecha de finalizacion: {{ certificado.curso.fechafin }}</h3>
-                <br /><br /><br />
-                <b-col cols="3">
-                  <img
-                    src="../../../assets/certificado/firma.png"
-                    style="width: 100%"
-                    alt=""
-                  />
-                </b-col>
-                <v-col cols="12">
-                  <qrcode-vue :value="valueqr" :size="sizeqr" level="H" />
-                </v-col>
-                <b-col cols="9"></b-col>
-              </b-row>
-              <b-row>
-                <img
-                  src="../../../assets/certificado/footer.jpg"
-                  style="width: 100%"
-                  alt=""
-                />
-              </b-row>
-            </b-col>
-            <b-col cols="2"></b-col>
-          </b-row>
-        </b-container> -->
+       
        <PdfCertificado :details="this.certificado"/>
       </section>
     </vue-html2pdf>

@@ -83,6 +83,7 @@ export default {
         logoutUser() {
             localStorage.removeItem('token')
             localStorage.removeItem('user')
+            localStorage.removeItem("menu");
             axios.defaults.headers.common['Authorization'] = ""
             router.push('/login')
         },

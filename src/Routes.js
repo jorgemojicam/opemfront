@@ -39,12 +39,6 @@ import NotificationsPage from "@/pages/Notifications/Notifications";
 
 import mockData from "@/pages/Dashboard/mock.js";
 
-// Mixins
-
-import {
-  isAuthenticated
-} from "./mixins/auth";
-
 Vue.use(Router);
 
 export default new Router({
@@ -71,12 +65,7 @@ export default new Router({
     component: Layout,
     redirect: {
       name: "Dashboard"
-    },
-    beforeEnter: (to, from, next) => {
-      isAuthenticated() ? next() : next({
-        path: "/login"
-      });
-    },
+    },    
     children: [{
       path: "dashboard",
       name: "Dashboard",
@@ -112,12 +101,7 @@ export default new Router({
     redirect: {
       name: "Dashboard"
     },
-    component: Layout,
-    beforeEnter: (to, from, next) => {
-      isAuthenticated() ? next() : next({
-        path: "/login"
-      });
-    },
+    component: Layout,  
     children: [{
       path: "cursos",
       name: "Cursos",
@@ -179,8 +163,8 @@ export default new Router({
     {
       path: 'colaboradores/nuevo',
       name: 'colaboradoresnew',
-      component: ColaboradoresNew,      
-    },       
+      component: ColaboradoresNew,
+    },
     {
       path: 'colaboradores/cuentaacceso',
       name: 'cuentaacceso',
@@ -198,8 +182,8 @@ export default new Router({
     {
       path: "certcolaboradores/pdf",
       component: CertColaboradoresPdf,
-      props : mockData.dataPdf
-      
+      props: mockData.dataPdf
+
     },
     {
       path: "configuraciones/paises",
@@ -239,4 +223,5 @@ export default new Router({
     ],
   },
   ],
+
 });

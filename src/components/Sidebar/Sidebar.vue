@@ -63,7 +63,6 @@ export default {
     ...mapActions({
       changeSidebarActive: "layout/changeSidebarActive",
       switchSidebar: "layout/switchSidebar",
-      getMenu: "modulos/getMenu",
     }),
     setActiveByRoute() {
       const paths = this.$route.fullPath.split("/");
@@ -91,21 +90,15 @@ export default {
       sidebarStatic: (state) => state.layout.sidebarStatic,
       sidebarOpened: (state) => !state.layout.sidebarClose,
       activeItem: (state) => state.layout.sidebarActiveElement,
-      dataMenu: (state) => state.modulos.dataMenu,
     }),
   },
   async mounted() {
-    localStorage.removeItem("menu");
-    const dataUser = JSON.parse(localStorage.getItem("datauser"));
-    const idrol = dataUser.idroles_cue;
-    await this.getMenu(idrol);
-    this.modulos = this.dataMenu;
-    const encrMenu = this.$CryptoJS.AES.encrypt(
-      JSON.stringify(this.modulos),
+    const encrMenu = localStorage.getItem("menu");
+    const decryptedText = this.$CryptoJS.AES.decrypt(
+      encrMenu,
       "staencripmaschimba"
-    ).toString();
-    localStorage.setItem("menu", encrMenu);
-    //const decryptedText = this.$CryptoJS.AES.decrypt(encrMenu, "staencripmaschimba").toString(this.CryptoJS.enc.Utf8)
+    ).toString(this.CryptoJS.enc.Utf8);
+    this.modulos = JSON.parse(decryptedText);
   },
 };
 </script>
