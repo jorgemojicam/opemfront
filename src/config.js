@@ -14,7 +14,7 @@ export default {
   remote: "",
   auth: {
     username: '1095811763',
-    password: '123456'
+    password: ''
   },
   isBackend: process.env.VUE_APP_BACKEND,
   app: {

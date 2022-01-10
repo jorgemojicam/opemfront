@@ -35,10 +35,10 @@
               type="password"
               v-model="password"
               name="password"
-              placeholder="Contrase~a"
+              placeholder="Contraseña"
             />
             <router-link class="d-block text-right" to="login"
-              >Olvide mi contrase~na</router-link
+              >Olvide mi Contraseña</router-link
             >
           </div>
 
