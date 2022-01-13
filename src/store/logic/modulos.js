@@ -48,6 +48,7 @@ export default {
         commit("showLoader");
         const response = await axios.get(`/modulos?idrol=${payload.idrol}`);
         commit("getData", response.data);
+     
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -60,7 +61,7 @@ export default {
     }, payload) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/modulos?idrol=${payload}&menu=true`);              
+        const response = await axios.get(`/modulos?idrol=${payload}`);
         commit("getMenu", response.data);
         commit("hideLoader");
       } catch (e) {

@@ -3,6 +3,9 @@
     <router-link
       :to="{
         name: 'rolesnew',
+        params:{
+          father:'roles'
+        }
       }"
     >
       <b-button variant="outline-primary">

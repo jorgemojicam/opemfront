@@ -1,7 +1,14 @@
  <template>
   <div>
     <b-button-group class="mb-2">
-      <router-link :to="$route.fullPath + '/new'">
+      <router-link
+        :to="{
+          name: 'certificacionesnew',
+          params: {
+            father: 'Certificaciones',
+          },
+        }"
+      >
         <b-button variant="outline-primary">
           <b-icon icon="plus-circle-fill"></b-icon> Nuevo
         </b-button>

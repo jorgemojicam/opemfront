@@ -1,7 +1,14 @@
 <template>
   <div>
     <b-button-group class="mb-2">
-      <router-link :to="$route.fullPath + '/new'">
+      <router-link
+        :to="{
+          name: 'cursosnew',
+          params: {
+            father: 'Cursos',
+          },
+        }"
+      >
         <b-button variant="outline-primary">
           <b-icon icon="plus-circle-fill"></b-icon> Nuevo
         </b-button>
@@ -19,19 +26,29 @@
       v-else
       striped
       hover
-      bordered
       light
       :items="dataTable"
       :fields="fields"
       @row-clicked="rowClicked"
     >
-      <template #cell(actions)="row">
-        <router-link :to="`/admin/cursos/${row.item.id_cur}/edit`">
+      <template #cell(edit)="row">
+        <router-link
+          :to="{
+            name: 'cursosnew',
+            params: {
+              id: row.item.id_cur,
+              mode: 'edit',
+              father: 'Cursos',
+            },
+          }"
+        >
           <b-button pill size="sm" class="mr-2" variant="success">
             <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-            Edit
+            
           </b-button>
         </router-link>
+      </template>
+      <template #cell(delete)="row">
         <b-button
           pill
           variant="danger"
@@ -39,7 +56,7 @@
           @click="info(row.item, row.index, $event.target)"
         >
           <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-          Delete
+          
         </b-button>
       </template>
     </b-table>
@@ -65,9 +82,11 @@ export default {
   data() {
     return {
       fields: [
-        { key: "nombre_cur", lable: "Nombre" },
-        { key: "descripcion_cur", lable: "Descripcion" },
-        { key: "actions", label: "Opciones" },
+        { key: "nombre_cur", label: "Nombre" },
+        { key: "descripcion_cur", label: "Descripcion" },
+        { key: "iniciales_cur", label: "Iniciales" },
+        { key: "edit", label: "" },
+        { key: "delete", label: "" },
       ],
       infoModal: {
         id: "info-modal",

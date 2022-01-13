@@ -12,7 +12,20 @@
           aria-describedby="input-error-nombre"
         />
         <b-form-invalid-feedback id="input-error-nombre"
-          >Debe ingresar el nombre de la empresa.</b-form-invalid-feedback
+          >Debe ingresar el nombre.</b-form-invalid-feedback
+        >
+      </b-form-group>
+
+      <b-form-group label="Iniciales" label-for="iniciales">
+        <b-form-input
+          type="text"
+          label="iniciales"
+          v-model="dataForm.iniciales"
+          :state="validateState('iniciales')"
+          aria-describedby="input-error-iniciales"
+        />
+        <b-form-invalid-feedback id="input-error-iniciales"
+          >Debe ingresar las iniciales.</b-form-invalid-feedback
         >
       </b-form-group>
 
@@ -25,8 +38,7 @@
           aria-describedby="input-descripcion-error"
         />
         <b-form-invalid-feedback id="input-descripcion-error"
-          >Debe ingresar descripcion de la empresa minimo 5
-          caracteres.</b-form-invalid-feedback
+          >Debe ingresar descripcion minimo 5 caracteres.</b-form-invalid-feedback
         >
       </b-form-group>
 
@@ -46,7 +58,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 export default {
   name: "cursosNew",
@@ -54,11 +66,11 @@ export default {
   data() {
     return {
       formName: "Crear",
-
       dataForm: {
         id_cur: null,
         nombre: "",
         descripcion: "",
+        iniciales: "",
       },
     };
   },
@@ -70,6 +82,11 @@ export default {
       descripcion: {
         required,
         minLength: minLength(5),
+      },
+      iniciales: {
+        required,
+        minLength: minLength(2),
+        maxLength: maxLength(3),
       },
     },
   },
@@ -106,7 +123,6 @@ export default {
         } else {
           await this.newCurso(this.dataForm);
         }
-        
         this.$router.push(this.cancelUrl);
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -121,12 +137,14 @@ export default {
           id_cur: this.dataState.id_cur,
           nombre: this.dataState.descripcion_cur,
           descripcion: this.dataState.nombre_cur,
+          iniciales: this.dataState.iniciales_cur,
         };
       } else {
         this.dataForm = {
           id_cur: null,
           nombre: "",
           descripcion: "",
+          iniciales: "",
         };
       }
     },
@@ -150,8 +168,7 @@ export default {
     },
   },
   beforeMount() {
-    const modeForm = this.$route.path.split("/").pop();
-    console.log(modeForm);
+    const modeForm = this.$route.params.mode;
     this.setComponent(modeForm);
   },
 };

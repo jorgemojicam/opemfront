@@ -15,7 +15,7 @@
       <ul class="nav" v-for="modu in modulos" :key="modu.index">
         <NavLink
           v-if="
-            modu.roles.length > 0 && modu.roles[0].permisosroles.ver_prol == 1
+            modu.roles.length > 0 && modu.roles[0].permisosroles.ver_prol == 1 && !modu.father_mod
           "
           :activeItem="activeItem"
           :header="modu.title_mod"

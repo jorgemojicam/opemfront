@@ -1,7 +1,14 @@
 <template>
   <div>
     <b-button-group class="mb-2">
-      <router-link :to="$route.fullPath + '/new'">
+      <router-link
+        :to="{
+          name: 'certcolaboradoresnew',
+          params: {
+            father: 'CertColaboradores',
+          },
+        }"
+      >
         <b-button variant="outline-primary">
           <b-icon icon="plus-circle-fill"></b-icon> Nueva
         </b-button>
@@ -18,7 +25,16 @@
       :fields="fields"
     >
       <template #cell(actions)="row">
-        <router-link :to="`${$route.fullPath}/${row.item.id_emp}/edit`">
+        <router-link
+          :to="{
+            name: 'certcolaboradoresnew',
+            params: {
+              father: 'CertColaboradores',
+              id: row.item.id_ceco,
+              mode: 'edit',
+            },
+          }"
+        >
           <b-button pill size="sm" class="mr-2" variant="success">
             <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
             Editar
@@ -89,8 +105,7 @@
       ref="html2Pdf"
     >
       <section slot="pdf-content">
-       
-       <PdfCertificado :details="this.certificado"/>
+        <PdfCertificado :details="this.certificado" />
       </section>
     </vue-html2pdf>
   </div>
@@ -106,8 +121,8 @@ import VueHtml2pdf from "vue-html2pdf";
 import QrcodeVue from "qrcode.vue";
 export default {
   mixins: [validationMixin],
-  components: { Loader, VueHtml2pdf ,PdfCertificado,QrcodeVue},
-  name:"CertColaboradoresTable",
+  components: { Loader, VueHtml2pdf, PdfCertificado, QrcodeVue },
+  name: "CertColaboradoresTable",
   data() {
     return {
       fields: [
@@ -207,12 +222,11 @@ export default {
       const items = row.item;
       console.log(items);
       this.certificado.curso.nombre = items.certificacione.curso.nombre_cur;
-      this.certificado.colaborador.nombres =
-        items.colaboradore.nombres_col ; 
-      this.certificado.colaborador.apellidos =  items.colaboradore.apellidos_col;
+      this.certificado.colaborador.nombres = items.colaboradore.nombres_col;
+      this.certificado.colaborador.apellidos = items.colaboradore.apellidos_col;
       this.certificado.curso.duracion = items.certificacione.horas_cer;
       this.certificado.curso.fechafin = items.certificacione.fechafin_cer;
-      this.valueqr =  `${this.valueqr}?idceco=${items.idcer_ceco}`
+      this.valueqr = `${this.valueqr}?idceco=${items.idcer_ceco}`;
       this.generateReport();
     },
     generateReport() {
@@ -225,7 +239,6 @@ export default {
     this.getData(params);
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
-    console.log(this.dataTable);
   },
 };
 </script>
