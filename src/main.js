@@ -61,17 +61,23 @@ Vue.use(Toasted, {
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
-  
+
   var rout = ""
   if (to.params.father) {
     rout = to.params.father
   } else {
     rout = to.name
   }
-  if (rout !== 'Login' && (!isAuthenticated || !isPermitted(rout))) {    
-    next({
-      name: 'Login'
-    })
+  console.log(to.name)
+  const pulbicsRoutes = ['Login', 'CertColaboradoresColsulta']
+  if (!pulbicsRoutes.includes(rout)) {
+    if (!isAuthenticated() || !isPermitted(rout)) {
+      next({
+        name: 'Login'
+      })
+    } else {
+      next()
+    }
   } else {
     next()
   }

@@ -43,7 +43,11 @@
                 </b-form-select>
               </b-col>
               <b-col sm="2">
-                <b-button variant="primary" class="d-inline-block" @click="filter">
+                <b-button
+                  variant="primary"
+                  class="d-inline-block"
+                  @click="filter"
+                >
                   <b-icon icon="search"></b-icon> Buscar
                 </b-button>
               </b-col>
@@ -70,6 +74,7 @@
             params: {
               id: row.item.id_col,
               mode: 'edit',
+              father: 'Colaboradores',
             },
           }"
         >
@@ -89,13 +94,13 @@
         </b-button>
       </template>
       <template #cell(singup)="row">
-        <!-- <router-link :to="`${$route.fullPath}/cuentaacceso/${row.item.id_col}`"> -->
         <router-link
           :to="{
             name: 'cuentaacceso',
             params: {
               id: row.item.id_col,
               cedula: row.item.numerodocumento_col,
+              father: 'Colaboradores',
             },
           }"
         >

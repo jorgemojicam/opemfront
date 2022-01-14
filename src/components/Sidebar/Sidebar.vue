@@ -99,6 +99,7 @@ export default {
       "staencripmaschimba"
     ).toString(this.CryptoJS.enc.Utf8);
     this.modulos = JSON.parse(decryptedText);
+
   },
 };
 </script>

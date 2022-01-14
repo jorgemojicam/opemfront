@@ -126,6 +126,7 @@ export default {
   data() {
     return {
       fields: [
+        { key: "consecutivo_ceco", label: "#" },
         {
           key: "colaboradore.nombres_col",
           label: "Colaborador",
@@ -152,7 +153,7 @@ export default {
         curso: {
           nombre: "",
           duracion: "",
-          fechafin: "",
+          fechainicio: "",
         },
         colaborador: {
           nombres: "",
@@ -224,8 +225,9 @@ export default {
       this.certificado.curso.nombre = items.certificacione.curso.nombre_cur;
       this.certificado.colaborador.nombres = items.colaboradore.nombres_col;
       this.certificado.colaborador.apellidos = items.colaboradore.apellidos_col;
+      this.certificado.colaborador.cedula = items.colaboradore.numerodocumento_col;
       this.certificado.curso.duracion = items.certificacione.horas_cer;
-      this.certificado.curso.fechafin = items.certificacione.fechafin_cer;
+      this.certificado.curso.fechainicio = items.certificacione.fechainicio_cer;
       this.valueqr = `${this.valueqr}?idceco=${items.idcer_ceco}`;
       this.generateReport();
     },

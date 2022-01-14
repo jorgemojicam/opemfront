@@ -30,11 +30,11 @@ import ColaboradoresNew from "@/components/LOGIC/colaboradores/ColaboradoresNew"
 import CertColaboradoresNew from "@/components/LOGIC/certcolaboradores/CertColaboradoresNew";
 import RolesNew from "@/components/LOGIC/roles/RolesNew";
 import CertColaboradoresPdf from "@/components/LOGIC/certcolaboradores/CertColaboradoresPdf";
+import CertColaboradorConsulta from "@/components/LOGIC/certcolaboradores/CertColaboradorConsulta";
 
 // -- Template Resources
 import GoogleMapPage from "@/pages/Maps/Google";
 import ChartsPage from "@/pages/Charts/Charts";
-import IconsPage from "@/pages/Icons/Icons";
 import NotificationsPage from "@/pages/Notifications/Notifications";
 
 import mockData from "@/pages/Dashboard/mock.js";
@@ -55,6 +55,11 @@ export default new Router({
       component: Login,
     },
     {
+      path: "/certcolaboradorescolsulta",
+      name: 'CertColaboradoresColsulta',
+      component: CertColaboradorConsulta,
+    },
+    {
       path: "/error",
       name: "Error",
       component: ErrorPage,
@@ -70,14 +75,7 @@ export default new Router({
           path: "dashboard",
           name: "Dashboard",
           component: Dashboard,
-        },
-
-        // ---------------------------------- //
-        {
-          path: "components/icons",
-          name: "IconsPage",
-          component: IconsPage,
-        },
+        },    
         {
           path: "notifications",
           name: "NotificationsPage",
@@ -132,7 +130,7 @@ export default new Router({
           path: "certificaciones/nuevo",
           name: 'certificacionesnew',
           component: CertificacionesNew,
-        },
+        },        
         {
           path: 'certificaciones/:id/edit',
           component: CertificacionesNew,

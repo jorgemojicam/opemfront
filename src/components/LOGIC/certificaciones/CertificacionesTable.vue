@@ -26,24 +26,28 @@
     <b-table
       striped
       hover
-      bordered
       light
       :items="dataTable.items"
       :fields="fields"
       :per-page="perPage"
     >
-      <template #cell(actions)="row">
-        <!-- <router-link :to="`${$route.fullPath}/${row.item.id_cer}/edit`"> -->
-        <b-button
-          pill
-          size="sm"
-          @click="info(row.item, 'edit')"
-          class="mr-2"
-          variant="success"
+      <template #cell(edit)="row">
+        <router-link
+          :to="{
+            name: 'certificacionesnew',
+            params: {
+              id: row.item.id_cer,
+              mode: 'edit',
+              father: 'Certificaciones',
+            },
+          }"
         >
-          <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
-        </b-button>
-
+          <b-button pill size="sm" class="mr-2" variant="success">
+            <b-icon icon="pen-fill" aria-hidden="true"></b-icon>
+          </b-button>
+        </router-link>
+      </template>
+      <template #cell(delete)="row">
         <b-button
           pill
           variant="danger"
@@ -98,7 +102,8 @@ export default {
         { key: "fechainicio_cer", label: "Fechainicio" },
         { key: "fechafin_cer", label: "Fechafin" },
         { key: "horas_cer", label: "Horas" },
-        { key: "actions", label: "Opciones" },
+        { key: "edit", label: "" },
+        { key: "delete", label: "" },
       ],
       page: 1,
       count: 0,
