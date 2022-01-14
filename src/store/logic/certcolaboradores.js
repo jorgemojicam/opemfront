@@ -54,7 +54,10 @@ export default {
         }
         if (payload.idcer) {
           param += `&idcer=${payload.idcer}`
-        }     
+        }
+        if (payload.numerodocumento) {
+          param += `&numerodocumento=${payload.numerodocumento}`
+        }
         const response = await axios.get(`/certcol${param}`);
 
         commit("setData", response.data);
@@ -65,7 +68,31 @@ export default {
         });
       }
     },
+    async getDataByCedula({
+      commit
+    }, payload) {
+      try {
+        commit("showLoader");
+        var param = `?page=${payload.page}&size=${payload.size}`
 
+        if (payload.numerodocumento) {
+          param += `&numerodocumento=${payload.numerodocumento}`
+        } else {
+          this._vm.$toasted.show("Se requiere cedula: ", {
+            type: "error",
+          });
+          return
+        }
+        const response = await axios.get(`/certcol/GetByCedula${param}`);
+
+        commit("setData", response.data);
+        commit("hideLoader");
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
     async newItem({
       commit
     }, payload) {

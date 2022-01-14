@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
     rout = to.name
   }
   console.log(to.name)
-  const pulbicsRoutes = ['Login', 'CertColaboradoresColsulta']
+  const pulbicsRoutes = ['Login', 'CertColaboradoresConsulta']
   if (!pulbicsRoutes.includes(rout)) {
     if (!isAuthenticated() || !isPermitted(rout)) {
       next({

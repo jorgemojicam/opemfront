@@ -1,25 +1,64 @@
 <template>
   <div>
-    <div v-if="loading"><Loader /></div>
-    <b-table
-      v-else
-      striped
-      hover
-      light
-      :items="dataTable.items"
-      :fields="fields"
-    >
-    </b-table>
-    <!-- paginacion  -->
-    <b-pagination
-      v-model="page"
-      :total-rows="count"
-      :per-page="pageSize"
-      align="fill"
-      size="sm"
-      class="mt-4"
-      @change="handlePageChange"
-    ></b-pagination>
+    <b-navbar variant="light" type="light">
+      <b-navbar-brand href="#">
+        <img
+          src="../../../assets/logoopem.png"
+          class="d-inline-block align-top"
+          alt="Kitten"
+        />
+      </b-navbar-brand>
+    </b-navbar>
+
+    <b-container>
+      <breadcrumb-history></breadcrumb-history>
+
+      <b-card border-variant="primary">
+        <b-card-text>
+          <b-container fluid>
+            <b-row class="my-1">
+              <b-col sm="10">
+                <b-form-input
+                  id="numerodocumento"
+                  placeholder="Numero cedula"
+                  v-model="cedula"
+                ></b-form-input>
+              </b-col>
+              <b-col sm="2">
+                <b-button
+                  variant="primary"
+                  class="d-inline-block"
+                  @click="filter"
+                >
+                  <b-icon icon="search"></b-icon> Buscar
+                </b-button>
+              </b-col>
+            </b-row>
+          </b-container>
+        </b-card-text>
+      </b-card>
+      <div v-if="loading"><Loader /></div>
+
+      <b-table
+        v-else
+        striped
+        hover
+        light
+        :items="dataTable.items"
+        :fields="fields"
+      >
+      </b-table>
+      <!-- paginacion  -->
+      <b-pagination
+        v-model="page"
+        :total-rows="count"
+        :per-page="pageSize"
+        align="fill"
+        size="sm"
+        class="mt-4"
+        @change="handlePageChange"
+      ></b-pagination>
+    </b-container>
   </div>
 </template>
 
@@ -27,9 +66,9 @@
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import Loader from "@/components/Loader/Loader";
-
+import BreadcrumbHistory from "@/components/BreadcrumbHistory/BreadcrumbHistory";
 export default {
-  components: { Loader },
+  components: { Loader, BreadcrumbHistory },
   name: "CertColaboradoresTable",
   data() {
     return {
@@ -45,21 +84,7 @@ export default {
         { key: "empresa.nombre_emp", label: "Empresa" },
         { key: "estado_ceco", label: "Estado" },
       ],
-      infoModal: {
-        id: "info-modal",
-        empresa: "",
-      },
-      certificado: {
-        curso: {
-          nombre: "",
-          duracion: "",
-          fechainicio: "",
-        },
-        colaborador: {
-          nombres: "",
-          cedula: "",
-        },
-      },
+      cedula: "",
       page: 1,
       count: 0,
       pageSize: 10,
@@ -78,7 +103,7 @@ export default {
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     ...mapActions({
-      getData: "certcolaboradores/getData",
+      getData: "certcolaboradores/getDataByCedula",
       deleteItem: "certcolaboradores/deleteItem",
     }),
     ...mapMutations({
@@ -86,10 +111,6 @@ export default {
       hideLoader: "certcolaboradores/hideLoader",
       showLoader: "certcolaboradores/showLoader",
     }),
-    del() {
-      this.$bvModal.hide("del");
-      this.deleteItem();
-    },
     getRequestParams(page, pageSize, numerodocumento) {
       let params = {};
       if (numerodocumento) {
@@ -104,22 +125,29 @@ export default {
       return params;
     },
     retrieveParam() {
-      const params = this.getRequestParams(this.page, this.pageSize);
+      const params = this.getRequestParams(
+        this.page,
+        this.pageSize,
+        this.cedula
+      );
+   
       this.getData(params);
     },
     handlePageChange(value) {
       this.page = value;
       this.retrieveParam();
     },
+    filter() {
+      this.retrieveParam();
+    },
   },
 
   beforeMount() {
-    console.log(this.$route.params)
-    //const numeroced = this.$route.params
-    const params = this.getRequestParams(1, 10);
-    this.getData(params);
+    this.cedula = this.$route.params.cedula
+    this.retrieveParam();    
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
   },
 };
 </script>
+
