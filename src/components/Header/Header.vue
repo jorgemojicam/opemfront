@@ -35,9 +35,10 @@
       </b-form>
     </b-nav>
     <a class="navbarBrand d-md-none">
-      <i class="fa fa-circle text-danger" />
+      <!-- <i class="fa fa-circle text-danger" />      
       &nbsp; OpenApp &nbsp;
-      <i class="fa fa-circle text-primary" />
+      <i class="fa fa-circle text-primary" /> -->
+      <img src="../../assets/logoopem.png" style="width: 120px;" alt="">
     </a>
     <b-nav class="ml-auto">
       <b-nav-item-dropdown
@@ -74,11 +75,7 @@
           ><i class="fi flaticon-person px-3 mr-3" /> Mi Cuenta</b-dropdown-item
         >
         <b-dropdown-divider />
-        <b-dropdown-item v-b-tooltip.hover title="No disponible aun"
-          ><i
-            class="fi flaticon-calendar-9 px-3 mr-3"
-          />Calendario</b-dropdown-item
-        >
+        
         <b-dropdown-item v-b-tooltip.hover title="No disponible aun"
           ><i class="fi flaticon-email px-3 mr-3" /> Bandeja
           &nbsp;&nbsp;<b-badge

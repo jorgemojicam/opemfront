@@ -69,6 +69,16 @@
           <b-icon icon="download" aria-hidden="true"></b-icon>
         </b-button>
       </template>
+      <template #cell(estado)="row">
+        <b-form-checkbox
+          unchecked-value="0"
+          value="1"
+          :checked="row.item.estado_ceco"
+          switch
+          @change="changeEstado(row, $event)"
+        >
+        </b-form-checkbox>
+      </template>
     </b-table>
     <!-- paginacion  -->
     <b-pagination
@@ -118,10 +128,10 @@ import Loader from "@/components/Loader/Loader";
 import PdfCertificado from "@/components/LOGIC/certcolaboradores/CertColaboradoresPdf";
 import { validationMixin } from "vuelidate";
 import VueHtml2pdf from "vue-html2pdf";
-import QrcodeVue from "qrcode.vue";
+
 export default {
   mixins: [validationMixin],
-  components: { Loader, VueHtml2pdf, PdfCertificado, QrcodeVue },
+  components: { Loader, VueHtml2pdf, PdfCertificado },
   name: "CertColaboradoresTable",
   data() {
     return {
@@ -134,6 +144,8 @@ export default {
         },
         { key: "certificacione.curso.nombre_cur", label: "Curso" },
         { key: "certificacione.cohorte_cer", label: "Cohorte" },
+        { key: "certificacione.fechainicio_cer", label: "Fecha inicio" },
+        { key: "certificacione.fechafin_cer", label: "Fecha fin" },
         { key: "empresa.nombre_emp", label: "Empresa" },
         {
           key: "descargado_ceco",
@@ -141,7 +153,7 @@ export default {
           thClass: "d-none",
           tdClass: "d-none",
         },
-        { key: "estado_ceco", label: "Estado" },
+        { key: "estado", label: "Aprobado" },
         { key: "edit", label: "" },
         { key: "pdf", label: "" },
       ],
@@ -181,6 +193,7 @@ export default {
     },
     ...mapActions({
       getData: "certcolaboradores/getData",
+      editEstado: "certcolaboradores/editEstado",
       deleteItem: "certcolaboradores/deleteItem",
     }),
     ...mapMutations({
@@ -225,7 +238,8 @@ export default {
       this.certificado.curso.nombre = items.certificacione.curso.nombre_cur;
       this.certificado.colaborador.nombres = items.colaboradore.nombres_col;
       this.certificado.colaborador.apellidos = items.colaboradore.apellidos_col;
-      this.certificado.colaborador.cedula = items.colaboradore.numerodocumento_col;
+      this.certificado.colaborador.cedula =
+        items.colaboradore.numerodocumento_col;
       this.certificado.curso.duracion = items.certificacione.horas_cer;
       this.certificado.curso.fechainicio = items.certificacione.fechainicio_cer;
       this.valueqr = `${this.valueqr}?idceco=${items.idcer_ceco}`;
@@ -233,6 +247,14 @@ export default {
     },
     generateReport() {
       this.$refs.html2Pdf.generatePdf();
+    },
+    changeEstado(row, check) {
+      console.log(row.item, "  ---------- ", check);
+      const certificado = {
+        estado: check,
+        id: row.item.id_ceco,
+      };
+      this.editEstado(certificado);
     },
   },
 

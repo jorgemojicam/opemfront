@@ -55,7 +55,7 @@ export default new Router({
       component: Login,
     },
     {
-      path: "/certcolaboradoresconsulta/:cedula",
+      path: "/Certificados/:cedula",
       name: 'CertColaboradoresConsulta',
       component: CertColaboradorConsulta,
     },

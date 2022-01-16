@@ -62,6 +62,7 @@
     <b-table
       v-else
       striped
+      responsive
       hover
       light
       :items="dataTable.items"
@@ -245,9 +246,9 @@ export default {
       }
     },
   },
-  beforeMount() {
-    this.getData({ page: 0, size: 10 });
-    this.getDataEmpresa();
+  async beforeMount() {
+    await this.getData({ page: 0, size: 10 });
+    await this.getDataEmpresa();    
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
   },

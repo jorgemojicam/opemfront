@@ -86,7 +86,7 @@ export default {
       iniciales: {
         required,
         minLength: minLength(2),
-        maxLength: maxLength(3),
+        maxLength: maxLength(6),
       },
     },
   },

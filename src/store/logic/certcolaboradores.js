@@ -15,6 +15,10 @@ export default {
       state.dataTable = [];
       state.dataTable = payload;
     },
+    getData(state, payload) {
+      state.dataTable = [];
+      state.dataTable = payload;
+    },
     showLoader(state) {
       state.loading = true;
     },
@@ -99,6 +103,38 @@ export default {
       try {
         const result = await axios.post(`/certcol`, payload);
         this._vm.$toasted.show("Certificaciones creado", {
+          type: "success",
+        });
+
+        commit(`getData`, result.data);
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async editItem({
+      commit
+    }, payload) {
+      try {
+        const result = await axios.put(`/certcol/${payload.id}`, payload);
+        this._vm.$toasted.show("Registro actualizado correctamente", {
+          type: "success",
+        });
+
+        commit(`getData`, result.data);
+      } catch (e) {
+        this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async editEstado({
+      commit
+    }, payload) {
+      try {
+        const result = await axios.put(`/certcol/updateEstado/${payload.id}`, payload);
+        this._vm.$toasted.show("Estado actualizado correctamente", {
           type: "success",
         });
 

@@ -121,7 +121,7 @@ export default {
       }
       if (pageSize) {
         params["size"] = pageSize;
-      }
+      }      
       return params;
     },
     retrieveParam() {
@@ -130,7 +130,7 @@ export default {
         this.pageSize,
         this.cedula
       );
-   
+      
       this.getData(params);
     },
     handlePageChange(value) {
@@ -138,13 +138,14 @@ export default {
       this.retrieveParam();
     },
     filter() {
+      this.page = 1
       this.retrieveParam();
     },
   },
 
   beforeMount() {
-    this.cedula = this.$route.params.cedula
-    this.retrieveParam();    
+    this.cedula = this.$route.params.cedula;
+    this.retrieveParam();
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
   },

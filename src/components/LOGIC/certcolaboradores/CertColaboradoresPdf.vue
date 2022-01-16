@@ -36,8 +36,9 @@
 </template>
 <script>
 import Loader from "@/components/Loader/Loader";
+import QrcodeVue from "qrcode.vue";
 export default {
-  components: { Loader },
+  components: { Loader, QrcodeVue },
   name: "CertCoalboradoresPdf",
   props: {
     details: {

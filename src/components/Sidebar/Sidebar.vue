@@ -7,15 +7,19 @@
     >
       <header class="logo">
         <router-link to="/app/dashboard"
-          ><span class="primary-word">OP</span>
-          <span class="secondary-word">EM</span>
+          >
+          
+          <span class="primary-word">
+            <img src="../../assets/logoblanco.png" style="width: 140px;" alt="">
+          </span>
+          <!-- <span class="secondary-word">EM</span> -->
         </router-link>
       </header>
 
       <ul class="nav" v-for="modu in modulos" :key="modu.index">
         <NavLink
           v-if="
-            modu.roles.length > 0 && modu.roles[0].permisosroles.ver_prol == 1 && !modu.father_mod
+            modu.roles.length > 0 && modu.roles[0].permisosroles.ver_prol == 1
           "
           :activeItem="activeItem"
           :header="modu.title_mod"
@@ -98,7 +102,8 @@ export default {
       encrMenu,
       "staencripmaschimba"
     ).toString(this.CryptoJS.enc.Utf8);
-    this.modulos = JSON.parse(decryptedText);
+    const allmodules = JSON.parse(decryptedText);
+    this.modulos = allmodules.filter(modu => !modu.father_mod)
 
   },
 };
