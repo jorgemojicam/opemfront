@@ -1,7 +1,14 @@
 <template>
   <div>
     <b-button-group class="mb-2">
-      <router-link :to="$route.fullPath + '/new'">
+      <router-link
+        :to="{
+          name: 'colaboradoresnew',
+          params: {
+            father: 'Colaboradores',
+          },
+        }"
+      >
         <b-button variant="outline-primary">
           <b-icon icon="plus-circle-fill"></b-icon> Nueva
         </b-button>
@@ -248,7 +255,7 @@ export default {
   },
   async beforeMount() {
     await this.getData({ page: 0, size: 10 });
-    await this.getDataEmpresa();    
+    await this.getDataEmpresa();
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
   },

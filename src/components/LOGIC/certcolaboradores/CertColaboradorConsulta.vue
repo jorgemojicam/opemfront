@@ -1,6 +1,10 @@
 <template>
   <div>
-    <b-navbar variant="light" type="light">
+    <b-navbar
+      class="header d-print-none app-header"
+      variant="light"
+      type="light"
+    >
       <b-navbar-brand href="#">
         <img
           src="../../../assets/logoopem.png"
@@ -47,6 +51,10 @@
         :items="dataTable.items"
         :fields="fields"
       >
+        <template #cell(estado)="row">
+          <span v-if="row.item.estado_ceco ==1" class="badge badge-pill badge-success">Aprobado</span>
+          <span v-else class="badge badge-pill badge-secondary">Rechazado</span>
+        </template>
       </b-table>
       <!-- paginacion  -->
       <b-pagination
@@ -76,13 +84,15 @@ export default {
         { key: "consecutivo_ceco", label: "#" },
         {
           key: "colaboradore.nombres_col",
-          label: "Colaborador",
+          label: "Aprendiz",
           sortable: true,
         },
         { key: "certificacione.curso.nombre_cur", label: "Curso" },
         { key: "certificacione.cohorte_cer", label: "Cohorte" },
+        { key: "certificacione.fechainicio_cer", label: "Fecha inicio" },
+        { key: "certificacione.fechafin_cer", label: "Fecha fin" },
         { key: "empresa.nombre_emp", label: "Empresa" },
-        { key: "estado_ceco", label: "Estado" },
+        { key: "estado", label: "Estado" },
       ],
       cedula: "",
       page: 1,
@@ -121,7 +131,7 @@ export default {
       }
       if (pageSize) {
         params["size"] = pageSize;
-      }      
+      }
       return params;
     },
     retrieveParam() {
@@ -130,7 +140,7 @@ export default {
         this.pageSize,
         this.cedula
       );
-      
+
       this.getData(params);
     },
     handlePageChange(value) {
@@ -138,7 +148,7 @@ export default {
       this.retrieveParam();
     },
     filter() {
-      this.page = 1
+      this.page = 1;
       this.retrieveParam();
     },
   },
@@ -152,3 +162,4 @@ export default {
 };
 </script>
 
+<style src="../../Header/Header.scss" lang="scss" scoped />
