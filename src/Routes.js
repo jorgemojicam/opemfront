@@ -30,11 +30,11 @@ import ColaboradoresNew from "@/components/LOGIC/colaboradores/ColaboradoresNew"
 import CertColaboradoresNew from "@/components/LOGIC/certcolaboradores/CertColaboradoresNew";
 import RolesNew from "@/components/LOGIC/roles/RolesNew";
 import CertColaboradoresPdf from "@/components/LOGIC/certcolaboradores/CertColaboradoresPdf";
+import CertColaboradorConsulta from "@/components/LOGIC/certcolaboradores/CertColaboradorConsulta";
 
 // -- Template Resources
 import GoogleMapPage from "@/pages/Maps/Google";
 import ChartsPage from "@/pages/Charts/Charts";
-import IconsPage from "@/pages/Icons/Icons";
 import NotificationsPage from "@/pages/Notifications/Notifications";
 
 import mockData from "@/pages/Dashboard/mock.js";
@@ -44,184 +44,185 @@ Vue.use(Router);
 export default new Router({
 
   routes: [{
-    path: "/",
-    redirect: {
-      name: "Dashboard"
-    }
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
-  },
-  {
-    path: "/error",
-    name: "Error",
-    component: ErrorPage,
-  },
-  {
-    path: "/app",
-    name: "Layout",
-    component: Layout,
-    redirect: {
-      name: "Dashboard"
-    },    
-    children: [{
-      path: "dashboard",
-      name: "Dashboard",
-      component: Dashboard,
-    },
-
-    // ---------------------------------- //
-    {
-      path: "components/icons",
-      name: "IconsPage",
-      component: IconsPage,
+      path: "/",
+      redirect: {
+        name: "Dashboard"
+      }
     },
     {
-      path: "notifications",
-      name: "NotificationsPage",
-      component: NotificationsPage,
+      path: "/login",
+      name: "Login",
+      component: Login,
     },
     {
-      path: "components/charts",
-      name: "ChartsPage",
-      component: ChartsPage,
+      path: "/Certificados/:cedula",
+      name: 'CertColaboradoresConsulta',
+      component: CertColaboradorConsulta,
     },
     {
-      path: "components/maps",
-      name: "GoogleMapPage",
-      component: GoogleMapPage,
-    },
-    ],
-  },
-  {
-    path: "/admin",
-    name: "Admin",
-    redirect: {
-      name: "Dashboard"
-    },
-    component: Layout,  
-    children: [{
-      path: "cursos",
-      name: "Cursos",
-      component: Cursos,
+      path: "/error",
+      name: "Error",
+      component: ErrorPage,
     },
     {
-      path: 'cursos/:id/edit',
-      component: CursosNew,
-    },
-    {
-      path: 'cursos/new',
-      component: CursosNew,
-    },
-    {
-      path: 'cursos/:id',
-      beforeEnter(from, to, next) {
-        if (from.params.id === 'new') next()
-        else next(`/admin/cursos/${from.params.id}/edit`)
+      path: "/app",
+      name: "Layout",
+      component: Layout,
+      redirect: {
+        name: "Dashboard"
       },
+      children: [{
+          path: "dashboard",
+          name: "Dashboard",
+          component: Dashboard,
+        },    
+        {
+          path: "notifications",
+          name: "NotificationsPage",
+          component: NotificationsPage,
+        },
+        {
+          path: "components/charts",
+          name: "ChartsPage",
+          component: ChartsPage,
+        },
+        {
+          path: "components/maps",
+          name: "GoogleMapPage",
+          component: GoogleMapPage,
+        },
+      ],
     },
     {
-      path: "certificaciones",
-      name: "Certificaciones",
-      component: Certificaciones,
-    },
-    {
-      path: "certificaciones/new",
-      component: CertificacionesNew,
-    },
-    {
-      path: 'certificaciones/:id/edit',
-      component: CertificacionesNew,
-    },
-    {
-      path: "empresas",
-      name: "Empresas",
-      component: Empresas,
-    },
-    {
-      path: 'empresas/:id/edit',
-      component: EmpresasNew,
-    },
-    {
-      path: "empresas/new",
-      component: EmpresasNew,
-    },
-    {
-      path: 'empresas/:id',
-      beforeEnter(from, to, next) {
-        if (from.params.id === 'new') next()
-        else next(`/admin/empresas/${from.params.id}/edit`)
+      path: "/admin",
+      name: "Admin",
+      redirect: {
+        name: "Dashboard"
       },
-    },
-    {
-      path: "colaboradores",
-      name: "Colaboradores",
-      component: Colaboradores,
-    },
-    {
-      path: 'colaboradores/nuevo',
-      name: 'colaboradoresnew',
-      component: ColaboradoresNew,
-    },
-    {
-      path: 'colaboradores/cuentaacceso',
-      name: 'cuentaacceso',
-      component: CuentaAcceso,
-    },
-    {
-      path: "certcolaboradores",
-      name: "CertColaboradores",
-      component: CertColaboradores
-    },
-    {
-      path: "certcolaboradores/new",
-      component: CertColaboradoresNew,
-    },
-    {
-      path: "certcolaboradores/pdf",
-      component: CertColaboradoresPdf,
-      props: mockData.dataPdf
+      component: Layout,
+      children: [{
+          path: "cursos",
+          name: "Cursos",
+          component: Cursos,
+        },
+        {
+          path: 'cursos/:id/edit',
+          component: CursosNew,
+        },
+        {
+          path: 'cursos/nuevo',
+          name: 'cursosnew',
+          component: CursosNew,
+        },
+        {
+          path: 'cursos/:id',
+          beforeEnter(from, to, next) {
+            if (from.params.id === 'new') next()
+            else next(`/admin/cursos/${from.params.id}/edit`)
+          },
+        },
+        {
+          path: "certificaciones",
+          name: "Certificaciones",
+          component: Certificaciones,
+        },
+        {
+          path: "certificaciones/nuevo",
+          name: 'certificacionesnew',
+          component: CertificacionesNew,
+        },        
+        {
+          path: 'certificaciones/:id/edit',
+          component: CertificacionesNew,
+        },
+        {
+          path: "empresas",
+          name: "Empresas",
+          component: Empresas,
+        },
+        {
+          path: 'empresas/:id/edit',
+          component: EmpresasNew,
+        },
+        {
+          path: "empresas/new",
+          component: EmpresasNew,
+        },
+        {
+          path: 'empresas/:id',
+          beforeEnter(from, to, next) {
+            if (from.params.id === 'new') next()
+            else next(`/admin/empresas/${from.params.id}/edit`)
+          },
+        },
+        {
+          path: "colaboradores",
+          name: "Colaboradores",
+          component: Colaboradores,
+        },
+        {
+          path: 'colaboradores/nuevo',
+          name: 'colaboradoresnew',
+          component: ColaboradoresNew,
+        },
+        {
+          path: 'colaboradores/cuentaacceso',
+          name: 'cuentaacceso',
+          component: CuentaAcceso,
+        },
+        {
+          path: "certcolaboradores",
+          name: "CertColaboradores",
+          component: CertColaboradores
+        },
+        {
+          path: "certcolaboradores/nuevo",
+          name: 'certcolaboradoresnew',
+          component: CertColaboradoresNew,
+        },
+        {
+          path: "certcolaboradores/pdf",
+          component: CertColaboradoresPdf,
+          props: mockData.dataPdf
 
+        },
+        {
+          path: "configuraciones/paises",
+          name: "paises",
+          component: Paises,
+        },
+        {
+          path: "configuraciones/departamentos",
+          name: "departamentos",
+          component: Departamentos,
+        },
+        {
+          path: "configuraciones/ciudades",
+          name: "ciudades",
+          component: Ciudades,
+        },
+        {
+          path: "configuraciones/tipodocs",
+          name: "tipodocs",
+          component: TipoDocs,
+        },
+        {
+          path: "configuraciones/roles",
+          name: "roles",
+          component: Roles,
+        },
+        {
+          path: "configuraciones/roles/nuevo",
+          name: "rolesnew",
+          component: RolesNew,
+        },
+        {
+          path: "configuraciones/permisos",
+          name: "permisos",
+          component: Permisos,
+        },
+      ],
     },
-    {
-      path: "configuraciones/paises",
-      name: "paises",
-      component: Paises,
-    },
-    {
-      path: "configuraciones/departamentos",
-      name: "departamentos",
-      component: Departamentos,
-    },
-    {
-      path: "configuraciones/ciudades",
-      name: "ciudades",
-      component: Ciudades,
-    },
-    {
-      path: "configuraciones/tipodocs",
-      name: "tipodocs",
-      component: TipoDocs,
-    },
-    {
-      path: "configuraciones/roles",
-      name: "roles",
-      component: Roles,
-    },
-    {
-      path: "configuraciones/roles/nuevo",
-      name: "rolesnew",
-      component: RolesNew,
-    },
-    {
-      path: "configuraciones/permisos",
-      name: "permisos",
-      component: Permisos,
-    },
-    ],
-  },
   ],
 
 });

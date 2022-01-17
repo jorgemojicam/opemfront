@@ -57,7 +57,7 @@ export default {
       try {
         commit("showLoader");
         const response = await axios.get(`/colaboradores?page=${payload.page}&size=${payload.size}${nombre}${idemp}${cedula}`);
-        commit("setData", response.data);
+        commit("setData", response.data);        
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {

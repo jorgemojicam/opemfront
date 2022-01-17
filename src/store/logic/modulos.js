@@ -48,6 +48,7 @@ export default {
         commit("showLoader");
         const response = await axios.get(`/modulos?idrol=${payload.idrol}`);
         commit("getData", response.data);
+     
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -60,8 +61,9 @@ export default {
     }, payload) {
       try {
         commit("showLoader");
-        const response = await axios.get(`/modulos?idrol=${payload}&menu=true`);              
+        const response = await axios.get(`/modulos?idrol=${payload}`);
         commit("getMenu", response.data);
+        console.log(response.data)
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
@@ -103,6 +105,27 @@ export default {
         commit("hideLoader");
       } catch (e) {
         this._vm.$toasted.show("Error: " + e, {
+          type: "error",
+        });
+      }
+    },
+    async editItem({
+      commit
+    }, payload) {
+      const id = payload.id
+      try {
+        axios.put(`/modulos/${id}`, payload).then((result) => {
+          commit(`getData`, result.data);
+          this._vm.$toasted.show("Registro actualizado", {
+            type: "success",
+          });
+        }).catch((er) => {
+          this._vm.$toasted.show(er.response.data.message, {
+            type: "error",
+          });
+        });
+      } catch (e) {
+        this._vm.$toasted.show(e, {
           type: "error",
         });
       }

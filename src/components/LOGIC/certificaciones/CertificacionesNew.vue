@@ -167,7 +167,7 @@ export default {
     },
   },
   beforeMount() {
-    const modeForm = this.$route.path.split("/").pop();
+    const modeForm = this.$route.params.mode;
     this.setComponent(modeForm);
     this.getDataCursos();
   },

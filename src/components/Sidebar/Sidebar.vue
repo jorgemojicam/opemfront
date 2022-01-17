@@ -7,8 +7,12 @@
     >
       <header class="logo">
         <router-link to="/app/dashboard"
-          ><span class="primary-word">OP</span>
-          <span class="secondary-word">EM</span>
+          >
+          
+          <span class="primary-word">
+            <img src="../../assets/logoblanco.png" style="width: 140px;" alt="">
+          </span>
+          <!-- <span class="secondary-word">EM</span> -->
         </router-link>
       </header>
 
@@ -98,7 +102,9 @@ export default {
       encrMenu,
       "staencripmaschimba"
     ).toString(this.CryptoJS.enc.Utf8);
-    this.modulos = JSON.parse(decryptedText);
+    const allmodules = JSON.parse(decryptedText);
+    this.modulos = allmodules.filter(modu => !modu.father_mod)
+
   },
 };
 </script>

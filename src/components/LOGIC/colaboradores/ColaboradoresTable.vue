@@ -1,7 +1,14 @@
 <template>
   <div>
     <b-button-group class="mb-2">
-      <router-link :to="$route.fullPath + '/new'">
+      <router-link
+        :to="{
+          name: 'colaboradoresnew',
+          params: {
+            father: 'Colaboradores',
+          },
+        }"
+      >
         <b-button variant="outline-primary">
           <b-icon icon="plus-circle-fill"></b-icon> Nueva
         </b-button>
@@ -43,7 +50,11 @@
                 </b-form-select>
               </b-col>
               <b-col sm="2">
-                <b-button variant="primary" class="d-inline-block" @click="filter">
+                <b-button
+                  variant="primary"
+                  class="d-inline-block"
+                  @click="filter"
+                >
                   <b-icon icon="search"></b-icon> Buscar
                 </b-button>
               </b-col>
@@ -58,6 +69,7 @@
     <b-table
       v-else
       striped
+      responsive
       hover
       light
       :items="dataTable.items"
@@ -70,6 +82,7 @@
             params: {
               id: row.item.id_col,
               mode: 'edit',
+              father: 'Colaboradores',
             },
           }"
         >
@@ -89,13 +102,13 @@
         </b-button>
       </template>
       <template #cell(singup)="row">
-        <!-- <router-link :to="`${$route.fullPath}/cuentaacceso/${row.item.id_col}`"> -->
         <router-link
           :to="{
             name: 'cuentaacceso',
             params: {
               id: row.item.id_col,
               cedula: row.item.numerodocumento_col,
+              father: 'Colaboradores',
             },
           }"
         >
@@ -240,9 +253,9 @@ export default {
       }
     },
   },
-  beforeMount() {
-    this.getData({ page: 0, size: 10 });
-    this.getDataEmpresa();
+  async beforeMount() {
+    await this.getData({ page: 0, size: 10 });
+    await this.getDataEmpresa();
     this.page = this.dataTable.currenPage;
     this.count = this.dataTable.totalItems;
   },

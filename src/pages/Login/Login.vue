@@ -1,17 +1,16 @@
 <template>
   <div class="auth-page">
     <b-container>
+     
       <h5 class="auth-logo">
-        <i class="fa fa-circle text-primary"></i>
-        Opem SAS
-        <i class="fa fa-circle text-danger"></i>
+         <img src="../../assets/logoopem.png"/>
       </h5>
       <Widget
         class="widget-auth mx-auto"
         title="<h3 class='mt-0'>Ingresa al portal</h3>"
         customHeader
       >
-        <p class="widget-auth-info">Use your username to sign in.</p>
+        <p class="widget-auth-info">Ingrese el numero de cedula.</p>
         <form class="mt" @submit.prevent="login">
           <b-alert class="alert-sm" variant="danger" :show="!!errorMessage">
             {{ errorMessage }}
